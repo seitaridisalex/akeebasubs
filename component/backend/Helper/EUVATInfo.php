@@ -158,9 +158,16 @@ abstract class EUVATInfo
 		}
 
 		// Sanitize the VAT number
-		list($vat, $prefix) = self::sanitizeVATNumber($country, $vat);
+		$vatFormatCheck = self::checkVATFormat($country, $vat);
 
-		// Is the validation already cached?
+		$vat = $vatFormatCheck->vatnumber;
+		$prefix = $vatFormatCheck->prefix;
+
+		if (!$vatFormatCheck->valid || empty($vat))
+		{
+			return false;
+		}
+
 		$key = $prefix . $vat;
 		$ret = null;
 
@@ -177,87 +184,80 @@ abstract class EUVATInfo
 			return $ret;
 		}
 
-		if (empty($vat))
+		if (class_exists('SoapClient'))
 		{
-			$ret = false;
-		}
-		else
-		{
-			if (class_exists('SoapClient'))
+			// Using the SOAP API
+			// Code credits: Angel Melguiz / KMELWEBDESIGN SLNE (www.kmelwebdesign.com)
+			try
 			{
-				// Using the SOAP API
-				// Code credits: Angel Melguiz / KMELWEBDESIGN SLNE (www.kmelwebdesign.com)
-				try
-				{
-					$sOptions = array(
-						'user_agent' => 'PHP',
-						'connection_timeout' => 5,
-					);
-					$sClient = new SoapClient('http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl', $sOptions);
-					$params = array('countryCode' => $prefix, 'vatNumber' => $vat);
+				$sOptions = array(
+					'user_agent' => 'PHP',
+					'connection_timeout' => 5,
+				);
+				$sClient = new SoapClient('http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl', $sOptions);
+				$params = array('countryCode' => $prefix, 'vatNumber' => $vat);
 
-					for ($i = 0; $i < 2; $i++)
+				for ($i = 0; $i < 2; $i++)
+				{
+					$response = $sClient->checkVat($params);
+					if (is_object($response))
 					{
-						$response = $sClient->checkVat($params);
-						if (is_object($response))
+						$ret = ($response->valid ? true : false);
+						break;
+					}
+					else
+					{
+						sleep(1);
+					}
+				}
+			}
+			catch (SoapFault $e)
+			{
+
+			}
+		}
+
+		if (is_null($ret))
+		{
+			try
+			{
+				$http = JHttpFactory::getHttp();
+				$url  = 'http://ec.europa.eu/taxation_customs/vies/viesquer.do?locale=en'
+				        . '&ms=' . urlencode($prefix)
+				        . '&iso=' . urlencode($prefix)
+				        . '&vat=' . urlencode($vat);
+
+				for ($i = 0; $i < 2; $i++)
+				{
+					$response = $http->get($url, null, 5);
+					if ($response->code >= 200 && $response->code < 400)
+					{
+						if (preg_match('/invalid VAT number/i', $response->body))
 						{
-							$ret = ($response->valid ? true : false);
+							$ret = false;
 							break;
 						}
-						else
+						elseif (preg_match('/valid VAT number/i', $response->body))
 						{
-							sleep(1);
+							$ret = true;
+							break;
 						}
 					}
-				}
-				catch (SoapFault $e)
-				{
-
-				}
-			}
-
-			if ($ret === null)
-			{
-				try
-				{
-					$http = JHttpFactory::getHttp();
-					$url  = 'http://ec.europa.eu/taxation_customs/vies/viesquer.do?locale=en'
-						. '&ms=' . urlencode($prefix)
-						. '&iso=' . urlencode($prefix)
-						. '&vat=' . urlencode($vat);
-					
-					for ($i = 0; $i < 2; $i++)
+					else
 					{
-						$response = $http->get($url, null, 5);
-						if ($response->code >= 200 && $response->code < 400)
-						{
-							if (preg_match('/invalid VAT number/i', $response->body))
-							{
-								$ret = false;
-								break;
-							}
-							elseif (preg_match('/valid VAT number/i', $response->body))
-							{
-								$ret = true;
-								break;
-							}
-						}
-						else
-						{
-							sleep(1);
-						}
+						sleep(1);
 					}
 				}
-				catch (\RuntimeException $e)
-				{
-
-				}
 			}
-
-			if ($ret === null)
+			catch (\RuntimeException $e)
 			{
-				$ret = false;
+
 			}
+		}
+
+		if (is_null($ret))
+		{
+			$ret = false;
 		}
 
 		// Cache the result
@@ -294,6 +294,15 @@ abstract class EUVATInfo
 		);
 
 		list($vat, $prefix) = self::sanitizeVATNumber($country, $vat);
+
+		if (empty($vat))
+		{
+			return (object)array(
+				'prefix'    => $country,
+				'vatnumber' => '',
+				'valid'     => false
+			);
+		}
 
 		$ret->prefix = $prefix;
 		$ret->vatnumber = $vat;
@@ -779,7 +788,9 @@ abstract class EUVATInfo
 	public static function sanitizeVATNumber($country, $vat)
 	{
 		$vat = trim(strtoupper($vat));
+		$vat = trim($vat, " \t\n\r\0"); // Yes we need to run this extra trim before...
 		$vat = preg_replace(array('/\s+/', '/[^A-Za-z0-9\-_]/'), array('', ''), $vat);
+		$vat = trim($vat, " \t\n\r\0"); // ...and after
 
 		// Get the VAT number prefix
 		$prefix = self::getEUVATPrefix($country);

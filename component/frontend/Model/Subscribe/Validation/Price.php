@@ -139,6 +139,14 @@ class Price extends Base
 		$validation = $this->factory->getValidator('PersonalInformation')->execute();
 		$isVIES = $validation['vatnumber'] && EUVATInfo::isEUVATCountry($this->state->country);
 
+		// If we have a non-empty VAT number in an EU country make sure that this VAT number is really
+		// VIES registered. This works around some session issues which may end up reporting a VAT
+		// field consisting of spaces as a valid VAT number.
+		if ($isVIES)
+		{
+			$isVIES = EUVATInfo::isVIESValidVATNumber($this->state->country, $this->state->vatnumber);
+		}
+
 		/** @var TaxHelper $taxModel */
 		$taxModel = $this->container->factory->model('TaxHelper')->tmpInstance();
 
