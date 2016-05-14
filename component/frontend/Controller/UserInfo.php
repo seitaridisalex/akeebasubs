@@ -76,6 +76,9 @@ class UserInfo extends Controller
 					}
 				}
 			}
+
+			// Do NOT move into StateData
+			$this->container->session->set('firstrun', false, 'com_akeebasubs');
 		}
 		$view->cache = (array)$cache;
 		$view->validation = $model->getValidation();

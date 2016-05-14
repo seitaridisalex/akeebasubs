@@ -116,13 +116,7 @@ class StateData
 	public function loadData(Model $model)
 	{
 		// Is this the first run right after selecting a subscription level?
-		$session  = \JFactory::getSession();
-		$firstRun = $session->get('firstrun', true, 'com_akeebasubs');
-
-		if ($firstRun)
-		{
-			$session->set('firstrun', false, 'com_akeebasubs');
-		}
+		$firstRun = $model->getContainer()->session->get('firstrun', true, 'com_akeebasubs');
 
 		// Apply the state variables from the model
 		$stateVars = array(
