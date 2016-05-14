@@ -262,9 +262,6 @@ class Levels extends DataController
 					}
 				}
 			}
-
-			// Do NOT move into StateData
-			$this->container->session->set('firstrun', false, 'com_akeebasubs');
 		}
 
 		$view->cache = (array)$cache;
