@@ -7,6 +7,8 @@
 
 defined('_JEXEC') or die();
 
+/** @var \Akeeba\Subscriptions\Site\View\Level\Html $this */
+
 use Akeeba\Subscriptions\Admin\Helper\Image;
 use Akeeba\Subscriptions\Admin\Helper\Message;
 
@@ -138,8 +140,7 @@ $hidePaymentMethod   =
 
 		<div id="paymentlist-container" class="col-xs-12">
 			<?php
-			$country = !empty($this->userparams->country) && ($this->userparams->country != 'XX') ?
-					$this->userparams->country : $this->cache['country'];
+            $country = $this->getFieldValue('country', ['XX']);
 
 			/** @var \Akeeba\Subscriptions\Site\Model\PaymentMethods $paymentMethods */
 			$paymentMethods = $this->getContainer()->factory->model('PaymentMethods')->tmpInstance();

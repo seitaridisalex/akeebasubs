@@ -263,6 +263,7 @@ class Levels extends DataController
 				}
 			}
 		}
+
 		$view->cache = (array)$cache;
 		$view->validation = $vModel->getValidation();
 

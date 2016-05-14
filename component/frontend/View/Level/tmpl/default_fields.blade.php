@@ -13,22 +13,19 @@ use Akeeba\Subscriptions\Admin\Helper\Select;
 
 $akeebasubs_subscription_level = isset($this->item) ? $this->item->akeebasubs_level_id : null;
 $apply_validation              = isset($this->apply_validation) ? ($this->apply_validation == 'true') : true;
-$field_data                    = [
-	'name'         => !empty($this->userparams->name) ? $this->userparams->name : $this->cache['name'],
-	'email'        => !empty($this->userparams->email) ? $this->userparams->email : $this->cache['email'],
-	'email2'       => !empty($this->userparams->email2) ? $this->userparams->email2 : $this->cache['email2'],
-	'address1'     => !empty($this->userparams->address1) ? $this->userparams->address1 : $this->cache['address1'],
-	'address2'     => !empty($this->userparams->address2) ? $this->userparams->address2 : $this->cache['address2'],
-	'city'         => !empty($this->userparams->city) ? $this->userparams->city : $this->cache['city'],
-	'state'        => !empty($this->userparams->state) ? $this->userparams->state : $this->cache['state'],
-	'zip'          => !empty($this->userparams->zip) ? $this->userparams->zip : $this->cache['zip'],
-	'country'      => !empty($this->userparams->country) && ($this->userparams->country != 'XX') ?
-		$this->userparams->country : $this->cache['country'],
-	'businessname' => !empty($this->userparams->businessname) ? $this->userparams->businessname :
-		$this->cache['businessname'],
-	'occupation'   => !empty($this->userparams->occupation) ? $this->userparams->occupation :
-		$this->cache['occupation'],
-	'vatnumber'    => !empty($this->userparams->vatnumber) ? $this->userparams->vatnumber : $this->cache['vatnumber'],
+$field_data = [
+        'name'         => $this->getFieldValue('name'),
+        'email'        => $this->getFieldValue('email'),
+        'email2'       => $this->getFieldValue('email2'),
+        'address1'     => $this->getFieldValue('address1'),
+        'address2'     => $this->getFieldValue('address2'),
+        'city'         => $this->getFieldValue('city'),
+        'state'        => $this->getFieldValue('state'),
+        'zip'          => $this->getFieldValue('zip'),
+        'country'      => $this->getFieldValue('country', ['XX']),
+        'businessname' => $this->getFieldValue('businessname'),
+        'occupation'   => $this->getFieldValue('occupation'),
+        'vatnumber'    => $this->getFieldValue('vatnumber'),
 ];
 
 $group_classes                 = [
@@ -58,8 +55,7 @@ if (JFactory::getUser()->guest)
 			'';
 }
 
-$isBusiness = array_key_exists('isbusiness', $this->cache) ? $this->cache['isbusiness'] : 0;
-$isBusiness = !empty($this->userparams->isbusiness) ? $this->userparams->isbusiness : $isBusiness;
+$isBusiness = $this->getFieldValue('isbusiness');
 ?>
 @js('media://com_akeebasubs/js/signup.js')
 @js('media://com_akeebasubs/js/autosubmit.js')

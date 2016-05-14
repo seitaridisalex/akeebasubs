@@ -7,6 +7,8 @@
 
 defined('_JEXEC') or die();
 
+/** @var \Akeeba\Subscriptions\Site\View\Level\Html $this */
+
 $this->getContainer()->platform->importPlugin('akeebasubs');
 $jResponse = $this->getContainer()->platform->runPlugins('onSubscriptionFormPrepaymentRender', [
 				$this->userparams,

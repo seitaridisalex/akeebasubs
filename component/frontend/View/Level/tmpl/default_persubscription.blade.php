@@ -8,6 +8,7 @@
 defined('_JEXEC') or die();
 
 /** @var  int  $akeebasubs_subscription_level  Subscription level ID */
+/** @var \Akeeba\Subscriptions\Site\View\Level\Html $this */
 
 $this->getContainer()->platform->importPlugin('akeebasubs');
 $jResponse = $this->getContainer()->platform->runPlugins(
