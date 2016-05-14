@@ -95,7 +95,7 @@ class Levels extends DataController
 
 		if (!empty($coupon))
 		{
-			$session = \JFactory::getSession();
+			$session = $this->container->session;
 			$session->set('coupon', $coupon, 'com_akeebasubs');
 		}
 
@@ -238,7 +238,7 @@ class Levels extends DataController
 		$vModel->slug($slug)->id($id);
 
 		// Should we use the coupon code saved in the session?
-		$session = \JFactory::getSession();
+		$session = $this->container->session;
 		$sessionCoupon = $session->get('coupon', null, 'com_akeebasubs');
 		$inputCoupon = $this->input->getString('coupon');
 

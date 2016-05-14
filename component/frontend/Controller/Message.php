@@ -151,7 +151,7 @@ class Message extends DataController
 		$userId = \JFactory::getUser()->id;
 
 		// Get a reference to Joomla!'s session object
-		$session = \JFactory::getSession();
+		$session = $this->container->session;
 
 		if (empty($userId))
 		{

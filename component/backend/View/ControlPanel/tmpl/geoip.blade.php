@@ -35,7 +35,7 @@ defined('_JEXEC') or die;
             </p>
 
             <a class="btn btn-small"
-               href="index.php?option=com_akeebasubs&view=ControlPanel&task=updategeoip&{{{\JFactory::getSession()->getFormToken()}}}=1">
+               href="index.php?option=com_akeebasubs&view=ControlPanel&task=updategeoip&@token()=1">
                 <span class="icon icon-refresh"></span>
                 @lang('COM_AKEEBASUBS_GEOIP_LBL_UPDATEGEOIPDATABASE')
             </a>

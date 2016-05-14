@@ -51,7 +51,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		action="@route('index.php?option=com_akeebasubs&view=Subscribe&layout=default&slug=' . $this->input->getString('slug', ''))"
 		method="post"
 		id="signupForm" class="form form-horizontal">
-		<input type="hidden" name="{{{ JFactory::getSession()->getFormToken() }}}" value="1"/>
+		<input type="hidden" name="@token()" value="1"/>
 
 		<div class="col-sm-12 col-md-6">
 			{{-- ACCOUNT COLUMN --}}

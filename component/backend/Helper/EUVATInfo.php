@@ -136,10 +136,11 @@ abstract class EUVATInfo
 
 	public static function isVIESValidVATNumber($country, $vat)
 	{
+		$session = Container::getInstance('com_akeebasubs')->session;
+
 		// Get the VAT validation cache from the session
 		if (!array_key_exists('vat', self::$cache))
 		{
-			$session = JFactory::getSession();
 			$encodedCacheData = $session->get('vat_validation_cache_data', null, 'com_akeebasubs');
 
 			if (!empty($encodedCacheData))
@@ -160,7 +161,7 @@ abstract class EUVATInfo
 		// Sanitize the VAT number
 		$vatFormatCheck = self::checkVATFormat($country, $vat);
 
-		$vat = $vatFormatCheck->vatnumber;
+		$vat    = $vatFormatCheck->vatnumber;
 		$prefix = $vatFormatCheck->prefix;
 
 		if (!$vatFormatCheck->valid || empty($vat))
@@ -191,13 +192,13 @@ abstract class EUVATInfo
 			try
 			{
 				$sOptions = array(
-					'user_agent' => 'PHP',
+					'user_agent'         => 'PHP',
 					'connection_timeout' => 5,
 				);
-				$sClient = new SoapClient('http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl', $sOptions);
-				$params = array('countryCode' => $prefix, 'vatNumber' => $vat);
+				$sClient  = new SoapClient('http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl', $sOptions);
+				$params   = array('countryCode' => $prefix, 'vatNumber' => $vat);
 
-				for ($i = 0; $i < 2; $i++)
+				for ($i = 0; $i < 2; $i ++)
 				{
 					$response = $sClient->checkVat($params);
 					if (is_object($response))
@@ -213,7 +214,6 @@ abstract class EUVATInfo
 			}
 			catch (SoapFault $e)
 			{
-
 			}
 		}
 
@@ -227,7 +227,7 @@ abstract class EUVATInfo
 				        . '&iso=' . urlencode($prefix)
 				        . '&vat=' . urlencode($vat);
 
-				for ($i = 0; $i < 2; $i++)
+				for ($i = 0; $i < 2; $i ++)
 				{
 					$response = $http->get($url, null, 5);
 					if ($response->code >= 200 && $response->code < 400)
@@ -251,7 +251,6 @@ abstract class EUVATInfo
 			}
 			catch (\RuntimeException $e)
 			{
-
 			}
 		}
 
@@ -267,9 +266,8 @@ abstract class EUVATInfo
 		}
 
 		self::$cache['vat'][$key] = $ret;
-		$encodedCacheData = json_encode(self::$cache);
 
-		$session = JFactory::getSession();
+		$encodedCacheData = json_encode(self::$cache);
 		$session->set('vat_validation_cache_data', $encodedCacheData, 'com_akeebasubs');
 
 		// Return the result
