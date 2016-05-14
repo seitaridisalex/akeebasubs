@@ -226,7 +226,7 @@ JS;
 	{
 		if ($value === 1) return true;
 
-		if (in_array($value, ['on', 'checked', 'true', '1', 'yes']))
+		if (in_array($value, ['on', 'checked', 'true', '1', 'yes', 1, true], true))
 		{
 			return true;
 		}
