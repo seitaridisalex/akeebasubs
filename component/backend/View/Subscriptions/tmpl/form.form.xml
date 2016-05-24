@@ -95,6 +95,20 @@
         </field>
 
         <field
+            name="prediscount_amount"
+            type="MoneyEntry"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_PREDISCOUNT_AMOUNT"
+            class="input-small"
+        />
+
+        <field
+            name="discount_amount"
+            type="MoneyEntry"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_DISCOUNT_AMOUNT"
+            class="input-small"
+        />
+
+        <field
             name="net_amount"
             type="MoneyEntry"
             label="COM_AKEEBASUBS_SUBSCRIPTION_NET_AMOUNT"
