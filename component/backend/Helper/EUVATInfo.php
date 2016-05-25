@@ -37,7 +37,7 @@ abstract class EUVATInfo
 		'DK' => array('Denmark', 'DK', 25),
 		'DE' => array('Germany', 'DE', 19),
 		'EE' => array('Estonia', 'EE', 20),
-		'GR' => array('Greece', 'EL', 23),
+		'GR' => array('Greece', 'EL', 24),
 		'ES' => array('Spain', 'ES', 21),
 		'FR' => array('France', 'FR', 20),
 		'HR' => array('Croatia', 'HR', 25),

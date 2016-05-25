@@ -23,7 +23,7 @@ var akeebasubs_eu_configuration = {
 	"DK": ["Denmark", "DK", 25],
 	"DE": ["Germany", "DE", 19],
 	"EE": ["Estonia", "EE", 20],
-	"GR": ["Greece", "EL", 23],
+	"GR": ["Greece", "EL", 24],
 	"ES": ["Spain", "ES", 21],
 	"FR": ["France", "FR", 20],
 	"HR": ["Croatia", "HR", 25],
