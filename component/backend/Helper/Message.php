@@ -16,6 +16,7 @@ use JFactory;
 use JLoader;
 use JText;
 use Joomla\Registry\Registry as JRegistry;
+use Akeeba\ReleaseSystem\Site\Helper\Filter as Filter;
 
 defined('_JEXEC') or die;
 
@@ -429,16 +430,16 @@ abstract class Message
 
 		// Download ID
 
-		if (!class_exists('ArsHelperFilter') && file_exists(JPATH_SITE . '/components/com_ars/helpers/filter.php'))
+		if (!class_exists('Akeeba\ReleaseSystem\Site\Helper\Filter') && file_exists(JPATH_SITE . '/components/com_ars/Helper/Filter.php'))
 		{
-			@include_once JPATH_SITE . '/components/com_ars/helpers/filter.php';
+			@include_once JPATH_SITE . '/components/com_ars/Helper/Filter.php';
 		}
 
 		$dlid = '';
 
-		if (class_exists('ArsHelperFilter'))
+		if (class_exists('Akeeba\ReleaseSystem\Site\Helper\Filter'))
 		{
-			$dlid = \ArsHelperFilter::myDownloadID($sub->user_id);
+			$dlid = Filter::myDownloadID($sub->user_id);
 		}
 
 		// User's state, human readable
