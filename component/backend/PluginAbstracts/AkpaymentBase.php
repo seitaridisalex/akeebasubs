@@ -590,7 +590,16 @@ abstract class AkpaymentBase extends JPlugin
 
 	protected function debug($string)
 	{
-		$handle = fopen(JPATH_ROOT . '/log.txt', 'a+');
+		static $logDir = '';
+
+		if (empty($logDir))
+		{
+			$defLogDir = (version_compare(JVERSION, '3.5.999', 'le') ? JPATH_ROOT : JPATH_ADMINISTRATOR) . '/logs';
+			$logDir    = JFactory::getConfig()->get('log_path', $defLogDir);
+			$logDir    = rtrim($logDir, '/' . DIRECTORY_SEPARATOR);
+		}
+
+		$handle = fopen($logDir . '/log.txt', 'a+');
 		fwrite($handle, date('Y-m-d H:i:s') . ' --- ' . $string . PHP_EOL);
 		fclose($handle);
 	}
