@@ -97,8 +97,22 @@ class plgUserAslogoutuser extends JPlugin
 			return true;
 		}
 
-		$updates = ['needs_logout' => 0];
-		$user->save($updates);
+		// Do not go through the model as it ends up destroying the session when the Remember Me plugin tries to log you
+		// back in.
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->update($db->qn('#__akeebasubs_users'))
+			->set($db->qn('needs_logout') . ' = ' . $db->q(0))
+			->where($db->qn('akeebasubs_user_id') . ' = ' . $db->q($user->akeebasubs_user_id));
+
+		try
+		{
+			$db->setQuery($query)->execute();
+		}
+		catch (\Exception $e)
+		{
+			// Ignore it
+		}
 
 		return true;
 	}
