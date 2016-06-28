@@ -10,11 +10,14 @@ namespace Akeeba\Subscriptions\Site\View\Subscriptions;
 use Akeeba\Subscriptions\Site\Model\Invoices;
 use Akeeba\Subscriptions\Site\Model\Levels;
 use Akeeba\Subscriptions\Site\Model\Subscriptions;
+use JUri;
 
 defined('_JEXEC') or die;
 
 class Html extends \FOF30\View\DataView\Html
 {
+	public $returnURL = '';
+
 	protected function onBeforeBrowse()
 	{
 		parent::onBeforeBrowse();
@@ -140,6 +143,19 @@ class Html extends \FOF30\View\DataView\Html
 
 		// Get invoicing extensions
 		$extensions = $invoicesModel->getExtensions();
+		
+		// Should I add a returl URL to the "View details" button?
+		$returnURL = $this->input->getBase64('returnurl', null);
+
+		if ($returnURL)
+		{
+			$this->returnURL = base64_decode($returnURL);
+		}
+
+		if ($this->input->getBool('includereturnurl', false))
+		{
+			$this->returnURL = JUri::getInstance()->toString();
+		}
 
 		// Assign variables
 		$this->activeLevels = $activeLevels;
@@ -149,4 +165,18 @@ class Html extends \FOF30\View\DataView\Html
 		$this->extensions = $extensions;
 		$this->sortTable = $sortTable;
 	}
+
+	protected function onBeforeRead()
+	{
+		parent::onBeforeRead();
+
+		$returnURL = $this->input->getBase64('returnurl', null);
+
+		if ($returnURL)
+		{
+			$this->returnURL = base64_decode($returnURL);
+		}
+	}
+
+
 }

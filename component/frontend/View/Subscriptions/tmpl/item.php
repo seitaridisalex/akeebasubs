@@ -19,6 +19,12 @@ $this->getContainer()->platform->importPlugin('akeebasubs');
 
 $app        = JFactory::getApplication();
 $jPublishUp = $this->getContainer()->platform->getDate($this->item->publish_up);
+$goBackURL  = JRoute::_('index.php?option=com_akeebasubs&view=subscriptions');
+
+if ($this->returnURL)
+{
+	$goBackURL  = $this->returnURL;
+}
 ?>
 
 <div id="akeebasubs">
@@ -162,7 +168,7 @@ if(!empty($subfieldsHTML)):
 
 <div class="akeebasubs-goback">
 	<p>
-		<a class="btn btn-large btn-primary" href="<?php echo JRoute::_('index.php?option=com_akeebasubs&view=subscriptions')?>">
+		<a class="btn btn-large btn-primary" href="<?php echo $goBackURL; ?>">
 			<span class="icon-white icon-arrow-left"></span>
 			<?php echo JText::_('COM_AKEEBASUBS_SUBSCRIPTIONS_TITLE')?>
 		</a>

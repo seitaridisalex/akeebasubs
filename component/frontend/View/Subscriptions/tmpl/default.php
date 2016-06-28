@@ -17,13 +17,23 @@ if (!property_exists($this, 'extensions'))
 {
 	$this->extensions = array();
 }
+
+$returnURL = '';
+$formURL = JRoute::_('index.php?option=com_akeebasubs&view=Subscriptions');
+
+if (!empty($this->returnURL))
+{
+	$returnURL = '&returnurl=' . base64_encode($this->returnURL);
+	$formURL = $this->returnURL;
+}
+
 ?>
 
 <?php $summaryimage = $this->container->params->get('summaryimages', 1); ?>
 
 <div id="akeebasubs" class="subscriptions">
 	<h2 class="pageTitle"><?php echo JText::_('COM_AKEEBASUBS_SUBSCRIPTIONS_TITLE')?></h2>
-	<form action="<?php echo JRoute::_('index.php?option=com_akeebasubs&view=Subscriptions') ?>" method="post" class="adminform" name="adminForm" id="adminForm">
+	<form action="<?php echo $formURL ?>" method="post" class="adminform" name="adminForm" id="adminForm">
 	<input type="hidden" name="<?php echo JFactory::getSession()->getFormToken();?>" value="1" />
 
 	<table class="table table-striped" width="100%">
@@ -152,7 +162,7 @@ if (!property_exists($this, 'extensions'))
 					<?php endif;?>
 	            </td>
 	            <td>
-					<a class="btn btn-mini btn-xs btn-info" href="<?php echo JRoute::_('index.php?option=com_akeebasubs&view=Subscription&id='.$subscription->akeebasubs_subscription_id)?>">
+					<a class="btn btn-mini btn-xs btn-info" href="<?php echo JRoute::_('index.php?option=com_akeebasubs&view=Subscription&id=' . $subscription->akeebasubs_subscription_id . $returnURL)?>">
 						<?php echo JText::_('COM_AKEEBASUBS_SUBSCRIPTIONS_ACTION_VIEW')?>
 					</a>
 
