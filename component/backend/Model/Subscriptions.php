@@ -274,11 +274,11 @@ class Subscriptions extends DataModel
 		 * akeebasubs_subscription_id state to an array to indicate both the filter value and the filtering mode
 		 * (exact). This is something I want to ignore here because it's already caught by the Filters behaviour.
 		 */
-		$subId = $this->getState('akeebasubs_subscription_id', 0, 'int');
+		$subId = $this->getState('akeebasubs_subscription_id', 0);
 
-		if (is_numeric($subId) && ($subId > 0))
+		if (!is_array($subId) && ((int) $subId > 0))
 		{
-			$query->where($query->qn($this->getKeyName()) . ' = ' . $query->q($subId));
+			$query->where($query->qn($this->getKeyName()) . ' = ' . $query->q((int) $subId));
 		}
 	}
 

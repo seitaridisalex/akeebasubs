@@ -10,6 +10,7 @@
 	show_filters="1"
 	show_pagination="1"
 	norows_placeholder="COM_AKEEBASUBS_COMMON_NORECORDS"
+	relation_depth="2"
 >
 	<headerset>
 		<header name="akeebasubs_subscription_id" type="Searchable"

@@ -62,6 +62,7 @@ use FOF30\Model\DataModel;
  *
  * @property-read  Subscriptions  		$subscription	The subscription of this invoice
  * @property-read  InvoiceTemplates		$template		The template for this invoice
+ * @property-read  CreditNotes		    $creditNote		The credit note issued against this invoice
  */
 class Invoices extends DataModel
 {
@@ -82,7 +83,7 @@ class Invoices extends DataModel
 
 		// Add the Filters behaviour
 		$this->addBehaviour('Filters');
-		// Some filters we will have to handle programmatically so we need to exclude them from the behaviour
+		// Some filters we will have to handle pragmatically so we need to exclude them from the behaviour
 		$this->blacklistFilters([
 			'akeebasubs_subscription_id',
 			'invoice_date',
@@ -92,6 +93,7 @@ class Invoices extends DataModel
 		// Set up relations
 		$this->hasOne('subscription', 'Subscriptions', 'akeebasubs_subscription_id', 'akeebasubs_subscription_id');
 		$this->hasOne('template', 'InvoiceTemplates', 'akeebasubs_invoicetemplate_id', 'akeebasubs_invoicetemplate_id');
+		$this->hasOne('creditNote', 'CreditNotes', 'akeebasubs_subscription_id', 'akeebasubs_invoice_id');
 
 		// Eager load the relations. This allows us to get rid of ugly JOINs.
 		$this->with(['subscription']);
