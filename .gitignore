@@ -17,9 +17,11 @@ vendor
 # TCPDF
 /component/backend/assets/tcpdf/certificates/*.cer
 
-# Generated invoices
+# Generated invoices and credit notes
 /component/backend/invoices/*.pdf
 /component/backend/invoices/*/*.pdf
+/component/backend/creditnotes/*.pdf
+/component/backend/creditnotes/*/*.pdf
 
 # Version and manifest files
 /component/akeebasubs.xml
