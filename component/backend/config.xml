@@ -173,6 +173,13 @@
 				description="COM_AKEEBASUBS_CONFIG_INVOICE_OVERRIDE_DESC"
 		/>
 
+		<field name="creditnote_autosend" type="list" default="0"
+			   label="COM_AKEEBASUBS_CONFIG_CREDITNOTE_AUTOSEND_TITLE"
+			   description="COM_AKEEBASUBS_CONFIG_CREDITNOTE_AUTOSEND_DESC">
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
+		</field>
+
 		<field name="creditnote_override" type="text"
 			   default="0"
 			   size="6"
