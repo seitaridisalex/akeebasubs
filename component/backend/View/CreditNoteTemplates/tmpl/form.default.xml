@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form
+        type="browse"
+        show_header="1"
+        show_filters="1"
+        show_pagination="1"
+        norows_placeholder="COM_AKEEBASUBS_COMMON_NORECORDS"
+        relation_depth="2"
+        >
+    <headerset>
+        <header name="ordering" type="Ordering" sortable="true" tdwidth="20px" />
+
+        <header name="akeebasubs_invoicetemplate_id" type="RowSelect" tdwidth="20px" />
+
+        <header name="akeebasubs_invoicetemplate_id" type="Field" tdwidth="20px" label="#" id="num" />
+
+        <header name="invoiceTemplate.title" type="Field" label="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_TITLE"
+                sortable="false"
+                />
+
+        <header name="enabled" type="Published" sortable="true" tdwidth="8%" />
+    </headerset>
+
+    <fieldset name="items">
+        <field name="ordering" type="Ordering" labelclass="order"/>
+
+        <field name="akeebasubs_invoicetemplate_id" type="SelectRow" />
+
+        <field name="akeebasubs_invoicetemplate_id" type="Text" id="num" />
+
+        <field name="invoiceTemplate.title" type="Text"
+               show_link="true" url="index.php?option=com_akeebasubs&amp;view=CreditNoteTemplate&amp;id=[ITEM:ID]"
+                />
+
+        <field name="enabled" type="Published"/>
+    </fieldset>
+</form>
