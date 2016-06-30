@@ -431,6 +431,57 @@ CREATE TABLE `#__akeebasubs_blockrules` (
             ]]></query>
         </action>
 
+        <action table="#__akeebasubs_creditnotetemplates" canfail="0">
+            <condition type="missing" value="" />
+            <query><![CDATA[
+CREATE TABLE `#__akeebasubs_creditnotetemplates` (
+	`akeebasubs_invoicetemplate_id` bigint(20) NOT NULL AUTO_INCREMENT,
+	`template` TEXT,
+	`globalformat` tinyint(3) NOT NULL DEFAULT '1',
+	`globalnumbering` tinyint(3) NOT NULL DEFAULT '1',
+	`number_reset` bigint(20) NOT NULL DEFAULT '0',
+	`format` varchar(100) NOT NULL DEFAULT '',
+
+	`enabled` tinyint(1) NOT NULL DEFAULT '1',
+	`ordering` bigint(20) unsigned NOT NULL,
+	`created_on` datetime NOT NULL default '0000-00-00 00:00:00',
+	`created_by` int(11) NOT NULL DEFAULT 0,
+	`modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`modified_by` int(11) NOT NULL DEFAULT 0,
+	`locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`locked_by` int(11) NOT NULL DEFAULT 0,
+
+	PRIMARY KEY (`akeebasubs_invoicetemplate_id`)
+) DEFAULT COLLATE utf8_general_ci;
+            ]]></query>
+        </action>
+
+        <action table="#__akeebasubs_creditnotes" canfail="0">
+            <condition type="missing" value="" />
+            <query><![CDATA[
+CREATE TABLE `#__akeebasubs_creditnotes` (
+	`akeebasubs_invoice_id` BIGINT(20) UNSIGNED NOT NULL,
+	`creditnote_no` BIGINT(20) unsigned NOT NULL,
+	`display_number` VARCHAR(255) NULL,
+	`creditnote_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`html` LONGTEXT,
+	`atxt` LONGTEXT,
+	`btxt` LONGTEXT,
+	`filename` VARCHAR(255) NULL,
+	`sent_on` DATETIME NULL,
+
+	`enabled` tinyint(1) NOT NULL DEFAULT '1',
+	`created_on` datetime NOT NULL default '0000-00-00 00:00:00',
+	`created_by` int(11) NOT NULL DEFAULT 0,
+	`modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`modified_by` int(11) NOT NULL DEFAULT 0,
+	`locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`locked_by` int(11) NOT NULL DEFAULT 0,
+	PRIMARY KEY (`akeebasubs_invoice_id`)
+) DEFAULT COLLATE utf8_general_ci;
+            ]]></query>
+        </action>
+
         <action table="#__akeebasubs_invoicetemplates" canfail="1">
             <condition type="equals" operator="not" value="1"><![CDATA[
 SELECT COUNT(*) FROM `#__akeebasubs_invoicetemplates` WHERE `akeebasubs_invoicetemplate_id` = 1;
@@ -943,8 +994,8 @@ ALTER TABLE `#__akeebasubs_upgrades` ADD COLUMN `modified_by` int(11) NOT NULL D
         </action>
 
         <action table="#__akeebasubs_countrycurrencies" canfail="0">
-				<condition type="missing" value="" />
-				<query><![CDATA[
+            <condition type="missing" value="" />
+            <query><![CDATA[
 CREATE TABLE `#__akeebasubs_countrycurrencies` (
   `country` char(2) NOT NULL DEFAULT '',
   `currency` char(3) NOT NULL DEFAULT 'EUR',
@@ -953,7 +1004,7 @@ CREATE TABLE `#__akeebasubs_countrycurrencies` (
   PRIMARY KEY (`country`)
 ) DEFAULT COLLATE utf8_general_ci;
 				]]></query>
-				<query><![CDATA[
+            <query><![CDATA[
 INSERT INTO `#__akeebasubs_countrycurrencies` (`country`, `currency`, `name`, `symbol`)
 VALUES
 	('AU', 'AUD', 'Australian dollar', 'A$'),
@@ -1011,40 +1062,40 @@ VALUES
 	('US', 'USD', 'US dollar', '$'),
 	('ZA', 'ZAR', 'Rand', 'R');
 				]]></query>
-			</action>
+        </action>
 
         <action table="#__akeebasubs_forexrates" canfail="0">
-				<condition type="missing" value="" />
-				<query><![CDATA[
+            <condition type="missing" value="" />
+            <query><![CDATA[
 CREATE TABLE `#__akeebasubs_forexrates` (
   `akeebasubs_forexrate_id` char(3) NOT NULL DEFAULT '',
   `rate` double NOT NULL DEFAULT '1',
   PRIMARY KEY (`akeebasubs_forexrate_id`)
 ) DEFAULT COLLATE utf8_general_ci;
 					]]></query>
-			</action>
+        </action>
 
         <action table="#__akeebasubs_subscriptions" canfail="0">
-				<condition type="missing" value="net_amount_alt" />
-				<query><![CDATA[
+            <condition type="missing" value="net_amount_alt" />
+            <query><![CDATA[
 ALTER TABLE `#__akeebasubs_subscriptions` ADD COLUMN `net_amount_alt` FLOAT NOT NULL;
 				]]></query>
-				<query><![CDATA[
+            <query><![CDATA[
 ALTER TABLE `#__akeebasubs_subscriptions` ADD COLUMN `tax_amount_alt` FLOAT NOT NULL;
 				]]></query>
-				<query><![CDATA[
+            <query><![CDATA[
 ALTER TABLE `#__akeebasubs_subscriptions` ADD COLUMN `gross_amount_alt` FLOAT NOT NULL;
 				]]></query>
-				<query><![CDATA[
+            <query><![CDATA[
 ALTER TABLE `#__akeebasubs_subscriptions` ADD COLUMN `prediscount_amount_alt` FLOAT NOT NULL;
 				]]></query>
-				<query><![CDATA[
+            <query><![CDATA[
 ALTER TABLE `#__akeebasubs_subscriptions` ADD COLUMN `discount_amount_alt` FLOAT NOT NULL;
 				]]></query>
-				<query><![CDATA[
+            <query><![CDATA[
 ALTER TABLE `#__akeebasubs_subscriptions` ADD COLUMN `affiliate_comission_alt` FLOAT NOT NULL;
 				]]></query>
-			</action>
+        </action>
 
         <action table="__akeebasubs_emailtemplates" canfail="1">
             <condition type="equals" operator="not" value="1"><![CDATA[
