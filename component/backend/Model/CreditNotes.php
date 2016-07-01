@@ -89,9 +89,6 @@ class CreditNotes extends DataModel
 		// Set up relations. Note that the invoice ID is also the subscription ID.
 		$this->hasOne('invoice', 'Invoices', 'akeebasubs_invoice_id', 'akeebasubs_subscription_id');
 		$this->hasOne('subscription', 'Subscriptions', 'akeebasubs_invoice_id', 'akeebasubs_subscription_id');
-
-		// Eager load the relations. This allows us to get rid of ugly JOINs.
-		$this->with(['invoice']);
 	}
 
 	/**

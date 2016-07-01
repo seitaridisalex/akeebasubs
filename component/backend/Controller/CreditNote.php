@@ -200,8 +200,8 @@ class CreditNote extends DataController
 		}
 
 		// Email the PDF file
-		$sub    = $model->subscription;
-		$status = ($model->emailPDF($sub) === true);
+		$invoice = $model->invoice;
+		$status  = ($model->emailPDF($invoice) === true);
 
 		// Post-action redirection
 		if ($customURL = $this->input->get('returnurl', '', 'string'))
@@ -239,7 +239,7 @@ class CreditNote extends DataController
 			if ($model->getId() == reset($ids))
 			{
 				$invoicesModel = $model->invoice;
-				$found = true;
+				$found         = true;
 			}
 		}
 

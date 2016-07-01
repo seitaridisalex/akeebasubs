@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form
+	type="browse"
+	show_header="1"
+	show_filters="1"
+	show_pagination="1"
+	norows_placeholder="COM_AKEEBASUBS_COMMON_NORECORDS"
+	relation_depth="2"
+>
+	<headerset>
+		<header name="akeebasubs_invoice_id" type="Searchable"
+				filterclass="input-small"
+				tdwidth="100" sortable="true" />
+
+		<header name="akeebasubs_invoice_id" type="RowSelect"
+				tdwidth="20px"
+		/>
+		
+		<header name="user_id" type="Searchable"
+				label="COM_AKEEBASUBS_SUBSCRIPTIONS_USER"
+				filterclass="input-small"
+				searchfieldname="user"
+				sortable="false" tdwidth="15%"
+		/>
+
+		<header name="creditnote_no" type="Searchable"
+				filterclass="input-small"
+				sortable="true" tdwitdh="10%" />
+		
+		<header name="creditnote_date" type="Date"
+				filterclass="input-small"
+				sortable="true" tdwitdh="10%" />
+		
+		<header name="actions" type="Field"
+				label="COM_AKEEBASUBS_INVOICES_LBL_ACTIONS"
+				sortable="false" />
+	</headerset>
+
+	<fieldset name="items">
+		<field name="akeebasubs_invoice_id" type="Text" format="%05d" />
+		
+		<field name="akeebasubs_invoice_id" type="SelectRow" />
+		
+		<field name="user_id" name_from="invoice.subscription.user_id" type="User"
+			avatar_size="48"
+			show_link="false"
+			link_url="index.php?option=com_akeebasubs&amp;view=User&amp;task=edit&amp;user_id=[USER:ID]"
+		/>
+
+		<field name="creditnote_no" type="CreditNoteNumber"/>
+		
+		<field name="creditnote_date" type="Calendar"/>
+		
+		<field name="actions" type="CreditNoteActions"/>
+	</fieldset>
+</form>
