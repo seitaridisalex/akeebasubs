@@ -47,7 +47,9 @@ class Toolbar extends \FOF30\Toolbar\Toolbar
 			'Reports',
 			'COM_AKEEBASUBS_MAINMENU_INVOICES' => array(
 				'Invoices',
-				'InvoiceTemplates'
+				'CreditNotes',
+				'InvoiceTemplates',
+				'CreditNoteTemplates',
 			),
 		);
 

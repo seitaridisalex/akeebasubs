@@ -14,7 +14,7 @@ use FOF30\Controller\DataController;
 use FOF30\Controller\Exception\ItemNotFound;
 use FOF30\View\Exception\AccessForbidden;
 
-class Invoice extends DataController
+class CreditNote extends DataController
 {
 	public function __construct(Container $container, array $config = array())
 	{
@@ -26,7 +26,7 @@ class Invoice extends DataController
 	public function onBeforeRead()
 	{
 		// Load the model
-		/** @var \Akeeba\Subscriptions\Admin\Model\Invoices $model */
+		/** @var \Akeeba\Subscriptions\Admin\Model\CreditNotes $model */
 		$model = $this->getModel();
 
 		// If there is no record loaded, try loading a record based on the id passed in the input object
@@ -54,7 +54,7 @@ class Invoice extends DataController
 	public function download()
 	{
 		// Load the model
-		/** @var \Akeeba\Subscriptions\Admin\Model\Invoices $model */
+		/** @var \Akeeba\Subscriptions\Admin\Model\CreditNotes $model */
 		$model = $this->getModel();
 
 		// If there is no record loaded, try loading a record based on the id passed in the input object
@@ -82,9 +82,9 @@ class Invoice extends DataController
 		\JLoader::import('joomla.filesystem.file');
 
 		// In previous versions of Akeeba Subscriptions we're storing everything inside a single folder
-		$old_path = JPATH_ADMINISTRATOR . '/components/com_akeebasubs/invoices/';
+		$old_path = JPATH_ADMINISTRATOR . '/components/com_akeebasubs/creditnotes/';
 		// While in new ones every year/month has its own folder
-		$year_path = $model->getInvoicePath();
+		$year_path = $model->getCreditNotePath();
 
 		$filename   = $model->filename;
 		$saved_path = '';
@@ -102,7 +102,7 @@ class Invoice extends DataController
 		if (!$saved_path)
 		{
 			$filename   = $model->createPDF();
-			$saved_path = $model->getInvoicePath();
+			$saved_path = $model->getCreditNotePath();
 
 			if ($filename == false)
 			{
@@ -120,7 +120,7 @@ class Invoice extends DataController
 		// Fix IE bugs
 		if (empty($model->display_number))
 		{
-			$basename = 'invoice_' . $model->invoice_no;
+			$basename = 'creditnote_' . $model->creditnote_no;
 		}
 		else
 		{
@@ -178,7 +178,7 @@ class Invoice extends DataController
 	public function send()
 	{
 		// Load the model
-		/** @var \Akeeba\Subscriptions\Admin\Model\Invoices $model */
+		/** @var \Akeeba\Subscriptions\Admin\Model\CreditNotes $model */
 		$model = $this->getModel();
 
 		// If there is no record loaded, try loading a record based on the id passed in the input object
@@ -200,8 +200,8 @@ class Invoice extends DataController
 		}
 
 		// Email the PDF file
-		$sub    = $model->subscription;
-		$status = ($model->emailPDF($sub) === true);
+		$invoice = $model->invoice;
+		$status  = ($model->emailPDF($invoice) === true);
 
 		// Post-action redirection
 		if ($customURL = $this->input->get('returnurl', '', 'string'))
@@ -209,34 +209,54 @@ class Invoice extends DataController
 			$customURL = base64_decode($customURL);
 		}
 
-		$url = !empty($customURL) ? $customURL : 'index.php?option=com_akeebasubs&view=Invoices';
+		$url = !empty($customURL) ? $customURL : 'index.php?option=com_akeebasubs&view=CreditNotes';
 
 		if (!$status)
 		{
-			$this->setRedirect($url, \JText::_('COM_AKEEBASUBS_INVOICES_MSG_NOTSENT'), 'error');
+			$this->setRedirect($url, \JText::_('COM_AKEEBASUBS_CREDITNOTES_MSG_NOTSENT'), 'error');
 		}
 		else
 		{
-			$this->setRedirect($url, \JText::_('COM_AKEEBASUBS_INVOICES_MSG_SENT'));
+			$this->setRedirect($url, \JText::_('COM_AKEEBASUBS_CREDITNOTES_MSG_SENT'));
 		}
 	}
 
 	public function generate()
 	{
 		// Load the model
-		/** @var \Akeeba\Subscriptions\Admin\Model\Invoices $model */
+		/** @var \Akeeba\Subscriptions\Admin\Model\CreditNotes $model */
 		$model = $this->getModel();
+		/** @var \Akeeba\Subscriptions\Admin\Model\Invoices $invoicesModel */
+		$invoicesModel = $this->container->factory->model('Invoices')->tmpInstance();
 
 		// If there is no record loaded, try loading a record based on the id passed in the input object
-		if (!$model->getId())
+		$found = $model->getId() > 0;
+
+		if (!$found)
 		{
 			$ids = $this->getIDsFromRequest($model, true);
 
-			if ($model->getId() != reset($ids))
+			if ($model->getId() == reset($ids))
 			{
-				$key = strtoupper($this->container->componentName . '_ERR_' . $model->getName() . '_NOTFOUND');
-				throw new ItemNotFound(\JText::_($key), 404);
+				$invoicesModel = $model->invoice;
+				$found         = true;
 			}
+		}
+
+		if (!$found)
+		{
+			$ids = $this->getIDsFromRequest($invoicesModel, true);
+
+			if ($invoicesModel->getId() == reset($ids))
+			{
+				$found = true;
+			}
+		}
+
+		if (!$found)
+		{
+			$key = strtoupper($this->container->componentName . '_ERR_' . $model->getName() . '_NOTFOUND');
+			throw new ItemNotFound(\JText::_($key), 404);
 		}
 
 		// Check that this is an administrator
@@ -246,9 +266,7 @@ class Invoice extends DataController
 		}
 
 		// (Re-)generate the invoice
-		$sub = $model->subscription;
-
-		$status = ($model->createInvoice($sub) === true);
+		$status = ($model->createCreditNote($invoicesModel) === true);
 
 		// Post-action redirection
 		if ($customURL = $this->input->get('returnurl', '', 'string'))
@@ -256,15 +274,15 @@ class Invoice extends DataController
 			$customURL = base64_decode($customURL);
 		}
 
-		$url = !empty($customURL) ? $customURL : 'index.php?option=com_akeebasubs&view=Invoices';
+		$url = !empty($customURL) ? $customURL : 'index.php?option=com_akeebasubs&view=CreditNotes';
 
 		if ($status === false)
 		{
-			$this->setRedirect($url, \JText::_('COM_AKEEBASUBS_INVOICES_MSG_NOTGENERATED'), 'error');
+			$this->setRedirect($url, \JText::_('COM_AKEEBASUBS_CREDITNOTES_MSG_NOTGENERATED'), 'error');
 		}
 		else
 		{
-			$this->setRedirect($url, \JText::_('COM_AKEEBASUBS_INVOICES_MSG_GENERATED'));
+			$this->setRedirect($url, \JText::_('COM_AKEEBASUBS_CREDITNOTES_MSG_GENERATED'));
 		}
 	}
 }

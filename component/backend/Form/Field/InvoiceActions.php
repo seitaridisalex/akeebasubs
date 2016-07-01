@@ -8,6 +8,7 @@
 namespace Akeeba\Subscriptions\Admin\Form\Field;
 
 use Akeeba\Subscriptions\Admin\Model\Invoices;
+use Akeeba\Subscriptions\Admin\Model\Subscriptions;
 use FOF30\Form\Field\Text;
 use JText;
 
@@ -31,6 +32,20 @@ class InvoiceActions extends Text
 		}
 
 		$html = '';
+
+		$canIssueCreditNote = ($this->item->extension == 'akeebasubs') &&
+			is_object($this->item->subscription) &&
+			($this->item->subscription instanceof Subscriptions) &&
+			($this->item->subscription->state == 'X') &&
+			!is_object($this->item->creditNote) &&
+			is_object($this->item->template->creditNoteTemplate);
+
+		$canShowCreditNote = !$canIssueCreditNote &&
+			($this->item->extension == 'akeebasubs') &&
+			is_object($this->item->subscription) &&
+			($this->item->subscription instanceof Subscriptions) &&
+			($this->item->subscription->state == 'X') &&
+			is_object($this->item->creditNote);
 
 		if ($this->item->extension == 'akeebasubs')
 		{
@@ -69,6 +84,28 @@ class InvoiceActions extends Text
 				JText::_('COM_AKEEBASUBS_INVOICES_ACTION_REGENERATE') .
 				'"><span class="icon icon-refresh icon-white"></span></a>'
 				. "\n";
+
+			if ($canIssueCreditNote)
+			{
+				$html .= '<br/><br/><a href="index.php?option=com_akeebasubs&view=CreditNotes&task=generate&id=' .
+					htmlentities($this->item->akeebasubs_subscription_id, ENT_COMPAT, 'UTF-8') .
+					'&returnurl=' . htmlentities(base64_encode('index.php?option=com_akeebasubs&view=Invoices')) .
+					'" class="btn btn-small btn-danger" title="' .
+					JText::_('COM_AKEEBASUBS_CREDITNOTES_ACTION_REGENERATE') .
+					'"><span class="icon icon-cancel icon-white"></span>' .
+					JText::_('COM_AKEEBASUBS_CREDITNOTES_ACTION_REGENERATE') . '</a>'
+					. "\n";
+			}
+			elseif ($canShowCreditNote)
+			{
+				$html .= '<br/><br/><a href="index.php?option=com_akeebasubs&view=CreditNotes&task=download&id=' .
+					htmlentities($this->item->akeebasubs_subscription_id, ENT_COMPAT, 'UTF-8') .
+					'" class="btn btn-small btn-info" title="' .
+					JText::_('COM_AKEEBASUBS_CREDITNOTES_ACTION_DOWNLOAD') .
+					'"><span class="icon icon-download icon-white"></span>' .
+					JText::_('COM_AKEEBASUBS_CREDITNOTES_ACTION_DOWNLOAD') . '</a>'
+					. "\n";
+			}
 		}
 		elseif(array_key_exists($this->item->extension, $extensions))
 		{

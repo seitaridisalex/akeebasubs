@@ -13,7 +13,7 @@
 	relation_depth="2"
 >
 	<headerset>
-		<header name="akeebasubs_subscription_id" type="Searchable"
+		<header name="akeebasubs_invoice_id" type="Searchable"
 				filterclass="input-small"
 				tdwidth="100" sortable="true" />
 
@@ -28,23 +28,11 @@
 				sortable="false" tdwidth="15%"
 		/>
 
-        <header name="business" type="Searchable"
-                label="COM_AKEEBASUBS_USERS_FIELD_BUSINESSNAME"
-                filterclass="input-small"
-                searchfieldname="business"
-                onlyFilter="true" />
-
-		<header name="extension" type="Selectable"
-				sortable="true" tdwidth="10%"
-				source_class="Akeeba\Subscriptions\Admin\Helper\Select"
-                source_method="getInvoiceExtensions"
-		/>
-		
-		<header name="invoice_no" type="Searchable"
+		<header name="creditnote_no" type="Searchable"
 				filterclass="input-small"
 				sortable="true" tdwitdh="10%" />
 		
-		<header name="invoice_date" type="Date"
+		<header name="creditnote_date" type="Date"
 				filterclass="input-small"
 				sortable="true" tdwitdh="10%" />
 		
@@ -54,26 +42,20 @@
 	</headerset>
 
 	<fieldset name="items">
-		<field name="akeebasubs_subscription_id" type="Text" format="%05d" />
+		<field name="akeebasubs_invoice_id" type="Text" format="%05d" />
 		
 		<field name="akeebasubs_invoice_id" type="SelectRow" />
 		
-		<field name="user_id" name_from="subscription.user_id" type="User"
+		<field name="user_id" name_from="invoice.subscription.user_id" type="User"
 			avatar_size="48"
 			show_link="false"
 			link_url="index.php?option=com_akeebasubs&amp;view=User&amp;task=edit&amp;user_id=[USER:ID]"
 		/>
-		
-		<field name="extension" type="GenericList"
-				sortable="true" tdwidth="10%"
-                source_class="Akeeba\Subscriptions\Admin\Helper\Select"
-                source_method="getInvoiceExtensions"
-		/>
 
-		<field name="invoice_no" type="InvoiceNumber"/>
+		<field name="creditnote_no" type="CreditNoteNumber"/>
 		
-		<field name="invoice_date" type="Calendar"/>
+		<field name="creditnote_date" type="Calendar"/>
 		
-		<field name="actions" type="InvoiceActions"/>
+		<field name="actions" type="CreditNoteActions"/>
 	</fieldset>
 </form>
