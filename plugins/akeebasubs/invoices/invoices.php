@@ -76,7 +76,7 @@ class plgAkeebasubsInvoices extends JPlugin
 		if ($generateAnInvoice && !defined('AKEEBA_INVOICE_GENERATED'))
 		{
 			define('AKEEBA_INVOICE_GENERATED', 1);
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 
 			// Check if there is an invoice for this subscription already
 			$query = $db->getQuery(true)
@@ -136,6 +136,7 @@ class plgAkeebasubsInvoices extends JPlugin
 			'title'   => JText::_('PLG_AKEEBASUBS_INVOICES_EMAILSECTION'),
 			'keys'    => array(
 				'email' => JText::_('PLG_AKEEBASUBS_INVOICES_EMAIL_TITLE'),
+				'creditnote' => JText::_('PLG_AKEEBASUBS_INVOICES_CREDITNOTE_TITLE'),
 			)
 		);
 	}

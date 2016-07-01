@@ -749,7 +749,7 @@ class CreditNotes extends DataModel
 		}
 
 		// Get the mailer
-		$mailer = Email::getPreloadedMailer($invoice->subscription, 'PLG_AKEEBASUBS_CREDITNOTE_EMAIL');
+		$mailer = Email::getPreloadedMailer($invoice->subscription, 'PLG_AKEEBASUBS_INVOICES_CREDITNOTE');
 
 		if ($mailer === false)
 		{
