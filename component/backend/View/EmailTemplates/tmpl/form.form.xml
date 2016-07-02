@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form>
+	<fieldset name="basic_configuration">
+		<field
+			name="key"
+			type="EmailTemplateKey"
+			label="COM_AKEEBASUBS_EMAILTEMPLATES_FIELD_KEY"
+			required="true"
+			class="input-xxlarge"
+		/>
+
+		<field
+			name="language"
+			type="Language"
+			label="COM_AKEEBASUBS_EMAILTEMPLATES_FIELD_LANGUAGE"
+			none="COM_AKEEBASUBS_EMAILTEMPLATES_FIELD_LANGUAGE_ALL"
+			required="true"
+		/>
+
+		<field
+			name="subscription_level_id"
+            type="Model"
+            model="Levels"
+            key_field="akeebasubs_level_id"
+            value_field="title"
+            translate="true"
+			label="COM_AKEEBASUBS_EMAILTEMPLATES_FIELD_SUBSCRIPTION_LEVEL_ID"
+			required="false"
+			none="COM_AKEEBASUBS_EMAILTEMPLATES_FIELD_SUBSCRIPTION_LEVEL_ID_NONE"
+		/>
+
+		<field name="enabled" type="Published" label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC"
+			filter="intval" size="1" default="1"
+			required="true"
+		>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+		</field>
+
+		<field
+			name="subject"
+			type="Text"
+			label="COM_AKEEBASUBS_EMAILTEMPLATES_FIELD_SUBJECT"
+			class="input-xxlarge"
+			required="true"
+		 />
+
+		<field name="body" type="Editor"
+			label="COM_AKEEBASUBS_EMAILTEMPLATES_FIELD_BODY"
+			class="inputbox"
+			required="true"
+			filter="JComponentHelper::filterText"
+			buttons="true"
+		/>
+	</fieldset>
+</form>

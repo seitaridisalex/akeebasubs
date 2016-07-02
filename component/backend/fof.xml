@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
 <fof>
-    <!-- Currently empty, only used for the autoloader to recognise this component as FOF-powered -->
+    <common>
+        <container>
+            <option name="componentNamespace">Akeeba\Subscriptions</option>
+            <option name="factoryClass">FOF30\Factory\MagicFactory</option>
+            <option name="scaffolding">0</option>
+        </container>
+    </common>
+
+    <backend>
+        <model name="LevelGroups">
+            <behaviors>Filters</behaviors>
+        </model>
+    </backend>
+
     <frontend>
-        <view name="*">
-            <config>
-                <option name="setFrontendPageTitle">true</option>
-            </config>
-        </view>
+        <container>
+            <option name="factoryClass">FOF30\Factory\BasicFactory</option>
+            <option name="scaffolding">0</option>
+        </container>
     </frontend>
 </fof>

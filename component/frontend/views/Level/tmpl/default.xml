@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<metadata>
+	<layout title="COM_AKEEBASUBS_VIEW_LEVEL_DEFAULT_TITLE">
+		<message>
+				<![CDATA[COM_AKEEBASUBS_VIEW_LEVEL_DEFAULT_DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>COM_AKEEBASUBS_VIEW_LEVEL_DEFAULT_TITLE</name>
+		<description><![CDATA[COM_AKEEBASUBS_VIEW_LEVEL_DEFAULT_DESC]]></description>
+	</state>
+	<fields name="params">
+		<fieldset name="basic">
+			<field name="slug" type="sql" default=""
+				label="COM_AKEEBASUBS_VIEW_LEVEL_OPT_SLUG_TITLE"
+				description="COM_AKEEBASUBS_VIEW_LEVEL_OPT_SLUG_DESC"
+				query="SELECT `slug`, `title` FROM `#__akeebasubs_levels`"
+				key_field="slug"
+				value_field="title" />
+		</fieldset>
+	</fields>
+</metadata>

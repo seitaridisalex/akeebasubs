@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5.0" type="plugin" group="akeebasubs" method="upgrade">
-	<name>Akeeba Subscriptions - User needs logout</name>
+<extension version="3.3.0" type="plugin" group="akeebasubs" method="upgrade">
+	<name>PLG_AKEEBASUBS_NEEDSLOGOUT</name>
 	<author>Nicholas K. Dionysopoulos</author>
 	<authorEmail>nicholas@dionysopoulos.me</authorEmail>
 	<authorUrl>http://www.akeebabackup.com</authorUrl>
-	<copyright>Copyright (c)2011-2015 Nicholas K. Dionysopoulos</copyright>
+	<copyright>Copyright (c)2011-2016 Nicholas K. Dionysopoulos</copyright>
 	<license>GNU General Public License version 3, or later</license>
-	<creationDate>2014-02-10</creationDate>
-	<version>1.0</version>
+	<creationDate>April 2015</creationDate>
+	<version>5.0</version>
 	<description>PLG_AKEEBASUBS_NEEDSLOGOUT_DESCRIPTION</description>
 	<files>
 		<filename plugin="needslogout">needslogout.php</filename>

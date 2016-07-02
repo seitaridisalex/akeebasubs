@@ -1,48 +1,20 @@
 <?php
 /**
- * @package      akeebasubs
- * @copyright    Copyright (c)2010-2015 Nicholas K. Dionysopoulos / AkeebaBackup.com
- * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
- * @version      $Id$
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * @package   AkeebaSubs
+ * @copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+ * @license   GNU General Public License version 3, or later
  */
 
 // no direct access
 defined('_JEXEC') or die;
 
-// Load F0F
-if (!defined('F0F_INCLUDED') || !class_exists('F0FForm', true))
+if (!defined('FOF30_INCLUDED') && !@include_once(JPATH_LIBRARIES . '/fof30/include.php'))
 {
-	include_once JPATH_LIBRARIES . '/f0f/include.php';
+	throw new RuntimeException('FOF 3.0 is not installed', 500);
 }
 
-if (!defined('F0F_INCLUDED') || !class_exists('F0FForm', true))
-{
-	return;
-}
-
-// Load dependencies
-if (!class_exists('AkeebasubsHelperEuVATInfo'))
-{
-	require_once JPATH_ADMINISTRATOR . '/components/com_akeebasubs/helpers/euvatinfo.php';
-}
-
-if (!class_exists('AkeebasubsHelperSelect'))
-{
-	require_once JPATH_ADMINISTRATOR . '/components/com_akeebasubs/helpers/select.php';
-}
+// Get the Akeeba Subscriptions container. Also includes the autoloader.
+$container = FOF30\Container\Container::getInstance('com_akeebasubs');
 
 // Load the language files
 $lang = JFactory::getLanguage();
@@ -63,12 +35,12 @@ $countryCodes = array();
 if (!empty($countries))
 {
 	$countryCodes = explode(',', $countries);
-	$countryCodes = array_map(function($x) { return trim($x); }, $countryCodes);
+	$countryCodes = array_map('trim', $countryCodes);
 }
 
 if ($eucountries)
 {
-	$additionalCountries = AkeebasubsHelperEuVATInfo::$EuropeanUnionVATInformation;
+	$additionalCountries = \Akeeba\Subscriptions\Admin\Helper\EUVATInfo::$EuropeanUnionVATInformation;
 
 	foreach ($additionalCountries as $code => $info)
 	{
@@ -90,7 +62,7 @@ if ($international && !in_array('XX', $countryCodes))
 }
 
 $options = array();
-$countryNames = AkeebasubsHelperSelect::getCountries();
+$countryNames = \Akeeba\Subscriptions\Admin\Helper\Select::getCountries();
 
 foreach ($countryCodes as $code)
 {
@@ -122,11 +94,12 @@ $default_option = JFactory::getSession()->get('country', null, 'mod_aktaxcountry
 
 if (empty($default_option))
 {
-	$taxHelper = F0FModel::getTmpInstance('Taxhelper', 'AkeebasubsModel');
+	/** @var \Akeeba\Subscriptions\Site\Model\TaxHelper $taxHelper */
+	$taxHelper = $container->factory->model('TaxHelper')->tmpInstance();
 	$taxparams = $taxHelper->getTaxDefiningParameters();
 	$default_option = $taxparams['country'];
 
-	if ($taxparams['vies'] && AkeebasubsHelperEuVATInfo::isEUVATCountry($taxparams['country']))
+	if ($taxparams['vies'] && \Akeeba\Subscriptions\Admin\Helper\EUVATInfo::isEUVATCountry($taxparams['country']))
 	{
 		$default_option = 'EU-VIES';
 	}

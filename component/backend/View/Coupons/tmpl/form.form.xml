@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form>
+    <fieldset
+            name="basic_configuration"
+            label="COM_AKEEBASUBS_COUPON_BASIC_TITLE"
+            class="span6"
+            >
+
+        <field
+            name="title"
+            type="Text"
+            label="COM_AKEEBASUBS_COUPON_FIELD_TITLE"
+            hint="COM_AKEEBASUBS_COUPON_FIELD_TITLE"
+            class="input-xlarge"
+            required="true"
+            />
+
+        <field
+            name="coupon"
+            type="Text"
+            label="COM_AKEEBASUBS_COUPON_FIELD_COUPON"
+            hint="COM_AKEEBASUBS_COUPON_FIELD_COUPON"
+            class="input-large"
+            required="true"
+            />
+
+        <field
+            name="type"
+            type="List"
+            label="COM_AKEEBASUBS_COUPON_FIELD_TYPE"
+            class="input-large"
+            required="true"
+            >
+            <option value="value">COM_AKEEBASUBS_COUPON_TYPE_VALUE</option>
+            <option value="percent">COM_AKEEBASUBS_COUPON_TYPE_PERCENT</option>
+            <option value="lastpercent">COM_AKEEBASUBS_COUPON_TYPE_LASTPERCENT</option>
+        </field>
+
+        <field
+            name="value"
+            type="Text"
+            label="COM_AKEEBASUBS_COUPON_FIELD_VALUE"
+            hint="COM_AKEEBASUBS_COUPON_FIELD_VALUE"
+            class="input-large"
+            required="true"
+            />
+
+        <field
+            name="enabled"
+            type="Published"
+            label="JPUBLISHED"
+            required="true"
+            />
+
+        <field
+            name="akeebasubs_apicoupon_id"
+            type="Model"
+            model="APICoupons"
+            key_field="akeebasubs_apicoupon_id"
+            value_field="title"
+            label="COM_AKEEBASUBS_COUPON_FIELD_API"
+            none="COM_AKEEBASUBS_COMMON_SELECT"
+            required="false"
+          />
+
+        <field
+            name="hits"
+            type="Text"
+            label="COM_AKEEBASUBS_COMMON_HITS"
+            hint="COM_AKEEBASUBS_COMMON_HITS"
+            required="false"
+            />
+
+        <field
+            name="notes"
+            type="CouponNotes"
+            label="COM_AKEEBASUBS_COMMON_NOTES"
+            class="input-xlarge"
+            rows="10"
+            required="false"
+          />
+
+    </fieldset>
+
+    <fieldset
+        name="coupon_finetuning"
+        label="COM_AKEEBASUBS_COUPON_FINETUNING_TITLE"
+        class="span6"
+        >
+
+        <field
+            name="publish_up"
+            type="Calendar"
+            label="COM_AKEEBASUBS_COUPON_PUBLISH_UP"
+            hint="COM_AKEEBASUBS_COUPON_PUBLISH_UP"
+            required="false"
+            />
+
+        <field
+            name="publish_down"
+            type="Calendar"
+            label="COM_AKEEBASUBS_COUPON_PUBLISH_DOWN"
+            hint="COM_AKEEBASUBS_COUPON_PUBLISH_DOWN"
+            required="false"
+            />
+
+        <field
+            name="user"
+            type="User"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_USER"
+            required="false"
+            />
+
+        <field
+            name="email"
+            type="Email"
+            label="JGLOBAL_EMAIL"
+            hint="JGLOBAL_EMAIL"
+            required="false"
+            />
+
+        <field
+            name="usergroups"
+            type="UserGroup"
+            multiple="true"
+            label="COM_AKEEBASUBS_COUPON_FIELD_USERGROUPS"
+            required="false"
+            />
+
+        <field
+            name="subscriptions"
+            type="Model"
+            model="Levels"
+            key_field="akeebasubs_level_id"
+            value_field="title"
+            translate="false"
+            apply_access="false"
+            multiple="true"
+            label="COM_AKEEBASUBS_COUPON_FIELD_SUBSCRIPTIONS"
+            required="false"
+            />
+
+        <field
+            name="hitslimit"
+            type="Text"
+            label="COM_AKEEBASUBS_COUPON_FIELD_HITSLIMIT"
+            hint="COM_AKEEBASUBS_COUPON_FIELD_HITSLIMIT"
+            class="input-small"
+            required="false"
+            />
+
+        <field
+            name="userhits"
+            type="Text"
+            label="COM_AKEEBASUBS_COUPON_FIELD_USERHITSLIMIT"
+            hint="COM_AKEEBASUBS_COUPON_FIELD_USERHITSLIMIT"
+            class="input-small"
+            required="false"
+            />
+
+    </fieldset>
+</form>

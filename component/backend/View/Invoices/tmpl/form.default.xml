@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form
+	type="browse"
+	show_header="1"
+	show_filters="1"
+	show_pagination="1"
+	norows_placeholder="COM_AKEEBASUBS_COMMON_NORECORDS"
+	relation_depth="2"
+>
+	<headerset>
+		<header name="akeebasubs_subscription_id" type="Searchable"
+				filterclass="input-small"
+				tdwidth="100" sortable="true" />
+
+		<header name="akeebasubs_invoice_id" type="RowSelect"
+				tdwidth="20px"
+		/>
+		
+		<header name="user_id" type="Searchable"
+				label="COM_AKEEBASUBS_SUBSCRIPTIONS_USER"
+				filterclass="input-small"
+				searchfieldname="user"
+				sortable="false" tdwidth="15%"
+		/>
+
+        <header name="business" type="Searchable"
+                label="COM_AKEEBASUBS_USERS_FIELD_BUSINESSNAME"
+                filterclass="input-small"
+                searchfieldname="business"
+                onlyFilter="true" />
+
+		<header name="extension" type="Selectable"
+				sortable="true" tdwidth="10%"
+				source_class="Akeeba\Subscriptions\Admin\Helper\Select"
+                source_method="getInvoiceExtensions"
+		/>
+		
+		<header name="invoice_no" type="Searchable"
+				filterclass="input-small"
+				sortable="true" tdwitdh="10%" />
+		
+		<header name="invoice_date" type="Date"
+				filterclass="input-small"
+				sortable="true" tdwitdh="10%" />
+		
+		<header name="actions" type="Field"
+				label="COM_AKEEBASUBS_INVOICES_LBL_ACTIONS"
+				sortable="false" />
+	</headerset>
+
+	<fieldset name="items">
+		<field name="akeebasubs_subscription_id" type="Text" format="%05d" />
+		
+		<field name="akeebasubs_invoice_id" type="SelectRow" />
+		
+		<field name="user_id" name_from="subscription.user_id" type="User"
+			avatar_size="48"
+			show_link="false"
+			link_url="index.php?option=com_akeebasubs&amp;view=User&amp;task=edit&amp;user_id=[USER:ID]"
+		/>
+		
+		<field name="extension" type="GenericList"
+				sortable="true" tdwidth="10%"
+                source_class="Akeeba\Subscriptions\Admin\Helper\Select"
+                source_method="getInvoiceExtensions"
+		/>
+
+		<field name="invoice_no" type="InvoiceNumber"/>
+		
+		<field name="invoice_date" type="Calendar"/>
+		
+		<field name="actions" type="InvoiceActions"/>
+	</fieldset>
+</form>

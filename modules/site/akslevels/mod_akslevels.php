@@ -1,9 +1,9 @@
 <?php
 /**
- *  @package	akeebasubs
- *  @copyright	Copyright (c)2010-2015 Nicholas K. Dionysopoulos / AkeebaBackup.com
- *  @license	GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
- *  @version 	$Id$
+ * @package      akeebasubs
+ * @copyright    Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
+ * @version      $Id$
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,51 +20,49 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('');
+defined('_JEXEC') or die;
 
-// PHP version check
-if(defined('PHP_VERSION')) {
-	$version = PHP_VERSION;
-} elseif(function_exists('phpversion')) {
-	$version = phpversion();
-} else {
-	// No version info. I'll lie and hope for the best.
-	$version = '5.0.0';
-}
-// Old PHP version detected. EJECT! EJECT! EJECT!
-if(!version_compare($version, '5.3.0', '>=')) return;
-
-include_once JPATH_ADMINISTRATOR.'/components/com_akeebasubs/version.php';
-include_once JPATH_LIBRARIES.'/f0f/include.php';
-if(!defined('F0F_INCLUDED') || !class_exists('F0FForm', true))
+if (!defined('FOF30_INCLUDED') && !@include_once(JPATH_LIBRARIES . '/fof30/include.php'))
 {
-	return;
+	throw new RuntimeException('FOF 3.0 is not installed', 500);
 }
-require_once JPATH_ADMINISTRATOR.'/components/com_akeebasubs/helpers/format.php';
-require_once JPATH_ADMINISTRATOR.'/components/com_akeebasubs/helpers/cparams.php';
 
-$layout = $params->get('layout','awesome');
-$ids = $params->get('ids',array());
+// Load the language files
+$lang = JFactory::getLanguage();
+$lang->load('mod_aktaxcountry', JPATH_SITE, 'en-GB', true);
+$lang->load('mod_aktaxcountry', JPATH_SITE, null, true);
+$lang->load('com_akeebasubs', JPATH_SITE, 'en-GB', true);
+$lang->load('com_akeebasubs', JPATH_SITE, null, true);
 
-$config = array(
-	'option'	=> 'com_akeebasubs',
-	'view'		=> 'levels',
-	'layout'	=> $layout,
-	'input'		=> array(
-		'savestate'	=> 0,
-		'limit'		=> 0,
-		'limitstart'=> 0,
-		'no_clear'	=> true,
-		'only_once'	=> true,
-		'task'		=> 'browse',
-		'filter_order' => 'ordering',
+$layout = $params->get('layout', 'awesome');
+$ids    = $params->get('ids', array());
+
+$config = [
+	'tempInstance' => true,
+	'input'        => [
+		'option'           => 'com_akeebasubs',
+		'view'             => 'levels',
+		'layout'           => $layout,
+		'savestate'        => 0,
+		'limit'            => 0,
+		'limitstart'       => 0,
+		'no_clear'         => true,
+		'only_once'        => true,
+		'task'             => 'browse',
+		'filter_order'     => 'ordering',
 		'filter_order_Dir' => 'ASC',
-		'enabled'	=> 1,
-		'caching'	=> false
-	)
-);
-if(!empty($ids)) $config['input']['id'] = $ids;
+		'enabled'          => 1,
+		'caching'          => false,
+		'shownotices'	   => false,
+	]
 
-//$fp = fopen(JPATH_SITE.'/logs/backtrace.txt', 'at');fwrite($fp, "\n\n\n".  str_repeat('*', 78)."\n\n\n");fclose($fp);
-F0FDispatcher::getTmpInstance('com_akeebasubs', 'levels', $config)->dispatch();
-//$fp = fopen(JPATH_SITE.'/logs/backtrace.txt', 'at');fwrite($fp, "\n\n\n".  str_repeat('~', 78)."\n\n\n");fclose($fp);
+];
+
+if (!empty($ids))
+{
+	$config['input']['id'] = $ids;
+}
+
+$container = FOF30\Container\Container::getInstance('com_akeebasubs', $config);
+
+$container->dispatcher->dispatch();

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form
+	type="browse"
+	show_header="1"
+	show_filters="1"
+	show_pagination="1"
+	norows_placeholder="COM_AKEEBASUBS_COMMON_NORECORDS"
+>
+	<headerset>
+		<header name="akeebasubs_user_id" type="RowSelect" tdwidth="16px" />
+
+		<header name="username" name_from="user.name" type="Searchable" sortable="false" filterclass="input-small" />
+
+		<header name="name" name_from="user.name" type="Searchable" sortable="false" filterclass="input-small" />
+		
+		<header name="email" name_from="user.email" type="Searchable" sortable="false" filterclass="input-small" />
+		
+		<header name="businessname" type="Searchable" sortable="true" filterclass="input-small" />
+		
+		<header name="vatnumber" type="Searchable" sortable="true" filterclass="input-small" />
+	</headerset>
+
+	<fieldset name="items">
+		<field name="akeebasubs_user_id" type="SelectRow" />
+		
+		<field name="user_id" type="User"
+			avatar_size="32" show_email="false" show_name="false"
+			show_link="true"
+		/>
+		
+		<field name="user.name" type="Text" empty_replacement="–––"
+			show_link="true"
+			url="index.php?option=com_akeebasubs&amp;view=User&amp;id=[ITEM:ID]"
+		/>
+		
+		<field name="user.email" type="Text" empty_replacement="–––"
+			show_link="true"
+			url="index.php?option=com_akeebasubs&amp;view=User&amp;id=[ITEM:ID]"
+		/>
+		
+		<field name="businessname" type="Text" empty_replacement="–––"
+			show_link="true"
+			url="index.php?option=com_akeebasubs&amp;view=User&amp;id=[ITEM:ID]"
+		/>
+		
+		<field name="vatnumber" type="Text"
+               format="[ITEM:COUNTRY] %s" format_if_not_empty="true" empty_replacement="–––"
+			show_link="true"
+			url="index.php?option=com_akeebasubs&amp;view=User&amp;id=[ITEM:ID]"
+		/>
+	</fieldset>
+</form>

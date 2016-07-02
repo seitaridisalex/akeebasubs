@@ -1,9 +1,9 @@
 <?php
 /**
- *  @package	akeebasubs
- *  @copyright	Copyright (c)2010-2015 Nicholas K. Dionysopoulos / AkeebaBackup.com
- *  @license	GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
- *  @version 	$Id$
+ * @package      akeebasubs
+ * @copyright    Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
+ * @version      $Id$
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,62 +20,63 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('');
+defined('_JEXEC') or die;
 
-// PHP version check
-if(defined('PHP_VERSION')) {
-	$version = PHP_VERSION;
-} elseif(function_exists('phpversion')) {
-	$version = phpversion();
-} else {
-	// No version info. I'll lie and hope for the best.
-	$version = '5.0.0';
-}
-// Old PHP version detected. EJECT! EJECT! EJECT!
-if(!version_compare($version, '5.3.0', '>=')) return;
-
-include_once JPATH_ADMINISTRATOR.'/components/com_akeebasubs/version.php';
-include_once JPATH_LIBRARIES.'/f0f/include.php';
-if(!defined('F0F_INCLUDED') || !class_exists('F0FForm', true))
+if (!defined('FOF30_INCLUDED') && !@include_once(JPATH_LIBRARIES . '/fof30/include.php'))
 {
-	return;
+	throw new RuntimeException('FOF 3.0 is not installed', 500);
 }
-require_once JPATH_ADMINISTRATOR.'/components/com_akeebasubs/helpers/format.php';
-require_once JPATH_ADMINISTRATOR.'/components/com_akeebasubs/helpers/cparams.php';
 
-// TODO : Put this in a shared file and load with JLoader
-$jlang = JFactory::getLanguage();
-$jlang->load('com_akeebasubs', JPATH_SITE, 'en-GB', true);
-$jlang->load('com_akeebasubs', JPATH_SITE, $jlang->getDefault(), true);
-$jlang->load('com_akeebasubs', JPATH_SITE, null, true);
-$jlang->load('com_akeebasubs', JPATH_ADMINISTRATOR, 'en-GB', true);
-$jlang->load('com_akeebasubs', JPATH_ADMINISTRATOR, $jlang->getDefault(), true);
-$jlang->load('com_akeebasubs', JPATH_ADMINISTRATOR, null, true);
+// Get the Akeeba Subscriptions container. Also includes the autoloader.
+$container = FOF30\Container\Container::getInstance('com_akeebasubs');
 
-if(JFactory::getUser()->guest) {
+// Load the language files
+$lang = JFactory::getLanguage();
+$lang->load('mod_aktaxcountry', JPATH_SITE, 'en-GB', true);
+$lang->load('mod_aktaxcountry', JPATH_SITE, null, true);
+$lang->load('com_akeebasubs', JPATH_SITE, 'en-GB', true);
+$lang->load('com_akeebasubs', JPATH_SITE, null, true);
+
+if (JFactory::getUser()->guest)
+{
 	echo '&nbsp;';
-} else {
-	$list = F0FModel::getTmpInstance('Subscriptions','AkeebasubsModel')
+}
+else
+{
+	/** @var \Akeeba\Subscriptions\Site\Model\Subscriptions $subsModel */
+	$subsModel = $container->factory->model('Subscriptions')->tmpInstance();
+	$list = $subsModel
 		->user_id(JFactory::getUser()->id)
 		->enabled(1)
-		->getList();
+		->get(true);
 
-	if(empty($list)) {
+	if (!$list->count())
+	{
 		echo "&nbsp;";
+
 		return;
 	}
 
 	JLoader::import('joomla.utilities.date');
 
 	$expires = 0;
-	$regex = '/^\d{1,4}(\/|-)\d{1,2}(\/|-)\d{2,4}[[:space:]]{0,}(\d{1,2}:\d{1,2}(:\d{1,2}){0,1}){0,1}$/';
-	foreach($list as $s) {
-		if(!preg_match($regex, $s->publish_down)) {
+	$regex   = '/^\d{1,4}(\/|-)\d{1,2}(\/|-)\d{2,4}[[:space:]]{0,}(\d{1,2}:\d{1,2}(:\d{1,2}){0,1}){0,1}$/';
+
+	/** @var \Akeeba\Subscriptions\Site\Model\Subscriptions $s */
+	foreach ($list as $s)
+	{
+		if (!preg_match($regex, $s->publish_down))
+		{
 			$s->publish_down = '2037-01-01';
 		}
+
 		$ed = new JDate($s->publish_down);
 		$ex = $ed->toUnix();
-		if($ex > $expires) $expires = $ex;
+
+		if ($ex > $expires)
+		{
+			$expires = $ex;
+		}
 	}
 
 	$ed = new JDate($expires);

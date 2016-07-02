@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form>
+
+    <fieldset name="items">
+        <field
+            name="title"
+            type="Text"
+            label="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_TITLE"
+            />
+
+        <field
+            name="enabled"
+            type="Published"
+            label="JPUBLISHED"
+        />
+
+        <field
+            name="levels"
+            type="Model"
+            label="COM_AKEEBASUBS_COUPON_FIELD_SUBSCRIPTIONS"
+            model="Levels"
+            key_field="akeebasubs_level_id"
+            value_field="title"
+            translate="false"
+            apply_access="false"
+            multiple="true"
+            size="5"
+        />
+
+        <field
+            name="globalformat"
+            type="BooleanToggle"
+            label="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_GLOBALFORMAT"
+            description="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_GLOBALFORMAT_HELP"
+        />
+
+        <field
+            name="localformat"
+            name_from="format"
+            type="Text"
+            label="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_FORMAT"
+            description="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_FORMAT_HELP"
+        />
+
+        <field
+            name="globalnumbering"
+            type="BooleanToggle"
+            label="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_GLOBALNUMBERING"
+            description="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_GLOBALNUMBERING_HELP"
+        />
+
+        <field
+            name="numberreset"
+            type="Text"
+            label="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_NUMBER_RESET"
+            description="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_NUMBER_RESET_HELP"
+        />
+
+        <field
+            name="isbusiness"
+            type="GenericList"
+            label="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_ISBUSINESS"
+            description="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_ISBUSINESS_HELP"
+        >
+            <option value="-1">COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_ISBUSINESS_INDIFFERENT</option>
+            <option value="0">COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_ISBUSINESS_PERSONAL</option>
+            <option value="1">COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_ISBUSINESS_BUSINESS</option>
+        </field>
+
+        <field
+            name="country"
+            type="GenericList"
+            source_class="\Akeeba\Subscriptions\Admin\Helper\Select"
+            source_method="getCountries"
+            label="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_COUNTRY"
+            description="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_COUNTRY_HELP"
+        />
+
+        <field
+            name="noinvoice"
+            type="GenericList"
+            label="COM_AKEEBASUBS_INVOICETEMPLATES_NOINVOICE"
+        >
+            <option value="0">COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_NOINVOICE_ALLOW</option>
+            <option value="1">COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_NOINVOICE_PREVENT</option>
+        </field>
+
+        <field
+            name="template"
+            type="Editor"
+            label="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_TEMPLATE"
+            required="true"
+            filter="JComponentHelper::filterText"
+            buttons="true"
+        />
+
+    </fieldset>
+</form>

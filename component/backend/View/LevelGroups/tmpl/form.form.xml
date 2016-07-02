@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form>
+	<fieldset name="basic">
+		<field
+            name="title" type="Text"
+            label="COM_AKEEBASUBS_LEVELGROUPS_FIELD_TITLE"
+        />
+		
+		<field
+            name="enabled" type="Published"
+            label="JPUBLISHED"
+        />
+	</fieldset>
+</form>

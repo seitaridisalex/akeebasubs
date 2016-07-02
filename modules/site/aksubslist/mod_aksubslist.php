@@ -1,9 +1,9 @@
 <?php
 /**
- *  @package	akeebasubs
- *  @copyright	Copyright (c)2010-2015 Nicholas K. Dionysopoulos / AkeebaBackup.com
- *  @license	GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
- *  @version 	$Id$
+ * @package      akeebasubs
+ * @copyright    Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
+ * @version      $Id$
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,55 +20,41 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('');
+defined('_JEXEC') or die;
 
-// PHP version check
-if(defined('PHP_VERSION')) {
-	$version = PHP_VERSION;
-} elseif(function_exists('phpversion')) {
-	$version = phpversion();
-} else {
-	// No version info. I'll lie and hope for the best.
-	$version = '5.0.0';
-}
-// Old PHP version detected. EJECT! EJECT! EJECT!
-if(!version_compare($version, '5.3.0', '>=')) return;
-
-include_once JPATH_ADMINISTRATOR.'/components/com_akeebasubs/version.php';
-include_once JPATH_LIBRARIES.'/f0f/include.php';
-if(!defined('F0F_INCLUDED') || !class_exists('F0FForm', true))
+if (!defined('FOF30_INCLUDED') && !@include_once(JPATH_LIBRARIES . '/fof30/include.php'))
 {
-	return;
+	throw new RuntimeException('FOF 3.0 is not installed', 500);
 }
-require_once JPATH_ADMINISTRATOR.'/components/com_akeebasubs/helpers/format.php';
-require_once JPATH_ADMINISTRATOR.'/components/com_akeebasubs/helpers/cparams.php';
 
+// Load the language files
 $lang = JFactory::getLanguage();
-$lang->load('mod_aksubslist',JPATH_SITE,'en-GB',true);
-$lang->load('mod_aksubslist',JPATH_SITE,null,true);
-$lang->load('com_akeebasubs',JPATH_SITE,'en-GB',true);
-$lang->load('com_akeebasubs',JPATH_SITE,null,true);
+$lang->load('mod_aktaxcountry', JPATH_SITE, 'en-GB', true);
+$lang->load('mod_aktaxcountry', JPATH_SITE, null, true);
+$lang->load('com_akeebasubs', JPATH_SITE, 'en-GB', true);
+$lang->load('com_akeebasubs', JPATH_SITE, null, true);
 
 ?>
-<div id="mod-aksubslist-<?php echo $module->id?>" class="mod-aksubslist">
-<?php if(JFactory::getUser()->guest): ?>
-	<span class="akeebasubs-subscriptions-itemized-nosubs">
-		<?php echo JText::_('COM_AKEEBASUBS_LEVELS_ITEMIZED_NOSUBS')?>
+<div id="mod-aksubslist-<?php echo $module->id ?>" class="mod-aksubslist">
+	<?php if (JFactory::getUser()->guest): ?>
+		<span class="akeebasubs-subscriptions-itemized-nosubs">
+		<?php echo JText::_('COM_AKEEBASUBS_LEVELS_ITEMIZED_NOSUBS') ?>
 	</span>
-<?php else: ?>
-<?php F0FDispatcher::getTmpInstance('com_akeebasubs', 'subscriptions', array(
-	'input'		=> array(
-		'savestate'	=> 0,
-		'option'	=> 'com_akeebasubs',
-		'view'		=> 'subscriptions',
-		'layout'	=> 'itemized',
-		'limit'		=> 0,
-		'limitstart'=> 0,
-		'paystate'	=> 'C',
-		'user_id'	=> JFactory::getUser()->id,
-		'task'		=> 'browse'
-	)
-))->dispatch();
-?>
-<?php endif; ?>
+	<?php else:
+		FOF30\Container\Container::getInstance('com_akeebasubs', [
+			'tempInstance' => true,
+			'input' => [
+				'savestate'  => 0,
+				'option'     => 'com_akeebasubs',
+				'view'       => 'Subscriptions',
+				'layout'     => 'itemized',
+				'limit'      => 0,
+				'limitstart' => 0,
+				'paystate'   => 'C',
+				'user_id'    => JFactory::getUser()->id,
+				'task'       => 'browse'
+			]
+		])->dispatcher->dispatch();
+
+	endif; ?>
 </div>

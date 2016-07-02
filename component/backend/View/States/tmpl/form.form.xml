@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form>
+	<fieldset name="basic">
+
+        <field
+            name="country"
+            type="GenericList"
+            label="COM_AKEEBASUBS_STATES_FIELD_COUNTRY"
+            description="COM_AKEEBASUBS_STATES_FIELD_COUNTRY_HELP"
+            source_class="Akeeba\Subscriptions\Admin\Helper\Select"
+            source_method="getCountries"
+		/>
+		
+		<field
+            name="label"
+            type="Text"
+            label="COM_AKEEBASUBS_STATES_FIELD_LABEL"
+            description="COM_AKEEBASUBS_STATES_FIELD_LABEL_HELP"
+		/>
+		
+		<field
+            name="state"
+            type="Text"
+            label="COM_AKEEBASUBS_STATES_FIELD_STATE"
+            description="COM_AKEEBASUBS_STATES_FIELD_STATE_HELP"
+		/>
+
+		<field
+            name="enabled"
+            type="Published"
+            label="JPUBLISHED"
+        />
+	</fieldset>
+</form>

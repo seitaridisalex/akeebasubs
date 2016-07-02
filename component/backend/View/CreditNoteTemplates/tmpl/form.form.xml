@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form>
+
+    <fieldset name="items">
+        <field
+            name="akeebasubs_invoicetemplate_id"
+            type="Model"
+            label="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_TITLE"
+            model="InvoiceTemplates"
+            key_field="akeebasubs_invoicetemplate_id"
+            value_field="title"
+            translate="false"
+            apply_access="false"
+            />
+
+        <field
+            name="enabled"
+            type="Published"
+            label="JPUBLISHED"
+        />
+
+        <field
+            name="globalformat"
+            type="BooleanToggle"
+            label="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_GLOBALFORMAT"
+            description="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_GLOBALFORMAT_HELP"
+        />
+
+        <field
+            name="localformat"
+            name_from="format"
+            type="Text"
+            label="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_FORMAT"
+            description="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_FORMAT_HELP"
+        />
+
+        <field
+            name="globalnumbering"
+            type="BooleanToggle"
+            label="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_GLOBALNUMBERING"
+            description="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_GLOBALNUMBERING_HELP"
+        />
+
+        <field
+            name="numberreset"
+            type="Text"
+            label="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_NUMBER_RESET"
+            description="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_NUMBER_RESET_HELP"
+        />
+
+        <field
+            name="template"
+            type="Editor"
+            label="COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_TEMPLATE"
+            required="true"
+            filter="JComponentHelper::filterText"
+            buttons="true"
+        />
+
+    </fieldset>
+</form>

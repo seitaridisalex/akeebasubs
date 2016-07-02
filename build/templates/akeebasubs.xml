@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="component" method="upgrade">
+<extension version="3.3.0" type="component" method="upgrade">
     <name>AkeebaSubs</name>
     <creationDate>##DATE##</creationDate>
     <author>Nicholas K. Dionysopoulos</author>
     <authorEmail>nicholas@akeebabackup.com</authorEmail>
     <authorUrl>http://www.akeebabackup.com</authorUrl>
-    <copyright>Copyright (c)2010-2011 Nicholas K. Dionysopoulos</copyright>
+    <copyright>Copyright (c)2010-2016 Nicholas K. Dionysopoulos</copyright>
     <license>GNU GPL v3 or later</license>
     <version>##VERSION##</version>
     <description>Akeeba Subscriptions v.##VERSION##</description>
@@ -13,14 +13,15 @@
     <!-- Public front end files -->
     <files folder="frontend">
         <filename>akeebasubs.php</filename>
-        <filename>dispatcher.php</filename>
         <filename>router.php</filename>
-        <filename>toolbar.php</filename>
 
-        <folder>controllers</folder>
+        <folder>Controller</folder>
+        <folder>Dispatcher</folder>
         <folder>elements</folder>
-        <folder>helpers</folder>
-        <folder>models</folder>
+        <folder>Model</folder>
+        <folder>Toolbar</folder>
+        <!-- Not a typo. We need BOTH views and View folders, for different reasons. -->
+        <folder>View</folder>
         <folder>views</folder>
     </files>
 
@@ -47,21 +48,21 @@
             <filename>access.xml</filename>
             <filename>akeebasubs.php</filename>
             <filename>config.xml</filename>
-            <filename>dispatcher.php</filename>
             <filename>fof.xml</filename>
-            <filename>toolbar.php</filename>
             <filename>version.php</filename>
 
             <folder>assets</folder>
-            <folder>controllers</folder>
-            <folder>fields</folder>
-            <folder>fof</folder>
-            <folder>helpers</folder>
+            <folder>Controller</folder>
+            <folder>creditnotes</folder>
+            <folder>Dispatcher</folder>
+            <folder>Form</folder>
+            <folder>Helper</folder>
             <folder>invoices</folder>
-            <folder>models</folder>
+            <folder>Model</folder>
+            <folder>PluginAbstracts</folder>
             <folder>sql</folder>
-            <folder>tables</folder>
-            <folder>views</folder>
+            <folder>Toolbar</folder>
+            <folder>View</folder>
         </files>
 
         <!-- Back-end translation files -->
@@ -69,99 +70,8 @@
             <language tag="en-GB">en-GB/en-GB.com_akeebasubs.ini</language>
             <language tag="en-GB">en-GB/en-GB.com_akeebasubs.sys.ini</language>
         </languages>
-
     </administration>
 
-    <scriptfile>script.akeebasubs.php</scriptfile>
-
-    <!-- Update servers -->
-    <updateservers>
-        <server type="extension" priority="1" name="Akeeba Subscriptions">http://cdn.akeebabackup.com/updates/akeebasubs.xml</server>
-    </updateservers>
-
-    <!-- Akeeba Backup System Restore Points -->
-		<restorepoint>
-			<customdirs>
-				<dir>administrator/modules/mod_akeebasubs</dir>
-
-				<dir>modules/mod_aksexpires</dir>
-				<dir>modules/mod_akslevels</dir>
-				<dir>modules/mod_akssubslist</dir>
-
-				<dir>plugins/akeebasubs/adminemails</dir>
-				<dir>plugins/akeebasubs/agreetotos</dir>
-				<dir>plugins/akeebasubs/atscredits</dir>
-				<dir>plugins/akeebasubs/autocity</dir>
-				<dir>plugins/akeebasubs/canalyticscommerce</dir>
-				<dir>plugins/akeebasubs/contentpublish</dir>
-				<dir>plugins/akeebasubs/customfields</dir>
-				<dir>plugins/akeebasubs/invoices</dir>
-				<dir>plugins/akeebasubs/iproperty</dir>
-				<dir>plugins/akeebasubs/joomla</dir>
-				<dir>plugins/akeebasubs/joomlaprofilesync</dir>
-				<dir>plugins/akeebasubs/recaptcha</dir>
-				<dir>plugins/akeebasubs/slavesubs</dir>
-				<dir>plugins/akeebasubs/sql</dir>
-				<dir>plugins/akeebasubs/subscriptionemails</dir>
-				<dir>plugins/akeebasubs/subscriptionemailsdebug</dir>
-				<dir>plugins/akpayment/2checkout</dir>
-				<dir>plugins/akpayment/2conew</dir>
-				<dir>plugins/akpayment/none</dir>
-				<dir>plugins/akpayment/offline</dir>
-				<dir>plugins/akpayment/paymill</dir>
-				<dir>plugins/akpayment/paypal</dir>
-				<dir>plugins/akpayment/paypalpaymentspro</dir>
-				<dir>plugins/akpayment/paypalproexpress</dir>
-				<dir>plugins/akpayment/skrill</dir>
-				<dir>plugins/akpayment/stripe</dir>
-				<dir>plugins/akpayment/viva</dir>
-				<dir>plugins/content/aslink</dir>
-				<dir>plugins/content/asrestricted</dir>
-				<dir>plugins/content/astimedrelease</dir>
-				<dir>plugins/system/asexpirationcontrol</dir>
-				<dir>plugins/system/asexpirationnotify</dir>
-				<dir>plugins/system/asuserregredir</dir>
-			</customdirs>
-			<langfiles>
-				<lang>mod_akeebasubs</lang>
-				<lang>mod_aksexpires</lang>
-				<lang>mod_akslevels</lang>
-				<lang>mod_aksubslist</lang>
-				<lang>plg_akeebasubs_adminemails</lang>
-				<lang>plg_akeebasubs_agreetotos</lang>
-				<lang>plg_akeebasubs_atscredits</lang>
-				<lang>plg_akeebasubs_autocity</lang>
-				<lang>plg_akeebasubs_canalyticscommerce</lang>
-				<lang>plg_akeebasubs_contentpublish</lang>
-				<lang>plg_akeebasubs_customfields</lang>
-				<lang>plg_akeebasubs_invoices</lang>
-				<lang>plg_akeebasubs_iproperty</lang>
-				<lang>plg_akeebasubs_joomla</lang>
-				<lang>plg_akeebasubs_joomlaprofilesync</lang>
-				<lang>plg_akeebasubs_recaptcha</lang>
-				<lang>plg_akeebasubs_slavesubs</lang>
-				<lang>plg_akeebasubs_sql</lang>
-				<lang>plg_akeebasubs_subscriptionemails</lang>
-				<lang>plg_akpayment_2checkout</lang>
-				<lang>plg_akpayment_2conew</lang>
-				<lang>plg_akpayment_none</lang>
-				<lang>plg_akpayment_offline</lang>
-				<lang>plg_akpayment_paymill</lang>
-				<lang>plg_akpayment_paypal</lang>
-				<lang>plg_akpayment_paypalpaymentspro</lang>
-				<lang>plg_akpayment_paypalproexpress</lang>
-				<lang>plg_akpayment_skrill</lang>
-				<lang>plg_akpayment_viva</lang>
-				<lang>plg_content_aslink</lang>
-				<lang>plg_content_asrestricted</lang>
-				<lang>plg_content_astimedrelease</lang>
-				<lang>plg_system_asexpirationcontrol</lang>
-				<lang>plg_system_asexpirationnotify</lang>
-				<lang>plg_system_oneclickaction</lang>
-			</langfiles>
-			<skiptables>
-				<table>akeebasubs_subscriptions</table>
-			</skiptables>
-		</restorepoint>
-
+    <!-- Installation script -->
+    <scriptfile>script.com_akeebasubs.php</scriptfile>
 </extension>

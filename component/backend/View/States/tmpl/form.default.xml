@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form
+	type="browse"
+	show_header="1"
+	show_filters="1"
+	show_pagination="1"
+	norows_placeholder="COM_AKEEBASUBS_COMMON_NORECORDS"
+>
+	<headerset>
+		<header name="akeebasubs_state_id" type="RowSelect" tdwidth="20px" />
+		
+		<header name="akeebasubs_state_id" type="Field" tdwidth="20px" label="#" id="num" />
+		
+		<header name="country" type="Selectable"
+			source_class="Akeeba\Subscriptions\Admin\Helper\Select"
+            source_method="getCountriesForHeader"
+			sortable="true" tdwidth="15%"
+		/>
+		
+		<header name="label" type="Searchable" class="state-lb"
+			sortable="true"
+		/>
+
+		<header name="enabled" type="Published" sortable="true" tdwidth="8%" />
+	</headerset>
+
+	<fieldset name="items">
+		<field name="akeebasubs_state_id" type="SelectRow" />
+		
+		<field name="akeebasubs_state_id" type="Text" id="num" />
+		
+		<field name="country" type="GenericList"
+            source_class="Akeeba\Subscriptions\Admin\Helper\Select"
+            source_method="getCountries"
+            sortable="true" tdwidth="15%"
+            show_link="true"
+            url="index.php?option=com_akeebasubs&amp;view=State&amp;id=[ITEM:ID]"
+		/>
+		
+		<field name="label" type="text"
+			class="state-lb"
+			show_link="true"
+			url="index.php?option=com_akeebasubs&amp;view=State&amp;id=[ITEM:ID]"
+		/>
+		
+		<field name="enabled" type="Published"/>
+	</fieldset>
+</form>

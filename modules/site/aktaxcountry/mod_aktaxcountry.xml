@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="2.5.0" method="upgrade" client="site">
-	<name>Akeeba Subscriptions - Country selection for tax display</name>
+<extension type="module" version="3.3.0" method="upgrade" client="site">
+	<name>MOD_AKTAXCOUNTRY</name>
 	<author>Nicholas K. Dionysopoulos</author>
-	<creationDate>January 2015</creationDate>
-	<copyright>Copyright (C) 2011-2015 Nicholas K. Dionysopoulos / AkeebaBackup.com</copyright>
+	<copyright>Copyright (C) 2011-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com</copyright>
 	<license>GNU GPLv3 - http://www.gnu.org/licenses/gpl.html</license>
 	<authorEmail>nicholas@akeebabackup.com</authorEmail>
 	<authorUrl>www.akeebabackup.com</authorUrl>
-	<version>1.0</version>
+    <creationDate>April 2015</creationDate>
+    <version>5.0</version>
 	<description>MOD_AKTAXCOUNTRY_DESC</description>
 	<files>
 		<file module="mod_aktaxcountry">mod_aktaxcountry.php</file>

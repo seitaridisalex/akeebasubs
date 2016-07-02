@@ -1,25 +1,19 @@
 <?php
 /**
  * @package        akeebasubs
- * @copyright      Copyright (c)2010-2015 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @copyright      Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
 
 defined('_JEXEC') or die();
 
-$akpaymentinclude = include_once JPATH_ADMINISTRATOR . '/components/com_akeebasubs/assets/akpayment.php';
-if ( !$akpaymentinclude)
-{
-	unset($akpaymentinclude);
+use Akeeba\Subscriptions\Admin\Model\Levels;
+use Akeeba\Subscriptions\Admin\Model\Subscriptions;
+use Akeeba\Subscriptions\Admin\PluginAbstracts\AkpaymentBase;
+use Akeeba\Subscriptions\Admin\Helper\Email;
+use Akeeba\Subscriptions\Admin\Helper\Message;
 
-	return;
-}
-else
-{
-	unset($akpaymentinclude);
-}
-
-class plgAkpaymentOffline extends plgAkpaymentAbstract
+class plgAkpaymentOffline extends AkpaymentBase
 {
 	public function __construct(&$subject, $config = array())
 	{
@@ -36,33 +30,32 @@ class plgAkpaymentOffline extends plgAkpaymentAbstract
 	 * Returns the payment form to be submitted by the user's browser. The form must have an ID of
 	 * "paymentForm" and a visible submit button.
 	 *
-	 * @param string                      $paymentmethod
-	 * @param JUser                       $user
-	 * @param AkeebasubsTableLevel        $level
-	 * @param AkeebasubsTableSubscription $subscription
+	 * @param   string        $paymentmethod The currently used payment method. Check it against $this->ppName.
+	 * @param   JUser         $user          User buying the subscription
+	 * @param   Levels        $level         Subscription level
+	 * @param   Subscriptions $subscription  The new subscription's object
 	 *
-	 * @return string
+	 * @return  string  The payment form to render on the page. Use the special id 'paymentForm' to have it
+	 *                  automatically submitted after 5 seconds.
 	 */
-	public function onAKPaymentNew($paymentmethod, $user, $level, $subscription)
+	public function onAKPaymentNew($paymentmethod, JUser $user, Levels $level, Subscriptions $subscription)
 	{
 		if ($paymentmethod != $this->ppName)
 		{
 			return false;
 		}
 
-		// Set the payment status to Pending
-		$oSub    = F0FModel::getTmpInstance('Subscriptions', 'AkeebasubsModel')
-						   ->setId($subscription->akeebasubs_subscription_id)
-						   ->getItem();
 		$updates = array(
 			'state'         => 'P',
 			'enabled'       => 0,
 			'processor_key' => md5(time()),
 		);
-		$oSub->save($updates);
+
+		$subscription->save($updates);
 
 		// Activate the user account, if the option is selected
 		$activate = $this->params->get('activate', 0);
+
 		if ($activate && $user->block)
 		{
 			$updates = array(
@@ -70,12 +63,13 @@ class plgAkpaymentOffline extends plgAkpaymentAbstract
 				'activation' => ''
 			);
 			$user->bind($updates);
-			$user->save($updates);
+			$user->save(true);
 		}
 
 		// Render the HTML form
 		$nameParts = explode(' ', $user->name, 2);
 		$firstName = $nameParts[0];
+
 		if (count($nameParts) > 1)
 		{
 			$lastName = $nameParts[1];
@@ -86,9 +80,10 @@ class plgAkpaymentOffline extends plgAkpaymentAbstract
 		}
 
 		$html = $this->params->get('instructions', '');
+
 		if (empty($html))
 		{
-			$html = <<<ENDTEMPLATE
+			$html = <<<HTML
 <p>Dear Sir/Madam,<br/>
 In order to complete your payment, please deposit {AMOUNT}€ to our bank account:</p>
 <p>
@@ -98,7 +93,7 @@ In order to complete your payment, please deposit {AMOUNT}€ to our bank accoun
 <p>Please reference subscription code {SUBSCRIPTION} in your payment. Make sure that any bank charges are paid by you in full and not deducted from the transferred amount. If you're using e-Banking to transfer the funds, please select the "OUR" bank expenses option.</p>
 <p>Thank you in advance,<br/>
 The management</p>
-ENDTEMPLATE;
+HTML;
 		}
 		$html = str_replace('{AMOUNT}', sprintf('%01.02f', $subscription->gross_amount), $html);
 		$html = str_replace('{SUBSCRIPTION}', sprintf('%06u', $subscription->akeebasubs_subscription_id), $html);
@@ -107,30 +102,23 @@ ENDTEMPLATE;
 		$html = str_replace('{LEVEL}', $level->title, $html);
 
 		// Get a preloaded mailer
-		if ( !class_exists('AkeebasubsHelperEmail'))
-		{
-			require_once JPATH_SITE . '/components/com_akeebasubs/helpers/email.php';
-		}
 
-		$mailer = AkeebasubsHelperEmail::getPreloadedMailer($subscription, 'plg_akeebasubs_subscriptionemails_offline');
+		$mailer = Email::getPreloadedMailer($subscription, 'plg_akeebasubs_subscriptionemails_offline');
 
 		// Replace custom [INSTRUCTIONS] tag
 		$body = str_replace('[INSTRUCTIONS]', $html, $mailer->Body);
 
 		if ($mailer !== false)
 		{
-			/** @var JMail $mailer */
 			$mailer->setBody($body);
 			$mailer->addRecipient($user->email);
-			$result = $mailer->Send();
+			$mailer->Send();
 			$mailer = null;
 		}
 
-		@include_once JPATH_SITE . '/components/com_akeebasubs/helpers/message.php';
-
 		if (class_exists('AkeebasubsHelperMessage'))
 		{
-			$html = AkeebasubsHelperMessage::processLanguage($html);
+			$html = Message::processLanguage($html);
 		}
 
 		$html = '<div>' . $html . '</div>';
@@ -138,6 +126,14 @@ ENDTEMPLATE;
 		return $html;
 	}
 
+	/**
+	 * Processes a callback from the payment processor
+	 *
+	 * @param   string $paymentmethod The currently used payment method. Check it against $this->ppName
+	 * @param   array  $data          Input (request) data
+	 *
+	 * @return  boolean  True if the callback was handled, false otherwise
+	 */
 	public function onAKPaymentCallback($paymentmethod, $data)
 	{
 		return false;

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form
+        type="browse"
+        show_header="1"
+        show_filters="1"
+        show_pagination="1"
+        norows_placeholder="COM_AKEEBASUBS_COMMON_NORECORDS"
+        >
+    <headerset>
+        <header name="ordering" type="Ordering" sortable="true" tdwidth="20px" />
+
+        <header name="akeebasubs_upgrade_id" type="RowSelect" tdwidth="20px" />
+
+        <header name="akeebasubs_upgrade_id" type="Field" tdwidth="20px" label="#" id="num" />
+
+        <header name="title" type="Searchable" sortable="true" />
+
+        <header
+            name="from_id"
+            type="Model"
+            sortable="true"
+            translate="false"
+            apply_access="false"
+            key_field="akeebasubs_level_id"
+            value_field="title"
+            model="Levels"
+        />
+
+        <header
+            name="to_id"
+            type="Model"
+            sortable="true"
+            translate="false"
+            apply_access="false"
+            key_field="akeebasubs_level_id"
+            value_field="title"
+            model="Levels"
+        />
+
+        <header name="min_presence" type="Field" sortable="true" />
+
+        <header name="max_presence" type="Field" sortable="true" />
+
+        <header name="value" type="Field" sortable="true" />
+
+        <header name="combine" type="Selectable" sortable="true" tdwidth="8%" prefix="combine">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </header>
+
+        <header name="expired" type="Selectable" sortable="true" tdwidth="8%" prefix="expired">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </header>
+
+        <header name="enabled" type="Published" sortable="true" tdwidth="8%" />
+    </headerset>
+
+    <fieldset name="items">
+        <field name="ordering" type="Ordering" labelclass="order"/>
+
+        <field name="akeebasubs_upgrade_id" type="SelectRow" />
+
+        <field name="akeebasubs_upgrade_id" type="Text" id="num" />
+
+        <field name="title" type="Text"
+               show_link="true"
+               url="index.php?option=com_akeebasubs&amp;view=Upgrade&amp;id=[ITEM:ID]"
+               empty_replacement="–––"
+                />
+
+        <field name="from_id" type="Model"
+               key_field="akeebasubs_level_id"
+               value_field="title"
+               model="Levels"
+        />
+
+        <field name="to_id" type="Model"
+               key_field="akeebasubs_level_id"
+               value_field="title"
+               model="Levels"
+                />
+
+        <field name="min_presence" type="Text" />
+
+        <field name="max_presence" type="Text" />
+
+        <field name="value" type="Discount" />
+
+        <field name="combine" type="Published"/>
+
+        <field name="expired" type="Published"/>
+
+        <field name="enabled" type="Published"/>
+    </fieldset>
+</form>

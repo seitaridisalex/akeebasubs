@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form
+        type="browse"
+        show_header="1"
+        show_filters="1"
+        show_pagination="1"
+        norows_placeholder="COM_AKEEBASUBS_COMMON_NORECORDS"
+        >
+    <headerset>
+        <header name="akeebasubs_subscription_id" type="RowSelect" tdwidth="20px" />
+
+        <header name="akeebasubs_subscription_id" type="Searchable"
+                tdwidth="60px" label="#" id="num"
+                buttons="false" filterclass="input-small"
+                />
+
+        <header name="akeebasubs_level_id" type="Model" sortable="true"
+                label="COM_AKEEBASUBS_SUBSCRIPTIONS_LEVEL"
+                model="Levels"
+                key_field="akeebasubs_level_id"
+                value_field="title"
+                translate="false"
+                apply_access="false"
+                tdwidth="15%"
+                />
+
+        <header name="search" type="Searchable"
+                label="COM_AKEEBASUBS_SUBSCRIPTIONS_USER"
+                buttons="false"
+                onlyFilter="1" />
+
+        <header name="user_id" type="User" sortable="true" tdwidth="10%"
+                label="COM_AKEEBASUBS_SUBSCRIPTIONS_USER"
+                filterclass="input-small"
+                />
+
+        <header name="state" type="Selectable" sortable="true" tdwidth="30px"
+                searchfieldname="paystate"
+                label="COM_AKEEBASUBS_SUBSCRIPTIONS_STATE">
+            <option value="N">COM_AKEEBASUBS_SUBSCRIPTION_STATE_N</option>
+            <option value="P">COM_AKEEBASUBS_SUBSCRIPTION_STATE_P</option>
+            <option value="C">COM_AKEEBASUBS_SUBSCRIPTION_STATE_C</option>
+            <option value="X">COM_AKEEBASUBS_SUBSCRIPTION_STATE_X</option>
+        </header>
+
+        <header
+                name="processor"
+                type="Selectable"
+                source_class="Akeeba\Subscriptions\Admin\Helper\Select"
+                source_method="getAllPaymentMethods"
+                onlyFilter="1"
+                />
+
+        <header
+                name="paykey"
+                type="Searchable"
+                label="COM_AKEEBASUBS_SUBSCRIPTION_PROCESSOR_KEY"
+                buttons="false"
+                onlyFilter="1"
+                />
+
+        <header name="filter_discountmode"
+                type="Selectable"
+                label="COM_AKEEBASUBS_SUBSCRIPTIONS_DISCOUNT"
+                onlyFilter="1">
+            <option value="none">COM_AKEEBASUBS_SUBSCRIPTIONS_DISCOUNT_NONE</option>
+            <option value="coupon">COM_AKEEBASUBS_SUBSCRIPTIONS_DISCOUNT_COUPON</option>
+            <option value="upgrade">COM_AKEEBASUBS_SUBSCRIPTIONS_DISCOUNT_UPGRADE</option>
+        </header>
+
+        <header
+                name="filter_discountcode"
+                type="Searchable"
+                label="COM_AKEEBASUBS_SUBSCRIPTION_DISCOUNTCODE"
+                buttons="false"
+                onlyFilter="1"
+                />
+
+        <header name="discount" type="Field" sortable="false"
+                label="COM_AKEEBASUBS_SUBSCRIPTIONS_DISCOUNT"
+                tdwidth="60px"
+                />
+
+        <header name="gross_amount" type="Field" sortable="true" tdwidth="8%"
+                label="COM_AKEEBASUBS_SUBSCRIPTIONS_AMOUNT"
+                />
+
+        <header name="publish_up" type="Date" sortable="true" tdwidth="14%"
+                label="COM_AKEEBASUBS_SUBSCRIPTIONS_PUBLISH_UP"
+                placeholder="COM_AKEEBASUBS_SUBSCRIPTIONS_PUBLISH_UP"
+                />
+
+        <header name="publish_down" type="Date"
+                label="COM_AKEEBASUBS_SUBSCRIPTIONS_PUBLISH_DOWN"
+                placeholder="COM_AKEEBASUBS_SUBSCRIPTIONS_PUBLISH_DOWN"
+                onlyFilter="true"
+                />
+
+        <header name="created_on" type="Date" sortable="true" tdwidth="10%"
+                label="COM_AKEEBASUBS_SUBSCRIPTION_CREATED_ON"
+                placeholder="COM_AKEEBASUBS_SUBSCRIPTION_CREATED_ON"
+                />
+
+        <header name="enabled" type="Published" sortable="true" tdwidth="30px"
+                label="JPUBLISHED"
+                />
+    </headerset>
+
+    <fieldset name="items">
+        <field name="akeebasubs_subscription_id" type="SelectRow"/>
+
+        <field name="id" name_from="akeebasubs_subscription_id" type="Text"
+               show_link="true"
+               format="%05u"
+               url="index.php?option=com_akeebasubs&amp;view=Subscription&amp;id=[ITEM:ID]"
+        />
+
+        <field name="akeebasubs_level_id" type="SubscriptionLevel"
+            model="Levels"
+            show_link="true"
+            url="index.php?option=com_akeebasubs&amp;view=Level&amp;id=[ITEM:AKEEBASUBS_LEVEL_ID]"
+        />
+
+        <field name="user_id" type="User"
+               show_link="true"
+			   link_url="index.php?option=com_akeebasubs&amp;view=User&amp;task=edit&amp;user_id=[ITEM:USER_ID]"
+                />
+
+        <field name="state" type="PaymentStatus" />
+
+        <field name="discount" type="SubscriptionDiscount" />
+
+        <field name="gross_amount" type="PriceBreakdown" />
+
+        <field name="publish_up" type="PublishRangeDates" />
+
+        <field name="created_on" type="Text"
+               format_source_class="Akeeba\Subscriptions\Admin\Helper\Format"
+               format_source_method="date"
+        />
+
+        <field name="enabled" type="Published"/>
+    </fieldset>
+</form>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form>
+	<fieldset
+        name="basic"
+        label="COM_AKEEBASUBS_USER_BASIC_TITLE"
+        class="span6"
+    >
+
+		<field
+            name="user_id"
+            type="User"
+			label="COM_AKEEBASUBS_SUBSCRIPTION_USER"
+		/>
+
+        <field
+            name="address1"
+            type="Text"
+            label="COM_AKEEBASUBS_USERS_FIELD_ADDRESS1"
+        />
+
+        <field
+            name="address2"
+            type="Text"
+            label="COM_AKEEBASUBS_USERS_FIELD_ADDRESS2"
+        />
+
+        <field
+            name="city"
+            type="Text"
+            label="COM_AKEEBASUBS_USERS_FIELD_CITY"
+        />
+
+        <field
+            name="zip"
+            type="Text"
+            label="COM_AKEEBASUBS_USERS_FIELD_ZIP"
+        />
+
+        <field
+            name="state"
+            type="GenericList"
+            source_class="\Akeeba\Subscriptions\Admin\Helper\Select"
+            source_method="getStates"
+            label="COM_AKEEBASUBS_USERS_FIELD_STATE"
+        />
+
+        <field
+            name="country"
+            type="GenericList"
+            source_class="\Akeeba\Subscriptions\Admin\Helper\Select"
+            source_method="getCountries"
+            label="COM_AKEEBASUBS_USERS_FIELD_COUNTRY"
+        />
+	</fieldset>
+
+    <fieldset
+        name="business"
+        label="COM_AKEEBASUBS_USER_BASIC_BUSINESS"
+        class="span6"
+    >
+
+        <field
+            name="isbusiness"
+            id="is_business"
+            type="BooleanToggle"
+            label="COM_AKEEBASUBS_USERS_FIELD_ISBUSINESS"
+        />
+
+        <field
+            name="businessname"
+            type="Text"
+            label="COM_AKEEBASUBS_USERS_FIELD_BUSINESSNAME"
+        />
+
+        <field
+            name="occupation"
+            type="Text"
+            label="COM_AKEEBASUBS_USERS_FIELD_OCCUPATION"
+        />
+
+        <field
+            name="vatnumber"
+            type="Text"
+            label="COM_AKEEBASUBS_USERS_FIELD_VATNUMBER"
+        />
+
+        <field
+            name="viesregistered"
+            type="GenericList"
+            label="COM_AKEEBASUBS_USERS_FIELD_VIESREGISTERED"
+            class="btn-group"
+        >
+            <option value="0">COM_AKEEBASUBS_SUBSCRIPTIONS_USER_VIESREGISTERED_NO</option>
+            <option value="1">COM_AKEEBASUBS_SUBSCRIPTIONS_USER_VIESREGISTERED_YES</option>
+            <option value="2">COM_AKEEBASUBS_SUBSCRIPTIONS_USER_VIESREGISTERED_FORCEYES</option>
+        </field>
+
+        <field
+            name="notes"
+            type="TextArea"
+            label="COM_AKEEBASUBS_USER_NOTES_TITLE"
+            rows="10"
+            cols="40"
+        />
+
+    </fieldset>
+</form>

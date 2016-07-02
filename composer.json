@@ -1,0 +1,20 @@
+{
+  "name": "akeeba/subscriptions",
+  "description": "Akeeba Subscriptions – Subscriptions management for Joomla!",
+  "minimum-stability": "stable",
+  "license": "GPL-3.0+",
+  "authors": [
+    {
+      "name": "Nicholas K. Dionysopoulos",
+      "homepage": "https://www.AkeebaBackup.com",
+      "role": "Lead Developer"
+    },
+    {
+      "name": "Davide Tampellini",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "phpunit/phpunit": "4.6.4"
+  }
+}

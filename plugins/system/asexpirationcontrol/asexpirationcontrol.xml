@@ -1,18 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5.0" type="plugin" group="system" method="upgrade">
-	<name>System - Akeeba Subscriptions Expiration Control</name>
+<extension version="3.3.0" type="plugin" group="system" method="upgrade">
+	<name>PLG_SYSTEM_ASEXPIRATIONCONTROL</name>
 	<author>Nicholas K. Dionysopoulos</author>
 	<authorEmail>nicholas@dionysopoulos.me</authorEmail>
 	<authorUrl>http://www.akeebabackup.com</authorUrl>
-	<copyright>Copyright (c)2011-2013 Nicholas K. Dionysopoulos</copyright>
+	<copyright>Copyright (c)2011-2016 Nicholas K. Dionysopoulos</copyright>
 	<license>GNU General Public License version 3, or later</license>
-	<creationDate>2011-03-04</creationDate>
-	<version>1.0</version>
-	<description>
-		Automatically disables expired subscriptions when a user with such a subscription
-		logs in to your site.
-	</description>
+	<creationDate>April 2015</creationDate>
+	<version>5.0</version>
+	<description>PLG_SYSTEM_ASEXPIRATIONCONTROL_XMLDESC</description>
 	<files>
 		<filename plugin="asexpirationcontrol">asexpirationcontrol.php</filename>
 	</files>
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_system_asexpirationcontrol.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_system_asexpirationcontrol.sys.ini</language>
+    </languages>
+
+	<config addfieldpath="administrator/components/com_akeebasubs/assets/elements">
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="scheduling" type="radio" default="1"
+					   label="PLG_SYSTEM_ASEXPIRATIONCONTROL_SCHEDULING_LABEL"
+					   description="PLG_SYSTEM_ASEXPIRATIONCONTROL_SCHEDULING_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+
 </extension>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form
+        type="browse"
+        show_header="1"
+        show_filters="1"
+        show_pagination="1"
+        norows_placeholder="COM_AKEEBASUBS_COMMON_NORECORDS"
+        >
+    <headerset>
+        <header name="ordering" type="Ordering" sortable="true" tdwidth="20px" />
+
+        <header name="akeebasubs_coupon_id" type="RowSelect" tdwidth="20px" />
+
+        <header name="akeebasubs_coupon_id" type="Field" tdwidth="20px" label="#" id="num" />
+
+        <header name="title" type="Searchable" sortable="true"
+                filterclass="input-small"
+                label="COM_AKEEBASUBS_COUPONS_FTITLE"
+                />
+
+        <header name="coupon" type="Searchable" sortable="true" tdwidth="8%"
+                filterclass="input-small"
+                label="COM_AKEEBASUBS_COUPONS_COUPON"
+                />
+
+        <header name="value" type="Field" sortable="true" tdwidth="8%"
+                label="COM_AKEEBASUBS_COUPONS_VALUE"
+                />
+
+        <header name="limits" type="Field" sortable="false"
+                label="COM_AKEEBASUBS_COUPONS_LIMITS"
+                />
+
+        <header name="publish_up" type="Field" sortable="true"
+                label="COM_AKEEBASUBS_COUPONS_PUBLISH_UP"
+                />
+
+        <header name="publish_down" type="Field" sortable="true"
+                label="COM_AKEEBASUBS_COUPONS_PUBLISH_DOWN"
+                />
+
+        <header name="enabled" type="Published" sortable="true" tdwidth="8%"
+                label="JPUBLISHED"
+                />
+    </headerset>
+
+    <fieldset name="items">
+        <field name="ordering" type="Ordering" labelclass="order"/>
+
+        <field name="akeebasubs_coupon_id" type="SelectRow"/>
+
+        <field name="akeebasubs_coupon_id" type="Text" id="num" />
+
+        <field name="title" type="Text"
+               show_link="true"
+               url="index.php?option=com_akeebasubs&amp;view=Coupon&amp;id=[ITEM:ID]"
+                />
+
+        <field name="coupon" type="Text"
+               format="&lt;b&gt;%s&lt;/b&gt;"
+               show_link="true"
+               url="index.php?option=com_akeebasubs&amp;view=Coupon&amp;id=[ITEM:ID]"
+                />
+
+        <field name="value" type="Discount" />
+
+        <field name="limits" type="CouponLimits" />
+
+        <field name="publish_up" type="Calendar" />
+
+        <field name="publish_down" type="Calendar" />
+
+        <field name="enabled" type="Published"/>
+    </fieldset>
+</form>

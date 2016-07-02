@@ -6,7 +6,7 @@
 				<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_PUBLISHCORE_TITLE'); ?>
 			</label>
 			<div class="controls">
-				<?php echo JHtml::_('select.booleanlist', 'params[contentpublish_publishcore]', array(), $level->params->contentpublish_publishcore) ?>
+				<?php echo JHtml::_('select.booleanlist', 'params[contentpublish_publishcore]', array(), $params['contentpublish_publishcore']) ?>
 				<span class="help-block">
 					<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_PUBLISHCORE_DESCRIPTION') ?>
 				</span>
@@ -17,7 +17,7 @@
 				<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_PUBLISHK2_TITLE'); ?>
 			</label>
 			<div class="controls">
-				<?php echo JHtml::_('select.booleanlist', 'params[contentpublish_publishk2]', array(), $level->params->contentpublish_publishk2) ?>
+				<?php echo JHtml::_('select.booleanlist', 'params[contentpublish_publishk2]', array(), $params['contentpublish_publishk2']) ?>
 				<span class="help-block">
 					<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_PUBLISHK2_DESCRIPTION') ?>
 				</span>
@@ -28,7 +28,7 @@
 				<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_PUBLISHSOBIPRO_TITLE'); ?>
 			</label>
 			<div class="controls">
-				<?php echo JHtml::_('select.booleanlist', 'params[contentpublish_publishsobipro]', array(), $level->params->contentpublish_publishsobipro) ?>
+				<?php echo JHtml::_('select.booleanlist', 'params[contentpublish_publishsobipro]', array(), $params['contentpublish_publishsobipro']) ?>
 				<span class="help-block">
 					<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_PUBLISHSOBIPRO_DESCRIPTION') ?>
 				</span>
@@ -39,7 +39,7 @@
 				<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_PUBLISHZOO_TITLE'); ?>
 			</label>
 			<div class="controls">
-				<?php echo JHtml::_('select.booleanlist', 'params[contentpublish_publishzoo]', array(), $level->params->contentpublish_publishzoo) ?>
+				<?php echo JHtml::_('select.booleanlist', 'params[contentpublish_publishzoo]', array(), $params['contentpublish_publishzoo']) ?>
 				<span class="help-block">
 					<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_PUBLISHZOO_DESCRIPTION') ?>
 				</span>
@@ -50,7 +50,7 @@
 				<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_ADDGROUPS_TITLE'); ?>
 			</label>
 			<div class="controls">
-				<?php echo JHtml::_('select.genericlist', $zooApps, 'params[contentpublish_addgroups][]', array('multiple' => 'multiple', 'size' => 8, 'class' => 'input-large'), 'value', 'text', $level->params->contentpublish_addgroups) ?>
+				<?php echo JHtml::_('select.genericlist', $zooApps, 'params[contentpublish_addgroups][]', array('multiple' => 'multiple', 'size' => 8, 'class' => 'input-large'), 'value', 'text', $params['contentpublish_addgroups']) ?>
 				<span class="help-block">
 					<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_ADDGROUPS_DESCRIPTION') ?>
 				</span>
@@ -64,7 +64,7 @@
 				<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_UNPUBLISHCORE_TITLE'); ?>
 			</label>
 			<div class="controls">
-				<?php echo JHtml::_('select.booleanlist', 'params[contentpublish_unpublishcore]', array(), $level->params->contentpublish_unpublishcore) ?>
+				<?php echo JHtml::_('select.booleanlist', 'params[contentpublish_unpublishcore]', array(), $params['contentpublish_unpublishcore']) ?>
 				<span class="help-block">
 					<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_UNPUBLISHCORE_DESCRIPTION') ?>
 				</span>
@@ -75,7 +75,7 @@
 				<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_UNPUBLISHK2_TITLE'); ?>
 			</label>
 			<div class="controls">
-				<?php echo JHtml::_('select.booleanlist', 'params[contentpublish_unpublishk2]', array(), $level->params->contentpublish_unpublishk2) ?>
+				<?php echo JHtml::_('select.booleanlist', 'params[contentpublish_unpublishk2]', array(), $params['contentpublish_unpublishk2']) ?>
 				<span class="help-block">
 					<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_UNPUBLISHK2_DESCRIPTION') ?>
 				</span>
@@ -86,7 +86,7 @@
 				<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_UNPUBLISHSOBIPRO_TITLE'); ?>
 			</label>
 			<div class="controls">
-				<?php echo JHtml::_('select.booleanlist', 'params[contentpublish_unpublishsobipro]', array(), $level->params->contentpublish_unpublishsobipro) ?>
+				<?php echo JHtml::_('select.booleanlist', 'params[contentpublish_unpublishsobipro]', array(), $params['contentpublish_unpublishsobipro']) ?>
 				<span class="help-block">
 					<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_UNPUBLISHSOBIPRO_DESCRIPTION') ?>
 				</span>
@@ -97,7 +97,7 @@
 				<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_UNPUBLISHZOO_TITLE'); ?>
 			</label>
 			<div class="controls">
-				<?php echo JHtml::_('select.booleanlist', 'params[contentpublish_unpublishzoo]', array(), $level->params->contentpublish_unpublishzoo) ?>
+				<?php echo JHtml::_('select.booleanlist', 'params[contentpublish_unpublishzoo]', array(), $params['contentpublish_unpublishzoo']) ?>
 				<span class="help-block">
 					<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_UNPUBLISHZOO_DESCRIPTION') ?>
 				</span>
@@ -108,7 +108,7 @@
 				<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_REMOVEGROUPS_TITLE'); ?>
 			</label>
 			<div class="controls">
-				<?php echo JHtml::_('select.genericlist', $zooApps, 'params[contentpublish_removegroups][]', array('multiple' => 'multiple', 'size' => 8, 'class' => 'input-large'), 'value', 'text', $level->params->contentpublish_removegroups) ?>
+				<?php echo JHtml::_('select.genericlist', $zooApps, 'params[contentpublish_removegroups][]', array('multiple' => 'multiple', 'size' => 8, 'class' => 'input-large'), 'value', 'text', $params['contentpublish_removegroups']) ?>
 				<span class="help-block">
 					<?php echo JText::_('PLG_AKEEBASUBS_CONTENTPUBLISH_REMOVEGROUPS_DESCRIPTION') ?>
 				</span>

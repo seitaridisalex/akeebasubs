@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form
+	type="browse"
+	show_header="1"
+	show_filters="1"
+	show_pagination="1"
+	norows_placeholder="COM_AKEEBASUBS_COMMON_NORECORDS"
+>
+	<headerset>
+		<header name="akeebasubs_taxrule_id" type="RowSelect" tdwidth="20px" />
+		
+		<header name="akeebasubs_taxrule_id" type="Field" tdwidth="20px" label="#" id="num" />
+		
+		<header name="akeebasubs_level_id" type="Model"
+			label="COM_AKEEBASUBS_TAXRULES_LEVEL"
+			sortable="true"  translate="false" apply_access="false"
+			key_field="akeebasubs_level_id" value_field="title"
+			model="Levels"
+		/>
+
+		<header name="country" type="Selectable"
+			label="COM_AKEEBASUBS_TAXRULES_COUNTRY"
+			source_class="\Akeeba\Subscriptions\Admin\Helper\Select"
+            source_method="getCountriesForHeader"
+			sortable="true" tdwidth="15%"
+		/>
+		
+		<header name="state" type="Selectable"
+			label="COM_AKEEBASUBS_TAXRULES_STATE"
+            source_class="\Akeeba\Subscriptions\Admin\Helper\Select"
+            source_method="getStates"
+			sortable="true" tdwidth="15%"
+		/>
+				
+		<header name="city" type="Searchable" sortable="true"
+			label="COM_AKEEBASUBS_TAXRULES_CITY" />
+		
+		<header name="vies" type="Selectable"
+			tdwidth="30px"
+			label="COM_AKEEBASUBS_TAXRULES_VIES">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</header>
+		
+		<header name="taxrate" type="Field" sortable="true"
+			tdwidth="60px" label="COM_AKEEBASUBS_TAXRULES_TAXRATE" />
+
+		<header name="enabled" type="Published" sortable="true" tdwidth="8%" />
+	</headerset>
+
+	<fieldset name="items">
+		<field name="akeebasubs_taxrule_id" type="SelectRow" />
+		
+		<field name="akeebasubs_taxrule_id" type="Text" id="num" />
+		
+		<field name="akeebasubs_level_id" type="Model"
+			label="COM_AKEEBASUBS_TAXRULES_LEVEL"
+			sortable="true"  translate="false" apply_access="false"
+			key_field="akeebasubs_level_id" value_field="title"
+			model="Levels"
+			show_link="true"
+			url="index.php?option=com_akeebasubs&amp;view=TaxRules&amp;task=edit&amp;id=[ITEM:ID]"
+		>
+			<option value="">COM_AKEEBASUBS_TAXRULES_LEVEL_ALL</option>
+		</field>
+
+		<field name="country" type="GenericList"
+			label="COM_AKEEBASUBS_TAXRULES_COUNTRY"
+            source_class="\Akeeba\Subscriptions\Admin\Helper\Select"
+            source_method="getCountries"
+			sortable="true" tdwidth="15%"
+			show_link="true"
+			url="index.php?option=com_akeebasubs&amp;view=TaxRules&amp;task=edit&amp;id=[ITEM:ID]"
+		/>
+		
+		<field name="state" type="GenericList"
+			label="COM_AKEEBASUBS_TAXRULES_STATE"
+            source_class="\Akeeba\Subscriptions\Admin\Helper\Select"
+            source_method="getStates"
+			sortable="true" tdwidth="15%"
+			show_link="true"
+			url="index.php?option=com_akeebasubs&amp;view=TaxRules&amp;task=edit&amp;id=[ITEM:ID]"
+		/>
+
+		<field name="city" type="Text"
+			show_link="true"
+			url="index.php?option=com_akeebasubs&amp;view=TaxRules&amp;task=edit&amp;id=[ITEM:ID]"
+		/>
+		
+		<field name="vies" type="GenericList"
+			tdwidth="30px"
+			label="COM_AKEEBASUBS_TAXRULES_VIES"
+			show_link="true"
+			url="index.php?option=com_akeebasubs&amp;view=TaxRules&amp;task=edit&amp;id=[ITEM:ID]"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="taxrate" type="Text"
+			format="%0.2f %%"
+			show_link="true"
+			url="index.php?option=com_akeebasubs&amp;view=TaxRules&amp;task=edit&amp;id=[ITEM:ID]"
+		/>
+
+		<field name="enabled" type="published"/>
+	</fieldset>
+</form>

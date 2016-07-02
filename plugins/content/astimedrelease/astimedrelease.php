@@ -1,57 +1,109 @@
 <?php
 /**
- * @package		akeebasubs
- * @copyright	Copyright (c)2010-2015 Nicholas K. Dionysopoulos / AkeebaBackup.com
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
+ * @package        akeebasubs
+ * @copyright      Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
 
 defined('_JEXEC') or die();
 
 JLoader::import('joomla.plugin.plugin');
 
-// PHP version check
-if(defined('PHP_VERSION')) {
-	$version = PHP_VERSION;
-} elseif(function_exists('phpversion')) {
-	$version = phpversion();
-} else {
-	// No version info. I'll lie and hope for the best.
-	$version = '5.0.0';
-}
-// Old PHP version detected. EJECT! EJECT! EJECT!
-if(!version_compare($version, '5.3.0', '>=')) return;
-
-// Make sure F0F is loaded, otherwise do not run
-if(!defined('F0F_INCLUDED')) {
-	include_once JPATH_LIBRARIES.'/f0f/include.php';
-}
-if(!defined('F0F_INCLUDED') || !class_exists('F0FLess', true))
-{
-	return;
-}
-
-// Do not run if Akeeba Subscriptions is not enabled
-JLoader::import('joomla.application.component.helper');
-if(!JComponentHelper::isEnabled('com_akeebasubs', true)) return;
+use FOF30\Container\Container;
+use Akeeba\Subscriptions\Site\Model\Levels;
+use Akeeba\Subscriptions\Site\Model\Subscriptions;
 
 class plgContentAstimedrelease extends JPlugin
 {
-	private $levelMap = array();
-
-	private $levelElapsed = array();
-
-	private $levelRemaining = array();
 
 	/**
-	 * Constructor and initialisation
+	 * Should this plugin be allowed to run? True if FOF can be loaded and the Akeeba Subscriptions component is enabled
 	 *
-	 * @param type $subject
-	 * @param type $config
+	 * @var  bool
 	 */
-	public function __construct(&$subject, $config = array()) {
+	private $enabled = true;
+
+	/**
+	 * Map level titles to IDs
+	 *
+	 * @var  array
+	 */
+	private $levelMap = array();
+
+	/**
+	 * Elapsed subscription time per level
+	 *
+	 * @var  array
+	 */
+	private $levelElapsed = array();
+
+	/**
+	 * Remaining subscription time per level
+	 *
+	 * @var  array
+	 */
+	private $levelRemaining = array();
+
+	public function __construct(&$subject, $config = array())
+	{
+		if (!defined('FOF30_INCLUDED') && !@include_once(JPATH_LIBRARIES . '/fof30/include.php'))
+		{
+			$this->enabled = false;
+		}
+
+		// Do not run if Akeeba Subscriptions is not enabled
+		JLoader::import('joomla.application.component.helper');
+
+		if (!JComponentHelper::isEnabled('com_akeebasubs'))
+		{
+			$this->enabled = false;
+		}
+
 		parent::__construct($subject, $config);
 
-		$this->initialiseArrays();
+		if ($this->enabled)
+		{
+			$this->initialiseArrays();
+		}
+	}
+
+	public function onContentPrepare($context, &$row, &$params, $page = 0)
+	{
+		if (!$this->enabled)
+		{
+			return true;
+		}
+
+		$text = is_object($row) ? $row->text : $row;
+
+		if (JString::strpos($row->text, 'astimedrelease') !== false)
+		{
+			$regex = "#{astimedrelease(.*?)}(.*?){/astimedrelease}#s";
+			$text  = preg_replace_callback($regex, array('self', 'process'), $text);
+		}
+
+		if (JString::strpos($row->text, 'asdayselapsed') !== false)
+		{
+			$regex = "#{asdayselapsed(.*?)}#s";
+			$text  = preg_replace_callback($regex, array('self', 'processElapsed'), $text);
+		}
+
+		if (JString::strpos($row->text, 'asdaysremaining') !== false)
+		{
+			$regex = "#{asdaysremaining(.*?)}#s";
+			$text  = preg_replace_callback($regex, array('self', 'processRemaining'), $text);
+		}
+
+		if (is_object($row))
+		{
+			$row->text = $text;
+		}
+		else
+		{
+			$row = $text;
+		}
+
+		return true;
 	}
 
 	/**
@@ -59,21 +111,28 @@ class plgContentAstimedrelease extends JPlugin
 	 */
 	private function initialiseArrays()
 	{
-		// init
-		$this->levelMap = array();
-		$this->levelElapsed = array();
+		// Initialise
+		$this->levelMap       = array();
+		$this->levelElapsed   = array();
 		$this->levelRemaining = array();
 
-		// get level title to ID map
-		$levels = F0FModel::getTmpInstance('Levels', 'AkeebasubsModel')
-			->getList(true);
-		if(!empty($levels)) {
-			foreach($levels as $level) {
-				$level->title = trim($level->title);
-				$level->title = strtoupper($level->title);
-				$this->levelMap[$level->title] = $level->akeebasubs_level_id;
+		// Get level title to ID map
+		/** @var Levels $levelsModel */
+		$levelsModel = Container::getInstance('com_akeebasubs', [], 'site')->factory->model('Levels')->tmpInstance();
+		$levels = $levelsModel->get(true);
+
+		if ($levels->count())
+		{
+			/** @var Levels $level */
+			foreach ($levels as $level)
+			{
+				$level->title                    = trim($level->title);
+				$level->title                    = strtoupper($level->title);
+				$this->levelMap[ $level->title ] = $level->akeebasubs_level_id;
 			}
-		} else {
+		}
+		else
+		{
 			return;
 		}
 
@@ -83,50 +142,76 @@ class plgContentAstimedrelease extends JPlugin
 		// five years the elapsed time in this subscription level is 2 months,
 		// not five years!
 		$user = JFactory::getUser();
-		if($user->guest) return;
 
-		$subs = F0FModel::getTmpInstance('Subscriptions','AkeebasubsModel')
-			->user_id($user->id)
-			->paystate('C')
-			->getList(true);
-		if(empty($subs) || !count($subs)) return;
+		if ($user->guest)
+		{
+			return;
+		}
+
+		/** @var Subscriptions $subsModel */
+		$subsModel = Container::getInstance('com_akeebasubs', [], 'site')->factory->model('Subscriptions')->tmpInstance();
+
+		$subs = $subsModel
+            ->user_id($user->id)
+            ->paystate('C')
+            ->get(true);
+
+		if (!$subs->count())
+		{
+			return;
+		}
+
 		JLoader::import('joomla.utilities.date');
-		$levelElapsed = array();
+
+		$levelElapsed  = array();
 		$levelDuration = array();
-		$now = new JDate();
-		$now = $now->toUnix();
-		foreach($subs as $sub) {
-			$up = new JDate($sub->publish_up);
-			$up = $up->toUnix();
+		$now           = new JDate();
+		$now           = $now->toUnix();
+
+		/** @var Subscriptions $sub */
+		foreach ($subs as $sub)
+		{
+			$up   = new JDate($sub->publish_up);
+			$up   = $up->toUnix();
 			$down = new JDate($sub->publish_down);
 			$down = $down->toUnix();
 
 			$duration = $down - $up;
-			if($now < $up) {
+
+			if ($now < $up)
+			{
 				$elapsed = 0;
-			} elseif($now >= $down) {
+			}
+			elseif ($now >= $down)
+			{
 				$elapsed = $duration;
-			} else {
+			}
+			else
+			{
 				$elapsed = $now - $up;
 			}
 
 			$levelid = $sub->akeebasubs_level_id;
 
-			if(!array_key_exists($levelid, $levelDuration)) {
-				$levelDuration[$levelid] = 0;
-			}
-			if(!array_key_exists($levelid, $levelElapsed)) {
-				$levelElapsed[$levelid] = 0;
+			if (!array_key_exists($levelid, $levelDuration))
+			{
+				$levelDuration[ $levelid ] = 0;
 			}
 
-			$levelDuration[$levelid] += $duration;
-			$levelElapsed[$levelid] += $elapsed;
+			if (!array_key_exists($levelid, $levelElapsed))
+			{
+				$levelElapsed[ $levelid ] = 0;
+			}
+
+			$levelDuration[ $levelid ] += $duration;
+			$levelElapsed[ $levelid ] += $elapsed;
 		}
 
-		foreach($levelDuration as $levelid => $duration) {
-			$elapsed = $levelElapsed[$levelid];
-			$this->levelRemaining[$levelid] = ceil(($duration - $elapsed) / 86400);
-			$this->levelElapsed[$levelid] = floor($elapsed / 86400);
+		foreach ($levelDuration as $levelid => $duration)
+		{
+			$elapsed                          = $levelElapsed[ $levelid ];
+			$this->levelRemaining[ $levelid ] = ceil(($duration - $elapsed) / 86400);
+			$this->levelElapsed[ $levelid ]   = floor($elapsed / 86400);
 		}
 	}
 
@@ -142,15 +227,21 @@ class plgContentAstimedrelease extends JPlugin
 	{
 		$title = strtoupper($title);
 		$title = trim($title);
-		if(array_key_exists($title, $this->levelMap)) {
+
+		if (array_key_exists($title, $this->levelMap))
+		{
 			// Mapping found
-			return($this->levelMap[$title]);
-		} elseif( (int)$title == $title ) {
+			return ($this->levelMap[ $title ]);
+		}
+		elseif ((int) $title == $title)
+		{
 			// Numeric ID passed
-			return (int)$title;
-		} else {
+			return (int) $title;
+		}
+		else
+		{
 			// No match!
-			return -1;
+			return - 1;
 		}
 	}
 
@@ -167,69 +258,98 @@ class plgContentAstimedrelease extends JPlugin
 	 * LEVEL1(X, -10) -- do he have LESS than 10 days in LEVEL1
 	 *
 	 * @param string $expr
+	 *
 	 * @return bool
 	 */
 	private function isTrue($expr)
 	{
-		$level = ''; $expression = '';
-		$paremPos = strrpos($expr, '(');
-		if($paremPos !== false) {
-			$paremPos = strlen($expr) - $paremPos;
-			$level = $this->getId(substr($expr, 0, -$paremPos));
-			$expression = substr($expr, -$paremPos);
-		} else {
+		$expression = '';
+		$paremPos   = strrpos($expr, '(');
+
+		if ($paremPos !== false)
+		{
+			$paremPos   = strlen($expr) - $paremPos;
+			$level      = $this->getId(substr($expr, 0, - $paremPos));
+			$expression = substr($expr, - $paremPos);
+		}
+		else
+		{
 			$level = $this->getId($expr);
 		}
 
 		// No level? No joy.
-		if($level <= 0) return false;
+		if ($level <= 0)
+		{
+			return false;
+		}
 
 		// Level not in array? No joy.
-		if(!array_key_exists($level, $this->levelElapsed)) return;
+		if (!array_key_exists($level, $this->levelElapsed))
+		{
+			return false;
+		}
 
 		// Parse the time expression
 		$minConstraint = null;
 		$maxConstraint = null;
 
-		if(!empty($expression)) {
-			$expression = trim($expression,'() ');
-			$expression = str_replace(' ','',$expression);
-			$exParts = explode(',', $expression);
+		if (!empty($expression))
+		{
+			$expression = trim($expression, '() ');
+			$expression = str_replace(' ', '', $expression);
+			$exParts    = explode(',', $expression);
 
-			if(trim($exParts[0]) == 'X') {
+			if (trim($exParts[0]) == 'X')
+			{
 				$minConstraint = null;
-			} else {
-				$minConstraint = (int)$exParts[0];
 			}
-			if(count($exParts) > 1) {
-				if(trim($exParts[1]) == 'X') {
+			else
+			{
+				$minConstraint = (int) $exParts[0];
+			}
+			if (count($exParts) > 1)
+			{
+				if (trim($exParts[1]) == 'X')
+				{
 					$maxConstraint = null;
-				} else {
-					$maxConstraint = (int)$exParts[1];
+				}
+				else
+				{
+					$maxConstraint = (int) $exParts[1];
 				}
 			}
 		}
 
 		$result = true;
 
-		if(is_null($minConstraint)) {
+		if (is_null($minConstraint))
+		{
 			// Do nothing
-		} elseif($minConstraint < 0) {
+		}
+		elseif ($minConstraint < 0)
+		{
 			// Negative min constraint
-			$result = $result && ($this->levelRemaining[$level] >= -$minConstraint);
-		} else {
+			$result = $result && ($this->levelRemaining[ $level ] >= - $minConstraint);
+		}
+		else
+		{
 			// Positive min constraint
-			$result = $result && ($this->levelElapsed[$level] >= $minConstraint);
+			$result = $result && ($this->levelElapsed[ $level ] >= $minConstraint);
 		}
 
-		if(is_null($maxConstraint)) {
+		if (is_null($maxConstraint))
+		{
 			// Do nothing
-		} elseif($maxConstraint < 0) {
+		}
+		elseif ($maxConstraint < 0)
+		{
 			// Negative max constraint
-			$result = $result && ($this->levelRemaining[$level] <= -$maxConstraint);
-		} else {
+			$result = $result && ($this->levelRemaining[ $level ] <= - $maxConstraint);
+		}
+		else
+		{
 			// Positive max constraint
-			$result = $result && ($this->levelElapsed[$level] <= $maxConstraint);
+			$result = $result && ($this->levelElapsed[ $level ] <= $maxConstraint);
 		}
 
 		return $result;
@@ -242,7 +362,8 @@ class plgContentAstimedrelease extends JPlugin
 	{
 		$ret = '';
 
-		if ($this->analyze($match[1])) {
+		if ($this->analyze($match[1]))
+		{
 			$ret = $match[2];
 		}
 
@@ -254,24 +375,16 @@ class plgContentAstimedrelease extends JPlugin
 	 */
 	private function processElapsed($match)
 	{
-		$ret = '';
-
 		return $this->analyzeTime($match[1], true);
-
-		return $ret;
 	}
 
 	/**
-	/**
+	 * /**
 	 * preg_match callback to process each match
 	 */
 	private function processRemaining($match)
 	{
-		$ret = '';
-
 		return $this->analyzeTime($match[1], false);
-
-		return $ret;
 	}
 
 	/**
@@ -283,29 +396,36 @@ class plgContentAstimedrelease extends JPlugin
 	{
 		$ret = false;
 
-		if ($statement) {
+		if ($statement)
+		{
 			// Stupid, stupid crap... ampersands replaced by &amp;...
 			$statement = str_replace('&amp;&amp;', '&&', $statement);
-			// First, break down to OR statements
-			$items = explode("||", trim($statement) );
-			for ($i=0; $i<count($items) && !$ret; $i++) {
-				// Break down AND statements
-				$expression = trim($items[$i]);
-				$subitems = explode('&&', $expression);
-				$ret = true;
 
-				foreach($subitems as $item)
+			// First, break down to OR statements
+			$items = explode("||", trim($statement));
+
+			for ($i = 0; $i < count($items) && !$ret; $i ++)
+			{
+				// Break down AND statements
+				$expression = trim($items[ $i ]);
+				$subitems   = explode('&&', $expression);
+				$ret        = true;
+
+				foreach ($subitems as $item)
 				{
-					$item = trim($item);
+					$item   = trim($item);
 					$negate = false;
-					if(substr($item,0,1) == '!') {
+
+					if (substr($item, 0, 1) == '!')
+					{
 						$negate = true;
-						$item = substr($item,1);
-						$item = trim($item);
+						$item   = substr($item, 1);
+						$item   = trim($item);
 					}
-					$expr = trim($item);
+
+					$expr   = trim($item);
 					$result = $this->isTrue($expr);
-					$ret = $ret && ($negate ? !$result : $result);
+					$ret    = $ret && ($negate ? !$result : $result);
 				}
 			}
 		}
@@ -315,40 +435,61 @@ class plgContentAstimedrelease extends JPlugin
 
 	private function analyzeTime($expr, $isElapsed = true)
 	{
-		$level = ''; $expression = '';
-		$paremPos = strrpos($expr, ',');
-		if($paremPos !== false) {
-			$level = $this->getId(substr($expr, 0, -$paremPos));
-			$expression = substr($expr, -$paremPos);
-		} else {
+		$expression = '';
+		$paremPos   = strrpos($expr, ',');
+
+		if ($paremPos !== false)
+		{
+			$level      = $this->getId(substr($expr, 0, $paremPos));
+			$expression = substr($expr, $paremPos);
+		}
+		else
+		{
 			$level = $this->getId($expr);
 		}
 
 		// No level? No joy.
-		if($level <= 0) return 0;
+		if ($level <= 0)
+		{
+			return 0;
+		}
 
 		// Level not in array? No joy.
-		if(!array_key_exists($level, $this->levelElapsed)) 0;
+		if (!array_key_exists($level, $this->levelElapsed))
+		{
+			return 0;
+		}
 
 		// Parse the time expression
 		$addRemove = 0;
-		if(!empty($expression)) {
-			$expression = trim($expression,', ');
-			$expression = str_replace(' ','',$expression);
-			$addRemove = (int)$expression;
+
+		if (!empty($expression))
+		{
+			$expression = trim($expression, ', ');
+			$expression = str_replace(' ', '', $expression);
+			$addRemove  = (int) $expression;
 		}
 
-		if($isElapsed) {
-			if(!array_key_exists($level, $this->levelElapsed)) {
+		if ($isElapsed)
+		{
+			if (!array_key_exists($level, $this->levelElapsed))
+			{
 				$result = 0;
-			} else {
-				$result = $this->levelElapsed[$level];
 			}
-		} else {
-			if(!array_key_exists($level, $this->levelRemaining)) {
+			else
+			{
+				$result = $this->levelElapsed[ $level ];
+			}
+		}
+		else
+		{
+			if (!array_key_exists($level, $this->levelRemaining))
+			{
 				$result = 0;
-			} else {
-				$result = $this->levelRemaining[$level];
+			}
+			else
+			{
+				$result = $this->levelRemaining[ $level ];
 			}
 		}
 
@@ -357,29 +498,4 @@ class plgContentAstimedrelease extends JPlugin
 		return $result;
 	}
 
-	public function onContentPrepare($context, &$row, &$params, $page = 0)
-	{
-		$text = is_object($row) ? $row->text : $row;
-
-		if ( JString::strpos( $row->text, 'astimedrelease' ) !== false ) {
-			$regex = "#{astimedrelease(.*?)}(.*?){/astimedrelease}#s";
-			$text = preg_replace_callback( $regex, array('self', 'process'), $text );
-		}
-		if ( JString::strpos( $row->text, 'asdayselapsed' ) !== false ) {
-			$regex = "#{asdayselapsed(.*?)}#s";
-			$text = preg_replace_callback( $regex, array('self', 'processElapsed'), $text );
-		}
-		if ( JString::strpos( $row->text, 'asdaysremaining' ) !== false ) {
-			$regex = "#{asdaysremaining(.*?)}#s";
-			$text = preg_replace_callback( $regex, array('self', 'processRemaining'), $text );
-		}
-
-		if(is_object($row)) {
-			$row->text = $text;
-		} else {
-			$row = $text;
-		}
-
-		return true;
-	}
 }

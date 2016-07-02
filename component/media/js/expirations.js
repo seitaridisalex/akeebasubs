@@ -1,6 +1,6 @@
 /**
  * @package		akeebasubs
- * @copyright	Copyright (c)2010-2015 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @copyright	Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
 
@@ -11,10 +11,10 @@ if(typeof(akeeba) == 'undefined') {
 	var akeeba = {};
 }
 if(typeof(akeeba.jQuery) == 'undefined') {
-	akeeba.jQuery = window.jQuery;
+	akeeba.jQuery = window.jQuery.noConflict();
 }
 
-var jsonurl = 'index.php?option=com_akeebasubs&view=reports&task=getexpirations&format=json&layout=expirations';
+var jsonurl = 'index.php?option=com_akeebasubs&view=Reports&task=getExpirations&format=json&layout=expirations';
 var expireChart;
 
 function loadExpGraph()

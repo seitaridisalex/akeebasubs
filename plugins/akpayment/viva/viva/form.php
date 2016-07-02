@@ -10,4 +10,3 @@ $t2 = JText::_('COM_AKEEBASUBS_LEVEL_REDIRECTING_BODY');
 <form action="<?php echo htmlentities($url) ?>" method="post" id="paymentForm">
 	<input type="submit" class="btn" />
 </form>
-</p>

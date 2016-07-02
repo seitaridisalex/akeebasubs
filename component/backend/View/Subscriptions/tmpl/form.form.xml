@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form>
+    <fieldset
+        name="subscription-information"
+        label="COM_AKEEBASUBS_SUBSCRIPTION_LBL_SUB"
+        class="span6"
+    >
+
+        <field
+           name="akeebasubs_level_id" type="Model"
+           model="Levels"
+           label="COM_AKEEBASUBS_SUBSCRIPTION_LEVEL"
+           key_field="akeebasubs_level_id"
+           value_field="title"
+           translate="false"
+           apply_access="false"
+        />
+
+        <field
+            name="user_id"
+            type="User"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_USER"
+        />
+
+        <field
+            name="enabled"
+            id="subscriptionEnabled"
+            type="BooleanToggle"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_ENABLED"
+        />
+
+        <field
+            name="_noemail"
+            type="BooleanToggle"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_NOEMAIL"
+        />
+
+        <field
+            name="publish_up"
+            type="Calendar"
+            filter="NO_CONVERSION"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_PUBLISH_UP"
+        />
+
+        <field
+            name="publish_down"
+            type="Calendar"
+            filter="NO_CONVERSION"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_PUBLISH_DOWN"
+        />
+
+        <field
+            name="notes"
+            type="TextArea"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_NOTES"
+            cols="40" rows="5"
+            class="input-xlarge"
+        />
+
+    </fieldset>
+
+    <fieldset
+        name="payment"
+        label="COM_AKEEBASUBS_SUBSCRIPTION_LBL_PAYMENT"
+        class="span6"
+    >
+
+        <field
+            name="processor"
+            type="Text"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_PROCESSOR"
+        />
+
+        <field
+            name="processor_key"
+            type="Text"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_PROCESSOR_KEY"
+        />
+
+        <field
+            name="payment_state"
+            name_from="state"
+            type="GenericList"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_STATE"
+        >
+            <option value="N">COM_AKEEBASUBS_SUBSCRIPTION_STATE_N</option>
+            <option value="P">COM_AKEEBASUBS_SUBSCRIPTION_STATE_P</option>
+            <option value="C">COM_AKEEBASUBS_SUBSCRIPTION_STATE_C</option>
+            <option value="X">COM_AKEEBASUBS_SUBSCRIPTION_STATE_X</option>
+        </field>
+
+        <field
+            name="prediscount_amount"
+            type="MoneyEntry"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_PREDISCOUNT_AMOUNT"
+            class="input-small"
+        />
+
+        <field
+            name="discount_amount"
+            type="MoneyEntry"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_DISCOUNT_AMOUNT"
+            class="input-small"
+        />
+
+        <field
+            name="net_amount"
+            type="MoneyEntry"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_NET_AMOUNT"
+            class="input-small"
+        />
+
+        <field
+            name="tax_percent"
+            type="text"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_TAX_PERCENT"
+            append_text="%"
+            class="input-small"
+        />
+
+        <field
+            name="tax_amount"
+            type="MoneyEntry"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_TAX_AMOUNT"
+            class="input-small"
+        />
+
+        <field
+            name="gross_amount"
+            type="MoneyEntry"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_GROSS_AMOUNT"
+            class="input-small"
+        />
+
+        <field
+            name="created_on"
+            type="Calendar"
+            filter="NO_CONVERSION"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_CREATED_ON"
+        />
+
+    </fieldset>
+
+    <fieldset
+        name="ipinfo"
+        class="span6"
+        label="COM_AKEEBASUBS_SUBSCRIPTION_LBL_IP"
+    >
+
+        <field
+            name="ip"
+            type="Text"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_IP"
+        />
+
+        <field
+            name="ip_country"
+            type="Text"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_IP_COUNTRY"
+        />
+
+    </fieldset>
+
+    <fieldset
+            name="customparams"
+            label="COM_AKEEBASUBS_SUBSCRIPTION_CUSTOMPARAMS_TITLE"
+            class="tab-pane"
+            source="admin:com_akeebasubs/Subscriptions/form_customparams"
+            >
+    </fieldset>
+
+</form>

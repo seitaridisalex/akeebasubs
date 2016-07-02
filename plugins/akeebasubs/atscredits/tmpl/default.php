@@ -1,4 +1,13 @@
-<?php defined('_JEXEC') or die(); ?>
+<?php
+/**
+ * @package        akeebasubs
+ * @copyright      Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
+ */
+
+/** @var  \Akeeba\Subscriptions\Admin\Model\Levels  $level */
+defined('_JEXEC') or die();
+?>
 <div class="row-fluid">
 	<div class="span6">
 		<div class="control-group">
@@ -7,7 +16,7 @@
 			</label>
 			<div class="controls">
 				<input type="text" name="params[atscredits_credits]" id="params_atscredits_credits"
-					   value="<?php echo isset($level->params->atscredits_credits) ? $level->params->atscredits_credits : 0 ?>"
+					   value="<?php echo isset($level->params['atscredits_credits']) ? $level->params['atscredits_credits'] : 0 ?>"
 					   class="input-small"
 					   />
 				<span class="help-block">

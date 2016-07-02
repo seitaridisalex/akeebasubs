@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form
+        type="browse"
+        show_header="1"
+        show_filters="1"
+        show_pagination="1"
+        norows_placeholder="COM_AKEEBASUBS_COMMON_NORECORDS"
+        >
+    <headerset>
+        <header name="ordering" type="Ordering" sortable="true" tdwidth="20px" />
+
+        <header name="akeebasubs_invoicetemplate_id" type="RowSelect" tdwidth="20px" />
+
+        <header name="akeebasubs_invoicetemplate_id" type="Field" tdwidth="20px" label="#" id="num" />
+
+        <header name="title" type="Searchable"
+                sortable="true"
+                />
+
+        <header name="levels" type="Field"
+                sortable="false" tdwidth="15%"
+                />
+
+        <header name="isbusiness" type="Selectable"
+                sortable="true" tdwidth="8%">
+            <option value="-1">COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_ISBUSINESS_INDIFFERENT</option>
+            <option value="0">COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_ISBUSINESS_PERSONAL</option>
+            <option value="1">COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_ISBUSINESS_BUSINESS</option>
+        </header>
+
+        <header name="country" type="Selectable"
+                source_class="\Akeeba\Subscriptions\Admin\Helper\Select"
+                source_method="getCountriesForHeader"
+                sortable="true" tdwidth="15%"
+                />
+
+        <header name="noinvoice" type="Selectable" sortable="true" tdwidth="30px">
+            <option value="0">COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_NOINVOICE_ALLOW</option>
+            <option value="1">COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_NOINVOICE_PREVENT</option>
+        </header>
+
+        <header name="enabled" type="Published" sortable="true" tdwidth="8%" />
+    </headerset>
+
+    <fieldset name="items">
+        <field name="ordering" type="Ordering" labelclass="order"/>
+
+        <field name="akeebasubs_invoicetemplate_id" type="SelectRow" />
+
+        <field name="akeebasubs_invoicetemplate_id" type="Text" id="num" />
+
+        <field name="title" type="Text"
+               show_link="true" url="index.php?option=com_akeebasubs&amp;view=InvoiceTemplate&amp;id=[ITEM:ID]"
+                />
+
+        <field
+            name="levels"
+            type="Text"
+            format_source_class="\Akeeba\Subscriptions\Admin\Helper\Format"
+            format_source_method="formatInvTempLevels"
+        />
+
+        <field name="isbusiness" type="GenericList">
+            <option value="-1">COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_ISBUSINESS_INDIFFERENT</option>
+            <option value="0">COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_ISBUSINESS_PERSONAL</option>
+            <option value="1">COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_ISBUSINESS_BUSINESS</option>
+        </field>
+
+        <field name="country" type="GenericList"
+            source_class="\Akeeba\Subscriptions\Admin\Helper\Select"
+            source_method="getCountries"
+        />
+
+        <field name="noinvoice" type="GenericList">
+            <option value="0">COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_NOINVOICE_ALLOW</option>
+            <option value="1">COM_AKEEBASUBS_INVOICETEMPLATES_FIELD_NOINVOICE_PREVENT</option>
+        </field>
+
+        <field name="enabled" type="Published"/>
+    </fieldset>
+</form>

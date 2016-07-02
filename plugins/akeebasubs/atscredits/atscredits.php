@@ -1,17 +1,23 @@
 <?php
 /**
- * @package		akeebasubs
- * @copyright	Copyright (c)2010-2015 Nicholas K. Dionysopoulos / AkeebaBackup.com
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
+ * @package        akeebasubs
+ * @copyright      Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
 
 defined('_JEXEC') or die();
 
+use Akeeba\Subscriptions\Admin\Model\Levels;
+use Akeeba\Subscriptions\Admin\Model\Subscriptions;
+
 // Make sure ATS is installed and activated
 JLoader::import('joomla.application.component.helper');
-if(!JComponentHelper::isEnabled('com_ats', true)) return;
+if (!JComponentHelper::isEnabled('com_ats', true))
+{
+	return;
+}
 
-class plgAkeebasubsAtscredits extends JPlugin
+class plgAkeebasubsAtscredits extends \Akeeba\Subscriptions\Admin\PluginAbstracts\AkeebasubsBase
 {
 	/** @var array Levels to number of credits added mapping */
 	private $credits = array();
@@ -19,21 +25,20 @@ class plgAkeebasubsAtscredits extends JPlugin
 	/**
 	 * Public constructor
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   object &$subject   The object to observe
+	 * @param   array  $config     An optional associative array of configuration settings.
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
 	 */
 	public function __construct(& $subject, $config = array())
 	{
-		if(!is_object($config['params'])) {
-			JLoader::import('joomla.registry.registry');
-			$config['params'] = new JRegistry($config['params']);
+		// Include F0F. Required for ATS.
+		if (!defined('F0F_INCLUDED'))
+		{
+			require_once JPATH_LIBRARIES . '/f0f/include.php';
 		}
 
 		parent::__construct($subject, $config);
-
-		$this->loadLanguage();
 
 		$this->loadPluginConfiguration();
 	}
@@ -46,66 +51,22 @@ class plgAkeebasubsAtscredits extends JPlugin
 	{
 		$this->credits = array();
 
-		$model = F0FModel::getTmpInstance('Levels','AkeebasubsModel');
-		$levels = $model->getList(true);
-		if(!empty($levels)) {
-			foreach($levels as $level)
+		/** @var Levels $model */
+		$model = $this->container->factory->model('Levels')->tmpInstance();
+
+		$levels = $model->get(true);
+
+		if ($levels->count())
+		{
+			/** @var Levels $level */
+			foreach ($levels as $level)
 			{
-				if(is_string($level->params)) {
-					$level->params = @json_decode($level->params);
-					if(empty($level->params)) {
-						$level->params = new stdClass();
-					}
-				} elseif(empty($level->params)) {
-					continue;
-				}
-				if(property_exists($level->params, 'atscredits_credits'))
+				if (isset($level->params['atscredits_credits']))
 				{
-					$this->credits[$level->akeebasubs_level_id] = $level->params->atscredits_credits;
+					$this->credits[$level->akeebasubs_level_id] = $level->params['atscredits_credits'];
 				}
 			}
 		}
-	}
-
-	/**
-	 * Renders the configuration page in the component's back-end
-	 *
-	 * @param   AkeebasubsTableLevel  $level  The subscription level we're rendering for
-	 *
-	 * @return object
-	 */
-	public function onSubscriptionLevelFormRender(AkeebasubsTableLevel $level)
-	{
-		JLoader::import('joomla.filesystem.file');
-		$filename = dirname(__FILE__).'/override/default.php';
-		if(!JFile::exists($filename)) {
-			$filename = dirname(__FILE__).'/tmpl/default.php';
-		}
-
-		if(!property_exists($level->params, 'atscredits_credits')) {
-			$level->params->atscredits_credits = 0;
-		}
-
-		@ob_start();
-		include_once $filename;
-		$html = @ob_get_clean();
-
-		$ret = (object)array(
-			'title'	=> JText::_('PLG_AKEEBASUBS_ATSCREDITS_TAB_TITLE'),
-			'html'	=> $html
-		);
-
-		return $ret;
-	}
-
-	/**
-	 * Called whenever a subscription is modified. Namely, when its enabled status,
-	 * payment status or valid from/to dates are changed.
-	 */
-	public function onAKSubscriptionChange($row, $info)
-	{
-		if(is_null($info['modified']) || empty($info['modified'])) return;
-		$this->onAKUserRefresh($row->user_id);
 	}
 
 	/**
@@ -116,51 +77,76 @@ class plgAkeebasubsAtscredits extends JPlugin
 	public function onAKUserRefresh($user_id)
 	{
 		// Make sure we're configured
-		if(empty($this->credits)) return;
+		if (empty($this->credits))
+		{
+			return;
+		}
 
 		// Get all of the user's subscriptions
-		$subscriptions = F0FModel::getTmpInstance('Subscriptions','AkeebasubsModel')
+		/** @var Subscriptions $subscriptionsModel */
+		$subscriptionsModel = $this->container->factory->model('Subscriptions')->tmpInstance();
+
+		$subscriptions = $subscriptionsModel
 			->user_id($user_id)
-			->getList();
+			->get(true);
 
 		// Make sure there are subscriptions set for the user
-		if(!count($subscriptions)) return;
+		if (!$subscriptions->count())
+		{
+			return;
+		}
+
+        // Let's register the autoloader for ATS component
+        $ats_container = \FOF30\Container\Container::getInstance('com_ats');
 
 		// Get credit information for the user
-		if(!class_exists('AtsHelperCredits')) {
-			@include_once JPATH_ADMINISTRATOR.'/components/com_ats/helpers/credits.php';
+		if (!class_exists('Akeeba\TicketSystem\Admin\Helper\Credits'))
+		{
+			return;
 		}
-		if(!class_exists('AtsHelperCredits')) return;
-		$userCreditAnalysis = AtsHelperCredits::creditsLeft($user_id, false);
+
+		$userCreditAnalysis = \Akeeba\TicketSystem\Admin\Helper\Credits::creditsLeft($user_id, false);
 
 		// Get all #__ats_credittransactions entries
-		$atsCreditEntries = F0FModel::getTmpInstance('Credittransactions', 'AtsModel')
+        $transModel = $ats_container->factory->model('CreditTransactions')->tmpInstance();
+		$atsCreditEntries = $transModel
 			->user_id($user_id)
 			->type('akeebasubs')
-			->getList(true);
+			->get(true);
 
 		// Create a map of #__ats_credittransactions per subscription ID
 		$creditTransactions = array();
-		if(!empty($atsCreditEntries)) foreach($atsCreditEntries as $ce) {
-			$temp = array(
-				'id'			=> $ce->ats_credittransaction_id,
-				'value'			=> $ce->value,
-				'enabled'		=> $ce->enabled,
-				'used'			=> 0
-			);
-			if(array_key_exists($ce->ats_credittransaction_id, $userCreditAnalysis['charges'])) {
-				$temp['used'] = $userCreditAnalysis['charges'][$ce->ats_credittransaction_id];
+
+		if (count($atsCreditEntries))
+		{
+			foreach ($atsCreditEntries as $ce)
+			{
+				$temp = [
+					'id'      => $ce->ats_credittransaction_id,
+					'value'   => $ce->value,
+					'enabled' => $ce->enabled,
+					'used'    => 0
+				];
+
+				if (array_key_exists($ce->ats_credittransaction_id, $userCreditAnalysis['charges']))
+				{
+					$temp['used'] = $userCreditAnalysis['charges'][$ce->ats_credittransaction_id];
+				}
+
+				$creditTransactions[$ce->unique_id] = $temp;
+				unset($temp);
 			}
-			$creditTransactions[$ce->unique_id] = $temp;
-			unset($temp);
 		}
+
 		unset($atsCreditEntries, $userCreditAnalysis);
 
 		// Walk through all subscriptions
-		foreach($subscriptions as $sub)
+		/** @var Subscriptions $sub */
+		foreach ($subscriptions as $sub)
 		{
 			// Does this subscription level exist in $this->credits?
-			if(!array_key_exists($sub->akeebasubs_level_id, $this->credits)) {
+			if (!array_key_exists($sub->akeebasubs_level_id, $this->credits))
+			{
 				return;
 			}
 
@@ -170,63 +156,85 @@ class plgAkeebasubsAtscredits extends JPlugin
 			$hasTransaction = array_key_exists($sub->akeebasubs_subscription_id, $creditTransactions);
 
 			// Is it active or paid and with a start date in the future?
-			$jPublishUp = new JDate($sub->publish_up);
-			$jNow = new JDate();
+			$jPublishUp = $this->container->platform->getDate($sub->publish_up);
+			$jNow = $this->container->platform->getDate();
+
 			$enabled = $sub->enabled
-					||( ($sub->state = 'C') && ($jPublishUp->toUnix() > $jNow->toUnix()) ) ;
-			if($enabled) {
-				if(!$hasTransaction) {
+				|| (($sub->getFieldValue('state') == 'C') && ($jPublishUp->toUnix() > $jNow->toUnix()));
+
+			if ($enabled)
+			{
+				if (!$hasTransaction)
+				{
 					// Create a new transaction
 					$data = array(
-						'user_id'			=> $user_id,
-						'transaction_date'	=> $sub->created_on,
-						'type'				=> 'akeebasubs',
-						'unique_id'			=> $sub->akeebasubs_subscription_id,
-						'value'				=> $value
+						'user_id'          => $user_id,
+						'transaction_date' => $sub->created_on,
+						'type'             => 'akeebasubs',
+						'unique_id'        => $sub->akeebasubs_subscription_id,
+						'value'            => $value
 					);
-					$table = F0FModel::getTmpInstance('Credittransactions', 'AtsModel')
-						->getTable();
-					$table->reset();
-					$table->save($data);
-				} else {
+
+                    $transModel->reset();
+					$transModel->save($data);
+				}
+				else
+				{
 					// Check how many credits are left, based on the current worth of the subscription
 					$transaction = $creditTransactions[$sub->akeebasubs_subscription_id];
-					$left = $value - $transaction['used'];
 
-					$data = array(
-					);
+					$data = array();
 
-					if($value != $transaction['value']) {
+					if ($value != $transaction['value'])
+					{
 						$data['value'] = $value;
 					}
 
-					if(!$transaction['enabled']) {
+					if (!$transaction['enabled'])
+					{
 						$data['enabled'] = 1;
 					}
 
-					if(!empty($data)) {
-						$record = F0FModel::getTmpInstance('Credittransactions', 'AtsModel')
+					if (!empty($data))
+					{
+                        $transModel->reset();
+						$collection = $transModel
 							->type('akeebasubs')
 							->unique_id($sub->akeebasubs_subscription_id)
-							->getFirstItem(true);
-						$record->save($data);
+                            ->limit(1)
+							->get();
+
+                        if($collection)
+                        {
+                            $transModel = $collection->first();
+                        }
+
+						$transModel->save($data);
 					}
 				}
-
 			}
 			// Otherwise it's an expired or unpaid subscription with an #__ats_credittransactions record
-			elseif($hasTransaction)
+			elseif ($hasTransaction)
 			{
 				// Disable the record
 				$data = array(
-					'enabled'			=> 0
+					'enabled' => 0
 				);
-				$record = F0FModel::getTmpInstance('Credittransactions', 'AtsModel')
-					->type('akeebasubs')
-					->unique_id($sub->akeebasubs_subscription_id)
-					->getFirstItem(true);
-				$record->save($data);
+
+                $transModel->reset();
+                $collection = $transModel
+                    ->type('akeebasubs')
+                    ->unique_id($sub->akeebasubs_subscription_id)
+                    ->limit(1)
+                    ->get();
+
+                if($collection)
+                {
+                    $transModel = $collection->first();
+                }
+
+                $transModel->save($data);
 			}
-		} // end foreach subscrition
+		} // end foreach subscription
 	}
 }

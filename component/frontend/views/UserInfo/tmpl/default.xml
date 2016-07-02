@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<metadata>
+	<layout title="COM_AKEEBASUBS_VIEW_USERINFO_DEFAULT_TITLE">
+		<message>
+				<![CDATA[COM_AKEEBASUBS_VIEW_USERINFO_DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>COM_AKEEBASUBS_VIEW_USERINFO_DEFAULT_TITLE</name>
+		<description>COM_AKEEBASUBS_VIEW_USERINFO_DEFAULT_DESC</description>
+	</state>
+</metadata>

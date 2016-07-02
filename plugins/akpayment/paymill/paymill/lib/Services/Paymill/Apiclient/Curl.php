@@ -95,7 +95,7 @@ class Services_Paymill_Apiclient_Curl implements Services_Paymill_Apiclient_Inte
                 CURLOPT_CUSTOMREQUEST => $method,
                 CURLOPT_USERAGENT => self::USER_AGENT,
                 CURLOPT_SSL_VERIFYPEER => false,
-				CURLOPT_CAINFO => JPATH_ADMINISTRATOR . '/components/com_akeebasubs/assets/cacert.pem',
+				CURLOPT_CAINFO => JPATH_LIBRARIES . '/fof30/Download/Adapter/cacert.pem',
         );
 
         if (Services_Paymill_Apiclient_Interface::HTTP_GET === $method) {

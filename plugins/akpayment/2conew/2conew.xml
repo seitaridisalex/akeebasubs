@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5.0" type="plugin" group="akpayment" method="upgrade">
-	<name>Akeeba Subscriptions Payment - 2Checkout Standard Purchase Routine (with recurring support)</name>
+<extension version="3.3.0" type="plugin" group="akpayment" method="upgrade">
+	<name>PLG_AKPAYMENT_2CONEW</name>
 	<author>Nicholas K. Dionysopoulos</author>
 	<authorEmail>nicholas@dionysopoulos.me</authorEmail>
 	<authorUrl>http://www.akeebabackup.com</authorUrl>
-	<copyright>Copyright (c)2011-2013 Nicholas K. Dionysopoulos</copyright>
+	<copyright>Copyright (c)2011-2016 Nicholas K. Dionysopoulos</copyright>
 	<license>GNU General Public License version 3, or later</license>
-	<creationDate>2011-06-29</creationDate>
-	<version>1.0</version>
+	<creationDate>April 2015</creationDate>
+	<version>5.0</version>
 	<description>PLG_AKPAYMENT_2CONEW_DESCRIPTION</description>
 	<files>
 		<filename plugin="2conew">2conew.php</filename>
@@ -18,7 +18,7 @@
 		<language tag="en-GB">en-GB/en-GB.plg_akpayment_2conew.sys.ini</language>
 	</languages>
 
-	<config>
+	<config addfieldpath="administrator/components/com_akeebasubs/assets/elements">
 		<fields name="params">
 			<fieldset name="basic">
 				<field name="title" type="text" size="50" default=""
@@ -27,6 +27,22 @@
 				<field name="ppimage" type="text" size="50" default="" label="PLG_AKPAYMENT_2CONEW_PPIMAGE_LABEL" description="PLG_AKPAYMENT_2CONEW_PPIMAGE_DESC" />
 				<field type="spacer" />
 				<field name="surcharge" type="text" size="50" default="" label="PLG_AKPAYMENT_COMMON_SURCHARGE_LABEL" description="PLG_AKPAYMENT_COMMON_SURCHARGE_DESC"/>
+				<field name="typeCountryList" type="list" default="2"
+					   label="PLG_AKPAYMENT_COMMON_COUNTRYLIST_TYPE_LABEL"
+					   description="PLG_AKPAYMENT_COMMON_COUNTRYLIST_TYPE_DESC"
+						>
+					<option value="1">PLG_AKPAYMENT_COMMON_COUNTRYLIST_INCLUDE</option>
+					<option value="2">PLG_AKPAYMENT_COMMON_COUNTRYLIST_EXCLUDE</option>
+				</field>
+				<field name="countryList" type="akeebasubscountries" default=""
+					   multiple="true" size="5"
+					   label="PLG_AKPAYMENT_COMMON_COUNTRYLIST_LABEL" />
+        <field name="countryPriority" type="akeebasubscountries" default=""
+               multiple="true" size="5"
+               label="PLG_AKPAYMENT_COMMON_COUNTRYPIORITY_LABEL"
+               description="PLG_AKPAYMENT_COMMON_COUNTRYPIORITY_DESC"
+        />
+
 				<field type="spacer" />
 				<field name="sid" type="text" size="50" default=""
 					label="PLG_AKPAYMENT_2CONEW_SID_LABEL"

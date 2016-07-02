@@ -1,5 +1,18 @@
-<?php defined('_JEXEC') or die(); ?>
 <?php
+/**
+ * @package        akeebasubs
+ * @copyright      Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
+ */
+
+/** @var  plgAkpayment2checkout  $this */
+/** @var  \Akeeba\Subscriptions\Site\Model\Subscriptions  $subscription */
+/** @var  \Akeeba\Subscriptions\Site\Model\Levels  $level */
+/** @var  \Akeeba\Subscriptions\Site\Model\Users  $user */
+/** @var  stdClass  $data */
+
+defined('_JEXEC') or die();
+
 $t1 = JText::_('COM_AKEEBASUBS_LEVEL_REDIRECTING_HEADER');
 $t2 = JText::_('COM_AKEEBASUBS_LEVEL_REDIRECTING_BODY');
 ?>

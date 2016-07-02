@@ -1,15 +1,8 @@
-/* @override 
-	http://dev15.local.web/media/com_akeebasubs/css/frontend.css
-	http://dev25.local.web/media/com_akeebasubs/css/frontend.css?f4b7b1505825d884cc5d41e6b5dc39ba
-*/
-
 /**
  * @package		akeebasubs
- * @copyright	Copyright (c)2010-2015 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @copyright	Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
-
-@CHARSET "UTF-8";
 
 /**
  * Selective reset of Bootstrap styling
@@ -38,8 +31,18 @@ table.asfelist tfoot tr { background-color: silver; border-top: thin solid black
 table.asfelist tfoot td { text-align: center; }
 
 /*
- * Subscriptions list page
+ * Subscription levels list page
  */
+
+div.akeebasubs-notices {
+    font-size: 80%;
+    color: #888;
+}
+
+/*
+ * Subscription levels list page (default layout)
+ */
+#akeebasubs #vatlabel { margin-right: 0; }
 
 #akeebasubs div.level {
 	display: block;
@@ -261,6 +264,36 @@ div.akeebasubs-awesome-column:hover div.akeebasubs-awesome-header {
 	) !important;
 }
 
+div.akeebasubs-awesome-forexrate-free {
+    display: block;
+    font-size: 35%;
+    margin-top: 0.5em;
+    height: 2em;
+}
+
+div.akeebasubs-awesome-forexrate,
+div.akeebasubs-awesome-forexrate-signup,
+div.akeebasubs-awesome-forexrate-discount {
+    margin-top: 0.5em;
+    font-size: 35%;
+    text-shadow: none;
+    color: #ccc;
+}
+
+div.akeebasubs-awesome-forexrate-signup {
+    margin-top: 0.2em;
+    font-size: 80%;
+}
+
+div.akeebasubs-awesome-forexrate-discount {
+    font-size: 80%;
+    color: #ff9999;
+}
+
+div.akeebasubs-awesome-forexrate-discount small {
+    color: #ccc;
+}
+
 .akeebasubs-awesome-level {
 	margin-bottom: 0.5em;
 	border-top: 1px solid #222;
@@ -304,14 +337,19 @@ a.akeebasubs-awesome-level-link {
     font-weight: normal;
 }
 
-.akeebasubs-awesome-prediscount {
-	color: #f33;
+.akeebasubs-awesome-prediscount,
+.akeebasubs-awesome-prediscount-withforex {
+	color: #ff9999;
 	font-style: italic;
 	font-weight: bold;
 	text-align: center;
 	padding: 0.2em 0;
 	text-shadow: #333 1px 1px 1px;
-	height: 1.2em;
+    height: 1.2em;
+}
+
+.akeebasubs-awesome-prediscount-withforex {
+    height: 2.4em;
 }
 
 .akeebasubs-awesome-taxnotice {
@@ -413,6 +451,30 @@ div.akeebasubs-strappy-taxnotice {
 	color: #797;
 }
 
+div.akeebasubs-strappy-forexrate,
+div.akeebasubs-strappy-forexrate-signup,
+div.akeebasubs-strappy-forexrate-discount {
+    margin-top: 0.5em;
+	font-size: 50%;
+	text-shadow: none;
+	color: #779;
+}
+
+div.akeebasubs-strappy-forexrate-signup {
+    margin-top: 0.2em;
+    font-size: 80%;
+}
+
+div.akeebasubs-strappy-forexrate-discount {
+    font-size: 80%;
+    color: red;
+    text-decoration: line-through;
+}
+
+div.akeebasubs-strappy-forexrate-discount small {
+    color: black;
+}
+
 td.akeebasubs-strappy-signupfee {
 	font-style: italic;
 	font-weight: bold;
@@ -450,240 +512,71 @@ td.akeebasubs-strappy-prediscount span.akeebasubs-strappy-prediscount-label
 /*
  * Subscription page
  */
- 
-#akeebasubs-steps {
-	margin: 0.5em;
-	padding: 0.5em;
-	background-color: #f0f0f0;
-	border-radius: 10px;
-	-moz-border-radius: 10px;
-	-webkit-box-shadow: #ccc 0px 0px 8px;
-}
-
-#akeebasubs-steps-header {
-	font-size: 8pt;
-	font-family: Helvetica, Arial, sans-serif;
-	color: #333;
-	text-shadow: #ccc 1px 1px 0px;
-	text-align: center;
-}
-
-#akeebasubs-steps-bar {
-	font-size: 14pt;
-	font-weight: bold;
-	color: #333;
-	text-shadow: #ccc 1px 1px 1px;
-	text-align: center;
-}
-
-#akeebasubs-steps-bar span.step {
-	display: inline-block;
-	padding: 3px 10px;
-}
-
-#akeebasubs-steps-bar .numbers {
-	display: inline-block;
-	width: 18px;
-	height: 18px;
-	font-size: 12pt;
-	color: #fff;
-	background-color: #333;
-	border-radius: 9px;
-	-moz-border-radius: 9px;
-	text-shadow: #000 1px 1px 1px;
-}
-
-#akeebasubs-steps-bar span.text {
-	display: inline-block;
-}
-
-#akeebasubs-steps-bar span.active span.numbers {
-	color: #f0f0f0;
-	background-color: #cc9900;
-}
-
-#akeebasubs-steps-bar span.active span.text {
-	color: #000;
-	text-shadow: #ffcc00 0px 0px 3px;
-}
- 
-#akeebasubs legend {
-	font-size: 12pt;
-	color: #333;
-}
-
-#akeebasubs-subscribe-level {
-	margin: 2em 0.5em;
-	background-color: #f0f0f0;
-	border-radius: 10px;
-	-moz-border-radius: 10px;
-	-webkit-box-shadow: #ccc 0px 0px 8px;	
-}
-
-#akeebasubs-subscribe-level h3.level-title {
-	margin: 0 !important;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
-	-moz-border-radius-topleft: 10px;
-	-moz-border-radius-topright: 10px;
-}
-
-#akeebasubs-subscribe-level .level-description {
-	margin: 0 !important;
-	border: none !important;
-	border-radius: 0 0 10px 10px !important;
-	-moz-border-radius: 0 0 10px 10px !important;
-}
-
-#akeebasubs h3.subs {
-	color: #333;
-	margin: 0.4em 0 !important;
-	padding: 0.2em !important;
-	font-weight: bold;
-	font-size: 12pt;
-}
-
-#akeebasubs label.main {
-	display: inline-block;
-	width: 33%;
-	padding: 2px;
-	margin: 0 0.5em 0.3em 0;
-	background-color: #e0e0e0;
-}
-
-#akeebasubs input.main {
-	width: 30%;
-}
-
-/*#akeebasubs select {
-	width: 30% !important;
-}*/
-
-#akeebasubs input.vat {
-	width: 10em;
-}
-
-#akeebasubs input.disabled {
-	border: none;
-	background-color: transparent;
-	font-weight: bold;
-	color: #333;
-}
-
-#akeebasubs .currency {
-	display: inline-block;
-	width: 5em;
-	text-align: right;
-	padding: 2px 0;
-	margin-left: -0.8em;
-}
-
-#akeebasubs .currency-symbol {
-	width: 2em;
-	text-align: left;
-	display: inline-block;
-	padding: 2px 5px;
-	margin-left: -0.3em;
-}
-
-#akeebasubs .total {
-	font-weight: bold;
-	color: #333;
-	border-top: 2px solid #333;
-}
-
-#akeebasubs label.error {
-	background-color: #ffe0e0; 
-}
-
-#akeebasubs input.error {
-	background-color: #ffe0e0;
-}
-
-#akeebasubs .valid {
-	font-weight: bold;
-	font-size: 9pt;
-	color: green;
-	display: none;
-	height: 18px;
-	padding: 0 3px 0 0;
-	margin: 0 0 0 5px;
-	border-left: 1px solid #090;
-	background-color: #efe;
-}
-
-#akeebasubs .invalid {
+#akeebasubs label {
 	font-weight: normal;
-	font-size: 9pt;
-	color: red;
-	display: none;
-	height: 18px;
-	padding: 0 3px 0 0;
-	margin: 0 0 0 5px;
-	border-left: 1px solid #900;
-	background-color: #ffe;
 }
 
-.akstriangle {
-	display: inline-block !important;
-	float: left;
-	position: relative;
-	left: -3px;
-	top: 2px;
-	width: 0px;
-	height: 0px;
-	margin: 0 0 0 -11px;
-	padding: 0;
-	border: 7px solid red;
-	border-color: transparent #900 transparent transparent;
+#akeebasubs-panel-order hr {
+	margin: 1.5em 0;
+	border-bottom: double #ccc;
 }
 
-.akstriangle-red {
-	border-color: transparent #900 transparent transparent;
+#akeebasubs-level-login {
+	padding-bottom: 1em;
 }
 
-.akstriangle-green {
-	border-color: transparent #090 transparent transparent;
+#akeebasubs-sum-container {
+	font-size: 120%;
+	margin: 0.8em 0;
 }
 
-#akeebasubs #username_checking {
+#akeebasubs-sum-price {
+	font-size: 140%;
+}
+
+#akeebasubs-sum-discount-container,
+#akeebasubs-sum-original-container {
+	color: #999999;
+}
+
+#akeebasubs-vat-container{
+	color: #333333;
+}
+
+#akeebasubs input.coupon-valid {
+	color: green;
 	font-weight: bold;
-	font-size: 9pt;
-	color: gray;
+	text-transform: uppercase;
 }
 
-#paymentmethod-container label {
-	float: left;
+#akeebasubs input.coupon-invalid {
+	color: red;
+	font-weight: bold;
+	font-style: italic;
 }
 
-#akeebasubs span.akeebasubs-paymentmethod-images {
-	display: inline-block;
-	float: left;
-	width: 60%;
+#akeebasubs div.akeebasubs-paymentmethod-images div.radio {
+	border: thin solid #ccc;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	background: #fafafa;
+	padding: 1em;
+	margin: 1em 0;
 }
 
-/*
-#akeebasubs span.akeebasubs-paymentmethod-images input {
+#akeebasubs div.akeebasubs-paymentmethod-images div.radio label {
+	width: 100%;
+}
+
+#akeebasubs div.akeebasubs-paymentmethod-images div.radio img {
+	display: block;
 	clear: both;
-	float: left;
-	width: 32px;
-	margin-top:  10px;
-}
-*/
-
-#akeebasubs span.akeebasubs-paymentmethod-images label {
-	float: left;
+	margin-bottom: 0.3em;
 }
 
-#akeebasubs span.akeebasubs-paymentmethod-images img {
-	float: left;
-	margin-bottom: 6px;
-}
-
-#akeebasubs span.akeebasubs-paymentmethod-images span {
-	margin-left: 5px;
-	margin-top: 10px;
-	float: left;
+#akeebasubs label.checkbox {
+	padding-left: 20px;
 }
 
 /**

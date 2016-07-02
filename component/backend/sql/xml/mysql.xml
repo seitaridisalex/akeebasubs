@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <schema>
     <!-- Metadata -->
     <meta>
@@ -25,9 +24,9 @@ CREATE TABLE `#__akeebasubs_levels` (
 	`price` FLOAT NOT NULL DEFAULT '0',
 	`signupfee` FLOAT NULL DEFAULT '0',
 	`ordertext` text,
-  `orderurl` VARCHAR( 255 ) NULL,
+    `orderurl` VARCHAR( 255 ) NULL,
 	`canceltext` text,
-  `cancelurl` VARCHAR( 255 ) NULL,
+    `cancelurl` VARCHAR( 255 ) NULL,
 	`only_once` TINYINT(3) NOT NULL DEFAULT 0,
 	`recurring` TINYINT(3) NOT NULL DEFAULT 0,
 	`forever` TINYINT(3) NOT NULL DEFAULT 0,
@@ -51,8 +50,8 @@ CREATE TABLE `#__akeebasubs_levels` (
 	`notify2` int(10) unsigned NOT NULL DEFAULT '15',
 	`notifyafter` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY ( `akeebasubs_level_id` ),
-  UNIQUE KEY `slug` (`slug`)
-) DEFAULT CHARSET=utf8;
+  UNIQUE KEY `slug` (`slug`(100))
+) DEFAULT COLLATE utf8_general_ci;
             ]]></query>
         </action>
 
@@ -94,7 +93,7 @@ CREATE TABLE `#__akeebasubs_subscriptions` (
 	`second_contact` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`after_contact` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
 	PRIMARY KEY ( `akeebasubs_subscription_id` )
-) DEFAULT CHARSET=utf8;
+) DEFAULT COLLATE utf8_general_ci;
             ]]></query>
         </action>
 
@@ -119,7 +118,7 @@ CREATE TABLE `#__akeebasubs_taxrules` (
 	`locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`locked_by` int(11) NOT NULL DEFAULT 0,
 	PRIMARY KEY ( `akeebasubs_taxrule_id` )
-) DEFAULT CHARSET=utf8;
+) DEFAULT COLLATE utf8_general_ci;
             ]]></query>
         </action>
 
@@ -127,15 +126,15 @@ CREATE TABLE `#__akeebasubs_taxrules` (
             <condition type="missing" value="" />
             <query><![CDATA[
 CREATE TABLE `#__akeebasubs_coupons` (
-	`akeebasubs_coupon_id` bigint(20) unsigned NOT NULL auto_increment,
-  `akeebasubs_apicoupon_id` INT NOT NULL,
-  `title` varchar(255) NOT NULL,
+    `akeebasubs_coupon_id` bigint(20) unsigned NOT NULL auto_increment,
+    `akeebasubs_apicoupon_id` INT NOT NULL,
+    `title` varchar(255) NOT NULL,
 	`coupon` varchar(255) NOT NULL,
 	`publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`subscriptions` VARCHAR(255) NULL,
 	`user` int(10) DEFAULT NULL,
-  `email` VARCHAR( 255 ) NULL,
+    `email` VARCHAR( 255 ) NULL,
 	`params` TEXT,
 	`hitslimit` BIGINT(20) unsigned NULL,
 	`userhits` BIGINT(20) unsigned NULL,
@@ -153,8 +152,8 @@ CREATE TABLE `#__akeebasubs_coupons` (
 	`locked_by` int(11) NOT NULL DEFAULT 0,
 	`hits` BIGINT(20) unsigned NOT NULL default 0,
 	PRIMARY KEY ( `akeebasubs_coupon_id` ),
-	UNIQUE KEY `coupon` (`coupon`)
-) DEFAULT CHARSET=utf8;
+	UNIQUE KEY `coupon` (`coupon`(100))
+) DEFAULT COLLATE utf8_general_ci;
             ]]></query>
         </action>
 
@@ -174,7 +173,7 @@ CREATE TABLE `#__akeebasubs_apicoupons` (
   `value` float NOT NULL DEFAULT '0',
   `value_limit` INT NOT NULL,
   PRIMARY KEY (`akeebasubs_apicoupon_id`)
-) DEFAULT CHARSET=utf8;
+) DEFAULT COLLATE utf8_general_ci;
             ]]></query>
         </action>
 
@@ -191,7 +190,7 @@ CREATE TABLE `#__akeebasubs_upgrades` (
 	`type` ENUM('value','percent', 'lastpercent') NOT NULL DEFAULT 'value',
 	`value` FLOAT NOT NULL DEFAULT '0.0',
 	`combine` tinyint(1) NOT NULL DEFAULT '0',
-    `expired` tinyint(1) NOT NULL DEFAULT '0'
+    `expired` tinyint(1) NOT NULL DEFAULT '0',
 	`enabled` tinyint(1) NOT NULL DEFAULT '1',
 	`ordering` bigint(20) unsigned NOT NULL,
 	`created_on` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -202,7 +201,7 @@ CREATE TABLE `#__akeebasubs_upgrades` (
 	`locked_by` int(11) NOT NULL DEFAULT 0,
 	`hits` BIGINT(20) unsigned NOT NULL default '0',
 	PRIMARY KEY ( `akeebasubs_upgrade_id` )
-) DEFAULT CHARSET=utf8;
+) DEFAULT COLLATE utf8_general_ci;
             ]]></query>
         </action>
 
@@ -226,10 +225,10 @@ CREATE TABLE `#__akeebasubs_users` (
 	`country` CHAR(2) NOT NULL DEFAULT 'XX',
 	`params` TEXT,
 	`notes` TEXT,
-  `needs_logout` TINYINT NOT NULL DEFAULT '0',
+    `needs_logout` TINYINT NOT NULL DEFAULT '0',
 	PRIMARY KEY ( `akeebasubs_user_id` ),
 	UNIQUE KEY `joomlauser` (`user_id`)
-) DEFAULT CHARSET=utf8;
+) DEFAULT COLLATE utf8_general_ci;
             ]]></query>
         </action>
 
@@ -240,7 +239,7 @@ CREATE TABLE `#__akeebasubs_configurations` (
 	`akeebasubs_configuration_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`params` TEXT COMMENT '@Filter("json")',
 	PRIMARY KEY (`akeebasubs_configuration_id`)
-) DEFAULT CHARSET=utf8;
+) DEFAULT COLLATE utf8_general_ci;
             ]]></query>
         </action>
 
@@ -268,7 +267,7 @@ CREATE TABLE `#__akeebasubs_invoices` (
 	`locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`locked_by` int(11) NOT NULL DEFAULT 0,
 	PRIMARY KEY (`akeebasubs_subscription_id`)
-) DEFAULT CHARSET=utf8;
+) DEFAULT COLLATE utf8_general_ci;
             ]]></query>
         </action>
 
@@ -288,7 +287,7 @@ CREATE TABLE `#__akeebasubs_levelgroups` (
 	`locked_by` int(11) NOT NULL DEFAULT 0,
 
 	PRIMARY KEY (`akeebasubs_levelgroup_id`)
-) DEFAULT CHARSET=utf8;
+) DEFAULT COLLATE utf8_general_ci;
             ]]></query>
         </action>
 
@@ -309,7 +308,7 @@ CREATE TABLE `#__akeebasubs_invoicetemplates` (
 
 	`enabled` tinyint(1) NOT NULL DEFAULT '1',
 	`ordering` bigint(20) unsigned NOT NULL,
-  `noinvoice` TINYINT NOT NULL DEFAULT '0',
+	`noinvoice` TINYINT NOT NULL DEFAULT '0',
 	`created_on` datetime NOT NULL default '0000-00-00 00:00:00',
 	`created_by` int(11) NOT NULL DEFAULT 0,
 	`modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -318,34 +317,14 @@ CREATE TABLE `#__akeebasubs_invoicetemplates` (
 	`locked_by` int(11) NOT NULL DEFAULT 0,
 
 	PRIMARY KEY (`akeebasubs_invoicetemplate_id`)
-) DEFAULT CHARSET=utf8;
+) DEFAULT COLLATE utf8_general_ci;
             ]]></query>
         </action>
 
-        <action table="#__akeebasubs_customfields" canfail="0">
-            <condition type="missing" value="" />
+        <action table="#__akeebasubs_customfields" canfail="1">
+            <condition type="missing" operator="not" value="" />
             <query><![CDATA[
-CREATE TABLE `#__akeebasubs_customfields` (
-	`akeebasubs_customfield_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-	`title` varchar(255) NOT NULL DEFAULT '',
-	`slug` varchar(255) NOT NULL DEFAULT '',
-	`show` enum('all','level','notlevel') NOT NULL DEFAULT 'all',
-	`akeebasubs_level_id` VARCHAR(255) NOT NULL DEFAULT '0',
-	`type` varchar(100) NOT NULL DEFAULT 'text',
-	`options` mediumtext,
-	`default` varchar(255) DEFAULT '',
-	`allow_empty` tinyint(3) NOT NULL DEFAULT '0',
-	`valid_label` varchar(255) DEFAULT '',
-	`invalid_label` varchar(255) DEFAULT '',
-	`params` mediumtext,
-	`enabled` tinyint(3) NOT NULL DEFAULT '1',
-	`ordering` bigint(20) unsigned NOT NULL DEFAULT '0',
-	`created_by` bigint(20) NOT NULL DEFAULT '0',
-	`created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-	`modified_by` bigint(20) NOT NULL DEFAULT '0',
-	`modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-	PRIMARY KEY (`akeebasubs_customfield_id`)
-) DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `#__akeebasubs_customfields`;
             ]]></query>
         </action>
 
@@ -353,20 +332,20 @@ CREATE TABLE `#__akeebasubs_customfields` (
             <condition type="missing" value="" />
             <query><![CDATA[
 CREATE TABLE `#__akeebasubs_states` (
-  `akeebasubs_state_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `country` char(2) NOT NULL DEFAULT 'US',
-  `state` varchar(10) NOT NULL DEFAULT '',
-  `label` varchar(255) NOT NULL DEFAULT '',
-  `enabled` tinyint(3) NOT NULL DEFAULT '0',
-  `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_by` int(11) NOT NULL DEFAULT '0',
-  `modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` int(11) NOT NULL DEFAULT '0',
-  `locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `locked_by` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`akeebasubs_state_id`),
-  UNIQUE KEY `akeebasubs_state_unique` (`state`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+    `akeebasubs_state_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+    `country` char(2) NOT NULL DEFAULT 'US',
+    `state` varchar(10) NOT NULL DEFAULT '',
+    `label` varchar(255) NOT NULL DEFAULT '',
+    `enabled` tinyint(3) NOT NULL DEFAULT '0',
+    `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+    `created_by` int(11) NOT NULL DEFAULT '0',
+    `modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+    `modified_by` int(11) NOT NULL DEFAULT '0',
+    `locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+    `locked_by` int(11) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`akeebasubs_state_id`),
+    UNIQUE KEY `akeebasubs_state_unique` (`state`)
+) DEFAULT COLLATE utf8_general_ci;
             ]]></query>
         </action>
 
@@ -374,35 +353,35 @@ CREATE TABLE `#__akeebasubs_states` (
             <condition type="missing" value="" />
             <query><![CDATA[
 CREATE TABLE `#__akeebasubs_relations` (
-  `akeebasubs_relation_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `source_level_id` BIGINT(20) NOT NULL DEFAULT 0,
-  `target_level_id` BIGINT(20) NOT NULL DEFAULT 0,
-  `mode` ENUM('rules','fixed','flexi') NOT NULL DEFAULT 'flexi',
-  `type` ENUM('percent','value') NOT NULL DEFAULT 'percent',
-  `amount` FLOAT NOT NULL DEFAULT 0.0,
-  `low_threshold` INTEGER NOT NULL DEFAULT 0,
-  `low_amount` FLOAT NOT NULL DEFAULT 0.0,
-  `high_threshold` INTEGER NOT NULL DEFAULT 0,
-  `high_amount` FLOAT NOT NULL DEFAULT 0.0,
-  `flex_amount` FLOAT NOT NULL DEFAULT 0.0,
-  `flex_period` INTEGER NOT NULL DEFAULT 0,
-  `flex_uom` ENUM('d','w','m','y') NOT NULL DEFAULT 'd',
-  `flex_timecalculation` ENUM('current','future') NOT NULL DEFAULT 'current',
-  `time_rounding` ENUM('floor','ceil','round') NOT NULL DEFAULT 'round',
-  `expiration` ENUM('replace','after','overlap') NOT NULL DEFAULT 'replace',
-  `combine` tinyint(3) NOT NULL DEFAULT '0',
-  `enabled` tinyint(3) NOT NULL DEFAULT '0',
-  `ordering` bigint(20) unsigned NOT NULL,
-  `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_by` int(11) NOT NULL DEFAULT '0',
-  `modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` int(11) NOT NULL DEFAULT '0',
-  `locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `locked_by` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`akeebasubs_relation_id`),
-  UNIQUE KEY `akeebasubs_relation_unique` (`source_level_id`,`target_level_id`),
-  KEY `akeebasubs_relations_target` (`target_level_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+    `akeebasubs_relation_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+    `source_level_id` BIGINT(20) NOT NULL DEFAULT 0,
+    `target_level_id` BIGINT(20) NOT NULL DEFAULT 0,
+    `mode` ENUM('rules','fixed','flexi') NOT NULL DEFAULT 'flexi',
+    `type` ENUM('percent','value') NOT NULL DEFAULT 'percent',
+    `amount` FLOAT NOT NULL DEFAULT 0.0,
+    `low_threshold` INTEGER NOT NULL DEFAULT 0,
+    `low_amount` FLOAT NOT NULL DEFAULT 0.0,
+    `high_threshold` INTEGER NOT NULL DEFAULT 0,
+    `high_amount` FLOAT NOT NULL DEFAULT 0.0,
+    `flex_amount` FLOAT NOT NULL DEFAULT 0.0,
+    `flex_period` INTEGER NOT NULL DEFAULT 0,
+    `flex_uom` ENUM('d','w','m','y') NOT NULL DEFAULT 'd',
+    `flex_timecalculation` ENUM('current','future') NOT NULL DEFAULT 'current',
+    `time_rounding` ENUM('floor','ceil','round') NOT NULL DEFAULT 'round',
+    `expiration` ENUM('replace','after','overlap') NOT NULL DEFAULT 'replace',
+    `combine` tinyint(3) NOT NULL DEFAULT '0',
+    `enabled` tinyint(3) NOT NULL DEFAULT '0',
+    `ordering` bigint(20) unsigned NOT NULL,
+    `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+    `created_by` int(11) NOT NULL DEFAULT '0',
+    `modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+    `modified_by` int(11) NOT NULL DEFAULT '0',
+    `locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+    `locked_by` int(11) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`akeebasubs_relation_id`),
+    UNIQUE KEY `akeebasubs_relation_unique` (`source_level_id`,`target_level_id`),
+    KEY `akeebasubs_relations_target` (`target_level_id`)
+) DEFAULT COLLATE utf8_general_ci;
             ]]></query>
         </action>
 
@@ -410,22 +389,22 @@ CREATE TABLE `#__akeebasubs_relations` (
             <condition type="missing" value="" />
             <query><![CDATA[
 CREATE TABLE `#__akeebasubs_emailtemplates` (
-  `akeebasubs_emailtemplate_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `key` varchar(255) NOT NULL DEFAULT '',
-  `subscription_level_id` bigint(20) DEFAULT '0',
-  `subject` varchar(255) NOT NULL DEFAULT '',
-  `body` text,
-  `language` varchar(10) NOT NULL DEFAULT '*',
-  `enabled` tinyint(4) NOT NULL DEFAULT '1',
-  `ordering` bigint(20) NOT NULL DEFAULT '0',
-  `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_by` bigint(20) NOT NULL DEFAULT '0',
-  `modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modifed_by` bigint(20) NOT NULL DEFAULT '0',
-  `locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `locked_by` bigint(20) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`akeebasubs_emailtemplate_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+    `akeebasubs_emailtemplate_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+    `key` varchar(255) NOT NULL DEFAULT '',
+    `subscription_level_id` bigint(20) DEFAULT '0',
+    `subject` varchar(255) NOT NULL DEFAULT '',
+    `body` text,
+    `language` varchar(10) NOT NULL DEFAULT '*',
+    `enabled` tinyint(4) NOT NULL DEFAULT '1',
+    `ordering` bigint(20) NOT NULL DEFAULT '0',
+    `created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+    `created_by` bigint(20) NOT NULL DEFAULT '0',
+    `modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+    `modified_by` bigint(20) NOT NULL DEFAULT '0',
+    `locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+    `locked_by` bigint(20) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`akeebasubs_emailtemplate_id`)
+) DEFAULT COLLATE utf8_general_ci;
             ]]></query>
         </action>
 
@@ -443,12 +422,63 @@ CREATE TABLE `#__akeebasubs_blockrules` (
 	`created_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`created_by` bigint(20) NOT NULL DEFAULT '0',
 	`modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-	`modifed_by` bigint(20) NOT NULL DEFAULT '0',
+	`modified_by` bigint(20) NOT NULL DEFAULT '0',
 	`locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`locked_by` bigint(20) NOT NULL DEFAULT '0',
 
 	PRIMARY KEY (`akeebasubs_blockrule_id`)
-) DEFAULT CHARSET=utf8;
+) DEFAULT COLLATE utf8_general_ci;
+            ]]></query>
+        </action>
+
+        <action table="#__akeebasubs_creditnotetemplates" canfail="0">
+            <condition type="missing" value="" />
+            <query><![CDATA[
+CREATE TABLE `#__akeebasubs_creditnotetemplates` (
+	`akeebasubs_invoicetemplate_id` bigint(20) NOT NULL AUTO_INCREMENT,
+	`template` TEXT,
+	`globalformat` tinyint(3) NOT NULL DEFAULT '1',
+	`globalnumbering` tinyint(3) NOT NULL DEFAULT '1',
+	`number_reset` bigint(20) NOT NULL DEFAULT '0',
+	`format` varchar(100) NOT NULL DEFAULT '',
+
+	`enabled` tinyint(1) NOT NULL DEFAULT '1',
+	`ordering` bigint(20) unsigned NOT NULL,
+	`created_on` datetime NOT NULL default '0000-00-00 00:00:00',
+	`created_by` int(11) NOT NULL DEFAULT 0,
+	`modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`modified_by` int(11) NOT NULL DEFAULT 0,
+	`locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`locked_by` int(11) NOT NULL DEFAULT 0,
+
+	PRIMARY KEY (`akeebasubs_invoicetemplate_id`)
+) DEFAULT COLLATE utf8_general_ci;
+            ]]></query>
+        </action>
+
+        <action table="#__akeebasubs_creditnotes" canfail="0">
+            <condition type="missing" value="" />
+            <query><![CDATA[
+CREATE TABLE `#__akeebasubs_creditnotes` (
+	`akeebasubs_invoice_id` BIGINT(20) UNSIGNED NOT NULL,
+	`creditnote_no` BIGINT(20) unsigned NOT NULL,
+	`display_number` VARCHAR(255) NULL,
+	`creditnote_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`html` LONGTEXT,
+	`atxt` LONGTEXT,
+	`btxt` LONGTEXT,
+	`filename` VARCHAR(255) NULL,
+	`sent_on` DATETIME NULL,
+
+	`enabled` tinyint(1) NOT NULL DEFAULT '1',
+	`created_on` datetime NOT NULL default '0000-00-00 00:00:00',
+	`created_by` int(11) NOT NULL DEFAULT 0,
+	`modified_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`modified_by` int(11) NOT NULL DEFAULT 0,
+	`locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`locked_by` int(11) NOT NULL DEFAULT 0,
+	PRIMARY KEY (`akeebasubs_invoice_id`)
+) DEFAULT COLLATE utf8_general_ci;
             ]]></query>
         </action>
 
@@ -459,7 +489,18 @@ SELECT COUNT(*) FROM `#__akeebasubs_invoicetemplates` WHERE `akeebasubs_invoicet
             <query><![CDATA[
 REPLACE INTO `#__akeebasubs_invoicetemplates` (`akeebasubs_invoicetemplate_id`, `title`, `template`, `levels`, `enabled`, `ordering`, `created_on`, `created_by`, `modified_on`, `modified_by`, `locked_on`, `locked_by`)
 VALUES
-	(1, 'Sample invoice', '<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td align=\"left\" width=\"100%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td width=\"100%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td align=\"left\" valign=\"top\" width=\"50%\">\r\n<p style=\"font-size: 12pt; font-family: arial, helvetica, sans-serif; font-weight: bold;\">Your Company Name</p>\r\n<p style=\"font-family: arial, helvetica, sans-serif;\">Someplace Drive 123,<br /> 12345 Somewhere,<br /> Country</p>\r\n<p style=\"font-family: arial, helvetica, sans-serif;\">VAT Number: XX012345678<br /> Tel: +00 123 456 7890</p>\r\n</td>\r\n<td align=\"center\" valign=\"middle\" width=\"50%\">Your logo goes here</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"left\" width=\"100%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td align=\"left\" valign=\"top\" width=\"50%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td style=\"background-color: #d6d6d6;\" colspan=\"2\" align=\"left\">\r\n<h4 style=\"margin: 0px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Customer Information</span></h4>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Business name</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:BUSINESSNAME]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Business activity</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:OCCUPATION]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">VAT Number</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:VATNUMBER]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Contact Name</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:NAME]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Email</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:EMAIL]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Address</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:ADDRESS1]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong> </strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:ADDRESS2]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">City / State</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:CITY] [USER:STATE_FORMATTED]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Postal Code</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:ZIP]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Country</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:COUNTRY]</span></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n<td align=\"left\" valign=\"top\" width=\"50%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td style=\"background-color: #d6d6d6;\" colspan=\"2\" align=\"left\">\r\n<h4 style=\"margin: 0px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Invoice Information</span></h4>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Invoice Number</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[INV:NUMBER]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Invoice Date</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[INV:INVOICE_DATE_EU]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\"> </span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\"> </span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">This invoice is <span style=\"color: #008000;\">PAID</span></span></strong></td>\r\n<td align=\"left\"> </td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong> </strong></td>\r\n<td align=\"left\"> </td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Payment method</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[SUB:PROCESSOR]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Payment ID</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[SUB:PROCESSOR_KEY]</span></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"background-color: #d6d6d6;\" colspan=\"2\" align=\"left\">\r\n<h4 style=\"margin: 0px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Order Items</span></h4>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"left\" width=\"100%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td style=\"text-align: left;\" align=\"left\" valign=\"top\" width=\"15%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Item ID</span></strong></td>\r\n<td style=\"text-align: left;\" align=\"left\" valign=\"top\" width=\"60%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Description</span></strong></td>\r\n<td style=\"text-align: left;\" align=\"right\" valign=\"top\" width=\"25%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Price</span></strong></td>\r\n</tr>\r\n<tr>\r\n<td style=\"text-align: left;\" align=\"left\" valign=\"top\" width=\"15%\"><span style=\"font-family: arial, helvetica, sans-serif;\">[LEVEL:ID]</span></td>\r\n<td style=\"text-align: left;\" align=\"left\" valign=\"top\" width=\"60%\"><span style=\"font-family: arial, helvetica, sans-serif;\">#[SUB:ID] – \"[LEVEL:TITLE]\" subscription</span></td>\r\n<td style=\"text-align: right;\" align=\"right\" valign=\"top\" width=\"25%\"><span style=\"font-family: arial, helvetica, sans-serif;\">[$] [SUB:PREDISCOUNT_AMOUNT] </span></td>\r\n</tr>\r\n<tr>\r\n<td style=\"text-align: left;\" align=\"left\" valign=\"top\" width=\"15%\"> </td>\r\n<td style=\"text-align: left;\" align=\"left\" valign=\"top\" width=\"60%\"><span style=\"font-family: arial, helvetica, sans-serif;\">Username: [USER:USERNAME] • Your Download ID: [DLID]</span></td>\r\n<td style=\"text-align: right;\" align=\"right\" valign=\"top\" width=\"25%\"> </td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"right\" valign=\"top\" width=\"75%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Discount :</span></strong></td>\r\n<td style=\"text-align: right;\" align=\"right\" valign=\"top\" width=\"25%\"><span style=\"font-family: arial, helvetica, sans-serif;\">[$] [SUB:DISCOUNT_AMOUNT]</span></td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"right\" valign=\"top\" width=\"75%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Subtotal :</span></strong></td>\r\n<td style=\"text-align: right;\" align=\"right\" valign=\"top\" width=\"25%\"><span style=\"font-family: arial, helvetica, sans-serif;\">[$] [SUB:NET_AMOUNT]</span></td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"right\" valign=\"top\" width=\"75%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">VAT [SUB:TAX_PERCENT]% :</span></strong></td>\r\n<td style=\"text-align: right;\" align=\"right\" valign=\"top\" width=\"25%\"><span style=\"font-family: arial, helvetica, sans-serif;\">[$] [SUB:TAX_AMOUNT]</span></td>\r\n</tr>\r\n<tr>\r\n<td style=\"background-color: #f5f5f5; text-align: right;\" colspan=\"2\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Total Payable Amount :</span></strong></td>\r\n<td style=\"background-color: #f5f5f5; text-align: right;\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">[$] [SUB:GROSS_AMOUNT] </span></strong></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"background-color: #d6d6d6;\" colspan=\"2\" align=\"left\">\r\n<h4 style=\"margin: 0px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Invoice Notes</span></h4>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"left\" width=\"100%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p><span><span style=\"font-family: arial, helvetica, sans-serif;\">[VAT_NOTICE]</span></span><span style=\"font-family: arial, helvetica, sans-serif;\"><br /></span></p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>', '0', 1, 0, '2012-06-22 16:48:15', 42, '2013-02-08 16:17:11', 42, '0000-00-00 00:00:00', 0);
+	(1, 'Sample invoice', '<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td align=\"left\" width=\"100%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td width=\"100%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td align=\"left\" valign=\"top\" width=\"50%\">\r\n<p style=\"font-size: 12pt; font-family: arial, helvetica, sans-serif; font-weight: bold;\">Your Company Name</p>\r\n<p style=\"font-family: arial, helvetica, sans-serif;\">Someplace Drive 123,<br /> 12345 Somewhere,<br /> Country</p>\r\n<p style=\"font-family: arial, helvetica, sans-serif;\">VAT Number: XX012345678<br /> Tel: +00 123 456 7890</p>\r\n</td>\r\n<td align=\"center\" valign=\"middle\" width=\"50%\">Your logo goes here</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"left\" width=\"100%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td align=\"left\" valign=\"top\" width=\"50%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td style=\"background-color: #d6d6d6;\" colspan=\"2\" align=\"left\">\r\n<h4 style=\"margin: 0px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Customer Information</span></h4>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Business name</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:BUSINESSNAME]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Business activity</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:OCCUPATION]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">VAT Number</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:VATNUMBER]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Contact Name</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:NAME]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Email</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:EMAIL]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Address</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:ADDRESS1]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong> </strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:ADDRESS2]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">City / State</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:CITY] [USER:STATE_FORMATTED]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Postal Code</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:ZIP]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Country</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:COUNTRY]</span></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n<td align=\"left\" valign=\"top\" width=\"50%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td style=\"background-color: #d6d6d6;\" colspan=\"2\" align=\"left\">\r\n<h4 style=\"margin: 0px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Invoice Information</span></h4>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Invoice Number</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[INV:NUMBER]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Invoice Date</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[INV:INVOICE_DATE_EU]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\"> </span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\"> </span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">This invoice is <span style=\"color: #008000;\">PAID</span></span></strong></td>\r\n<td align=\"left\"> </td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong> </strong></td>\r\n<td align=\"left\"> </td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Payment method</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[SUB:PROCESSOR]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Payment ID</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[SUB:PROCESSOR_KEY]</span></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"background-color: #d6d6d6;\" colspan=\"2\" align=\"left\">\r\n<h4 style=\"margin: 0px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Order Items</span></h4>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"left\" width=\"100%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td style=\"text-align: left;\" align=\"left\" valign=\"top\" width=\"15%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Item ID</span></strong></td>\r\n<td style=\"text-align: left;\" align=\"left\" valign=\"top\" width=\"60%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Description</span></strong></td>\r\n<td style=\"text-align: left;\" align=\"right\" valign=\"top\" width=\"25%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Price</span></strong></td>\r\n</tr>\r\n<tr>\r\n<td style=\"text-align: left;\" align=\"left\" valign=\"top\" width=\"15%\"><span style=\"font-family: arial, helvetica, sans-serif;\">[LEVEL:ID]</span></td>\r\n<td style=\"text-align: left;\" align=\"left\" valign=\"top\" width=\"60%\"><span style=\"font-family: arial, helvetica, sans-serif;\">#[SUB:ID] – \"[LEVEL:TITLE]\" subscription</span></td>\r\n<td style=\"text-align: right;\" align=\"right\" valign=\"top\" width=\"25%\"><span style=\"font-family: arial, helvetica, sans-serif;\">[$] [SUB:PREDISCOUNT_AMOUNT] </span></td>\r\n</tr>\r\n<tr>\r\n<td style=\"text-align: left;\" align=\"left\" valign=\"top\" width=\"15%\"> </td>\r\n<td style=\"text-align: left;\" align=\"left\" valign=\"top\" width=\"60%\"><span style=\"font-family: arial, helvetica, sans-serif;\">Username: [USER:USERNAME] • Your Download ID: [DLID]</span></td>\r\n<td style=\"text-align: right;\" align=\"right\" valign=\"top\" width=\"25%\"> </td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"right\" valign=\"top\" width=\"75%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Discount :</span></strong></td>\r\n<td style=\"text-align: right;\" align=\"right\" valign=\"top\" width=\"25%\"><span style=\"font-family: arial, helvetica, sans-serif;\">[$] [SUB:DISCOUNT_AMOUNT]</span></td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"right\" valign=\"top\" width=\"75%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Subtotal :</span></strong></td>\r\n<td style=\"text-align: right;\" align=\"right\" valign=\"top\" width=\"25%\"><span style=\"font-family: arial, helvetica, sans-serif;\">[$] [SUB:NET_AMOUNT]</span></td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"right\" valign=\"top\" width=\"75%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">VAT [SUB:TAX_PERCENT]% :</span></strong></td>\r\n<td style=\"text-align: right;\" align=\"right\" valign=\"top\" width=\"25%\"><span style=\"font-family: arial, helvetica, sans-serif;\">[$] [SUB:TAX_AMOUNT]</span></td>\r\n</tr>\r\n<tr>\r\n<td style=\"background-color: #f5f5f5; text-align: right;\" colspan=\"2\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Total Payable Amount :</span></strong></td>\r\n<td style=\"background-color: #f5f5f5; text-align: right;\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">[$] [SUB:GROSS_AMOUNT] </span></strong></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"background-color: #d6d6d6;\" colspan=\"2\" align=\"left\">\r\n<h4 style=\"margin: 0px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Invoice Notes</span></h4>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"left\" width=\"100%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p><span><span style=\"font-family: arial, helvetica, sans-serif;\">[VAT_NOTICE]</span></span><span style=\"font-family: arial, helvetica, sans-serif;\"><br /></span></p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>', '0', 1, 0, '2012-06-22 16:48:15', 42, '2013-02-08 16:17:11', 42, '0000-00-00 00:00:00', 0);
+            ]]></query>
+        </action>
+
+        <action table="#__akeebasubs_creditnotetemplates" canfail="1">
+            <condition type="equals" operator="not" value="1"><![CDATA[
+SELECT COUNT(*) FROM `#__akeebasubs_creditnoteemplates` WHERE `akeebasubs_invoicetemplate_id` = 1;
+            ]]></condition>
+            <query><![CDATA[
+REPLACE INTO `#__akeebasubs_creditnotetemplates` (`akeebasubs_invoicetemplate_id`, `template`, `globalformat`, `globalnumbering`, `number_reset`, `format`, `enabled`, `ordering`, `created_on`, `created_by`, `modified_on`, `modified_by`, `locked_on`, `locked_by`)
+VALUES
+	(1, '<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td align=\"left\" width=\"100%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td width=\"100%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td align=\"left\" valign=\"top\" width=\"50%\">\r\n<p style=\"font-size: 12pt; font-family: arial, helvetica, sans-serif; font-weight: bold;\">Your Company Name</p>\r\n<p style=\"font-family: arial, helvetica, sans-serif;\">Someplace Drive 123,<br />12345 Somewhere,<br />Country</p>\r\n<p style=\"font-family: arial, helvetica, sans-serif;\">VAT Number: XX012345678<br />Tel: +00 123 456 7890</p>\r\n</td>\r\n<td align=\"center\" valign=\"middle\" width=\"50%\">Your logo goes here</td>\r\n</tr>\r\n<tr>\r\n<td style=\"background-color: #d6d6d6;\" colspan=\"2\" align=\"left\">\r\n<h2 style=\"margin: 0px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Credit Note</span></h2>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"left\" width=\"100%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td align=\"left\" valign=\"top\" width=\"50%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td style=\"background-color: #d6d6d6;\" colspan=\"2\" align=\"left\">\r\n<h4 style=\"margin: 0px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Customer Information</span></h4>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Business name</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:BUSINESSNAME]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Business activity</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:OCCUPATION]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">VAT Number</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:VATNUMBER]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Contact Name</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:NAME]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Email</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:EMAIL]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Address</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:ADDRESS1]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong> </strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:ADDRESS2]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">City / State</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:CITY] [USER:STATE_FORMATTED]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Postal Code</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:ZIP]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Country</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[USER:COUNTRY]</span></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n<td align=\"left\" valign=\"top\" width=\"50%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td style=\"background-color: #d6d6d6;\" colspan=\"2\" align=\"left\">\r\n<h4 style=\"margin: 0px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Credit Note Information</span></h4>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Credit Note Number</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[CN:NUMBER]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Credit Note Date</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[CN:DATE_EU]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">This credit note is issued against the following invoice:</span></strong></td>\r\n<td align=\"left\"> </td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Invoice Number</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[INV:NUMBER]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Invoice Date</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[INV:INVOICE_DATE_EU]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\"> </span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\"> </span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong> </strong></td>\r\n<td align=\"left\"> </td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Payment method</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[SUB:PROCESSOR]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" width=\"50%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Payment ID</span></strong></td>\r\n<td align=\"left\"><span style=\"font-family: arial, helvetica, sans-serif;\">[SUB:PROCESSOR_KEY]</span></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"background-color: #d6d6d6;\" colspan=\"2\" align=\"left\">\r\n<h4 style=\"margin: 0px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Credit Note Items</span></h4>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"left\" width=\"100%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td align=\"left\" valign=\"top\" width=\"15%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Item ID</span></strong></td>\r\n<td align=\"left\" valign=\"top\" width=\"60%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Description</span></strong></td>\r\n<td align=\"right\" valign=\"top\" width=\"25%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Price</span></strong></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" valign=\"top\" width=\"15%\"><span style=\"font-family: arial, helvetica, sans-serif;\">[LEVEL:ID]</span></td>\r\n<td align=\"left\" valign=\"top\" width=\"60%\"><span style=\"font-family: arial, helvetica, sans-serif;\">#[SUB:ID] – \"[LEVEL:TITLE]\" subscription</span></td>\r\n<td style=\"text-align: right;\" align=\"right\" valign=\"top\" width=\"25%\"><span style=\"font-family: arial, helvetica, sans-serif;\">[$] -[SUB:PREDISCOUNT_AMOUNT]</span></td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\" valign=\"top\" width=\"15%\"> </td>\r\n<td align=\"left\" valign=\"top\" width=\"60%\"><span style=\"font-family: arial, helvetica, sans-serif;\">Username: [USER:USERNAME] • Your Download ID: [DLID]</span></td>\r\n<td style=\"text-align: right;\" align=\"right\" valign=\"top\" width=\"25%\"> </td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"right\" valign=\"top\" width=\"75%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Discount :</span></strong></td>\r\n<td style=\"text-align: right;\" align=\"right\" valign=\"top\" width=\"25%\"><span style=\"font-family: arial, helvetica, sans-serif;\">[$] -[SUB:DISCOUNT_AMOUNT]</span></td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"right\" valign=\"top\" width=\"75%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Subtotal :</span></strong></td>\r\n<td style=\"text-align: right;\" align=\"right\" valign=\"top\" width=\"25%\"><span style=\"font-family: arial, helvetica, sans-serif;\">[$] -[SUB:NET_AMOUNT]</span></td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"right\" valign=\"top\" width=\"75%\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">VAT [SUB:TAX_PERCENT]% :</span></strong></td>\r\n<td style=\"text-align: right;\" align=\"right\" valign=\"top\" width=\"25%\"><span style=\"font-family: arial, helvetica, sans-serif;\">[$] -[SUB:TAX_AMOUNT]</span></td>\r\n</tr>\r\n<tr>\r\n<td style=\"background-color: #f5f5f5; text-align: right;\" colspan=\"2\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">Total Payable Amount :</span></strong></td>\r\n<td style=\"background-color: #f5f5f5; text-align: right;\"><strong><span style=\"font-family: arial, helvetica, sans-serif;\">[$] -[SUB:GROSS_AMOUNT]</span></strong></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"background-color: #d6d6d6;\" colspan=\"2\" align=\"left\">\r\n<h4 style=\"margin: 0px;\"><span style=\"font-family: arial, helvetica, sans-serif;\">Credit Note Remarks</span></h4>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" align=\"left\" width=\"100%\">\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p><span style=\"font-family: arial, helvetica, sans-serif;\">[VAT_NOTICE]</span><span style=\"font-family: arial, helvetica, sans-serif;\"><br /></span></p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>', 1, 1, 0, '', 1, 0, '2016-06-30 13:11:13', 681, '2016-06-30 13:11:42', 681, '0000-00-00 00:00:00', 0);
             ]]></query>
         </action>
 
@@ -704,25 +745,23 @@ SELECT COUNT(*) FROM `#__akeebasubs_emailtemplates` WHERE `akeebasubs_emailtempl
             ]]></condition>
             <query><![CDATA[
 REPLACE INTO `#__akeebasubs_emailtemplates`
-(`akeebasubs_emailtemplate_id`, `key`, `subscription_level_id`, `subject`, `body`, `language`, `enabled`, `ordering`, `created_on`, `created_by`, `modified_on`, `modifed_by`, `locked_on`, `locked_by`)
+(`akeebasubs_emailtemplate_id`, `key`, `subscription_level_id`, `subject`, `body`, `language`, `enabled`, `ordering`, `created_on`, `created_by`, `modified_on`, `modified_by`, `locked_on`, `locked_by`)
 VALUES
-	(1, 'subscriptionemails_paid', 0, 'Your [LEVEL] subscription at [SITENAME] is now enabled', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>The payment for your [LEVEL] subscription on our site has just been cleared. Your subscription is now activated and will remain active until [PUBLISH_DOWN] GMT.</p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n<p>You can <a href=\"[MYSUBSURL]\">review the status of all your subscriptions</a> any time on our site.</p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription in <em>[SITENAME]</em>. <span style=\"line-height: 1.3em;\">Do not reply to this email, it\'s sent from an unmonitored email address.</span></p>\r\n</div>\r\n<p style=\"text-align: right; font-size: 7pt; color: #ccc;\">Powered by <a href=\"https://www.akeebabackup.com/products/akeeba-subscriptions.html\" style=\"color: #ccf; text-decoration: none;\">Akeeba Subscriptions</a></p>', '*', 1, 1, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
-	(2, 'subscriptionemails_new_active', 0, 'Your new [LEVEL] subscription at [SITENAME]', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>Your new <span style=\"line-height: 1.3em;\">[LEVEL] </span><span style=\"line-height: 1.3em;\">subscription is now activated and will remain active until [PUBLISH_DOWN] GMT.</span></p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n<p>You can <a href=\"[MYSUBSURL]\">review the status of all your subscriptions</a> any time on our site.</p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription in <em>[SITENAME]</em>. <span style=\"line-height: 1.3em;\">Do not reply to this email, it\'s sent from an unmonitored email address.</span></p>\r\n</div>\r\n<p style=\"text-align: right; font-size: 7pt; color: #ccc;\">Powered by <a href=\"https://www.akeebabackup.com/products/akeeba-subscriptions.html\" style=\"color: #ccf; text-decoration: none;\">Akeeba Subscriptions</a></p>', '*', 1, 2, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
-	(3, 'subscriptionemails_new_renewal', 0, 'Your [LEVEL] subscription renewal at [SITENAME]', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>Your <span style=\"line-height: 1.3em;\">[LEVEL] </span><span style=\"line-height: 1.3em;\">subscription has been renewed. The renewed subscription will be activated on [PUBLISH_UP] GMT and remain active until [PUBLISH_DOWN] GMT.</span></p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n<p>You can <a href=\"[MYSUBSURL]\">review the status of all your subscriptions</a> any time on our site.</p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription in <em>[SITENAME]</em>. <span style=\"line-height: 1.3em;\">Do not reply to this email, it\'s sent from an unmonitored email address.</span></p>\r\n</div>\r\n<p style=\"text-align: right; font-size: 7pt; color: #ccc;\">Powered by <a href=\"https://www.akeebabackup.com/products/akeeba-subscriptions.html\" style=\"color: #ccf; text-decoration: none;\">Akeeba Subscriptions</a></p>', '*', 1, 3, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
-	(4, 'subscriptionemails_new_pending', 0, 'Your new [LEVEL] subscription at [SITENAME] is being processed', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>The payment for your new or renewed <span style=\"line-height: 1.3em;\">[LEVEL] </span><span style=\"line-height: 1.3em;\">subscription is currently being processed. When the payment is cleared we will send you a new email. </span><span style=\"line-height: 1.3em;\">Please note that on some occasions it may take 2 to 7 business days for the payment to be cleared. This time period is outside of our control and is mainly due to restrictions imposed by your bank or the payment processor company.</span></p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n<p>You can <a href=\"[MYSUBSURL]\">review the status of all your subscriptions</a> any time on our site.</p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription in <em>[SITENAME]</em>. <span style=\"line-height: 1.3em;\">Do not reply to this email, it\'s sent from an unmonitored email address.</span></p>\r\n</div>\r\n<p style=\"text-align: right; font-size: 7pt; color: #ccc;\">Powered by <a href=\"https://www.akeebabackup.com/products/akeeba-subscriptions.html\" style=\"color: #ccf; text-decoration: none;\">Akeeba Subscriptions</a></p>', '*', 1, 4, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
-	(5, 'subscriptionemails_cancelled_new', 0, 'Your new [LEVEL] subscription at [SITENAME] could not be processed', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>The payment processor declined the payment for your new or renewed <span style=\"line-height: 1.3em;\">[LEVEL] </span><span style=\"line-height: 1.3em;\">subscription</span><span style=\"line-height: 1.3em;\">. Please revisit our site and retry subscribing using the same username and email address. You may want to select a different means of payment, for example a different credit card. We apologise for the inconvenience</span></p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n<p>You can <a href=\"[MYSUBSURL]\">review the status of all your subscriptions</a> any time on our site.</p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you to tried to subscribe to <em>[SITENAME]</em>. <span style=\"line-height: 1.3em;\">Do not reply to this email, it\'s sent from an unmonitored email address.</span></p>\r\n</div>\r\n<p style=\"text-align: right; font-size: 7pt; color: #ccc;\">Powered by <a href=\"https://www.akeebabackup.com/products/akeeba-subscriptions.html\" style=\"color: #ccf; text-decoration: none;\">Akeeba Subscriptions</a></p>', '*', 1, 5, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
-	(6, 'subscriptionemails_cancelled_existing', 0, 'Your [LEVEL] subscription at [SITENAME] was cancelled', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>The payment for your <span style=\"line-height: 1.3em;\">[LEVEL] </span><span style=\"line-height: 1.3em;\">subscription was cancelled by our payment processor or refunded at your request</span><span style=\"line-height: 1.3em;\">.</span></p>\r\n<p><span style=\"line-height: 1.3em;\">If you believe you are receiving this message in error and would like to remain subscribed to our site, please visit our site, log in with your username and password and retry subscribing. You may want to select a different means of payment, for example a different credit card. We apologise for the inconvenience</span></p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n<p>You can <a href=\"[MYSUBSURL]\">review the status of all your subscriptions</a> any time on our site.</p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you had a subscription at <em>[SITENAME]</em>. Do not reply to this email, it\'s sent from an unmonitored email address.</p>\r\n</div>\r\n<p style=\"text-align: right; font-size: 7pt; color: #ccc;\">Powered by <a href=\"https://www.akeebabackup.com/products/akeeba-subscriptions.html\" style=\"color: #ccf; text-decoration: none;\">Akeeba Subscriptions</a></p>', '*', 1, 6, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
-	(7, 'subscriptionemails_expired', 0, 'Your [LEVEL] subscription at [SITENAME] has expired', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>Your <span style=\"line-height: 1.3em;\">[LEVEL] </span><span style=\"line-height: 1.3em;\">subscription on our site has expired</span><span style=\"line-height: 1.3em;\">. If you want to renew it </span><a href=\"[MYSUBSURL]\" style=\"line-height: 1.3em;\">please visit the subscriptions status page on our site</a> and click on the \"Renew\" button to the right of the expired subscription.</p>\r\n<p><span style=\"line-height: 1.3em;\"><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></span></p>\r\n<p>You can <a href=\"[MYSUBSURL]\">review the status of all your subscriptions</a> any time on our site.</p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you had a subscription at <em>[SITENAME]</em>. Do not reply to this email, it\'s sent from an unmonitored email address.</p>\r\n</div>\r\n<p style=\"text-align: right; font-size: 7pt; color: #ccc;\">Powered by <a href=\"https://www.akeebabackup.com/products/akeeba-subscriptions.html\" style=\"color: #ccf; text-decoration: none;\">Akeeba Subscriptions</a></p>', '*', 1, 7, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
-	(8, 'subscriptionemails_published', 0, 'Your renewed [LEVEL] subscription at [SITENAME] has been activated', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>Your <span style=\"line-height: 1.3em;\">[LEVEL] </span><span style=\"line-height: 1.3em;\">subscription renewal on our site has been activated</span><span style=\"line-height: 1.3em;\">. It will remain active until [PUBLISH_DOWN] GMT.</span></p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n<p>You can <a href=\"[MYSUBSURL]\">review the status of all your subscriptions</a> any time on our site.</p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription at <em>[SITENAME]</em>. Do not reply to this email, it\'s sent from an unmonitored email address.</p>\r\n</div>\r\n<p style=\"text-align: right; font-size: 7pt; color: #ccc;\">Powered by <a href=\"https://www.akeebabackup.com/products/akeeba-subscriptions.html\" style=\"color: #ccf; text-decoration: none;\">Akeeba Subscriptions</a></p>', '*', 1, 8, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
-	(9, 'subscriptionemails_generic', 0, 'Your [LEVEL] subscription at [SITENAME] has been updated', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>Your <span style=\"line-height: 1.3em;\">[LEVEL] </span><span style=\"line-height: 1.3em;\">subscription on our site has been modified. Its new details are:</span></p>\r\n<table width=\"100%\" border=\"0\" cellspacing=\"2\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td width=\"25%\"><strong>Username</strong></td>\r\n<td>[USERNAME] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription type</strong></td>\r\n<td>[LEVEL] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription status</strong></td>\r\n<td>[ENABLED] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Payment status</strong></td>\r\n<td>[PAYSTATE] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid From</strong></td>\r\n<td>[PUBLISH_UP] GMT</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid To</strong></td>\r\n<td>[PUBLISH_DOWN] GMT </td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p><span style=\"line-height: 1.3em;\"><span style=\"line-height: 1.3em;\">You can </span><a href=\"[MYSUBSURL]\" style=\"line-height: 1.3em;\">review the status of all your subscriptions</a><span style=\"line-height: 1.3em;\"> any time on our site.</span></span></p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription at <em>[SITENAME]</em>. Do not reply to this email, it\'s sent from an unmonitored email address.</p>\r\n</div>\r\n<p style=\"text-align: right; font-size: 7pt; color: #ccc;\">Powered by <a href=\"https://www.akeebabackup.com/products/akeeba-subscriptions.html\" style=\"color: #ccf; text-decoration: none;\">Akeeba Subscriptions</a></p>', '*', 1, 9, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
-	(10, 'asexpirationnotify_first', 0, 'Your [LEVEL] subscription on [SITENAME] will expire soon', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>Your [LEVEL] subscription with the following details is going to expire soon:</p>\r\n<table width=\"100%\" border=\"0\" cellspacing=\"2\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td width=\"25%\"><strong>Username</strong></td>\r\n<td>[USERNAME] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription type</strong></td>\r\n<td>[LEVEL] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription status</strong></td>\r\n<td>[ENABLED] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Payment status</strong></td>\r\n<td>[PAYSTATE] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid From</strong></td>\r\n<td>[PUBLISH_UP] GMT</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid To</strong></td>\r\n<td>[PUBLISH_DOWN] GMT </td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p><span style=\"line-height: 1.3em;\"><span style=\"line-height: 1.3em;\"><span style=\"line-height: 1.3em;\">You can login any time on our site to </span><a href=\"[MYSUBSURL]\" style=\"line-height: 1.3em;\">review the status of all your subscriptions</a><span style=\"line-height: 1.3em;\"> and renew your expiring one.</span></span></span></p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription in <em>[SITENAME]</em>. <span style=\"line-height: 1.3em;\">Do not reply to this email, it\'s sent from an unmonitored email address.</span></p>\r\n</div>\r\n<p style=\"text-align: right; font-size: 7pt; color: #ccc;\">Powered by <a href=\"https://www.akeebabackup.com/products/akeeba-subscriptions.html\" style=\"color: #ccf; text-decoration: none;\">Akeeba Subscriptions</a></p>', '*', 1, 10, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
-	(11, 'asexpirationnotify_second', 0, 'Your [LEVEL] subscription on [SITENAME] is about to expire', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>Your [LEVEL] subscription with the following details is going to expire very soon:</p>\r\n<table width=\"100%\" border=\"0\" cellspacing=\"2\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td width=\"25%\"><strong>Username</strong></td>\r\n<td>[USERNAME] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription type</strong></td>\r\n<td>[LEVEL] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription status</strong></td>\r\n<td>[ENABLED] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Payment status</strong></td>\r\n<td>[PAYSTATE] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid From</strong></td>\r\n<td>[PUBLISH_UP] GMT</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid To</strong></td>\r\n<td>[PUBLISH_DOWN] GMT </td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p><span style=\"line-height: 1.3em;\"><span style=\"line-height: 1.3em;\"><span style=\"line-height: 1.3em;\">You can login any time on our site to </span><a href=\"[MYSUBSURL]\" style=\"line-height: 1.3em;\">review the status of all your subscriptions</a><span style=\"line-height: 1.3em;\"> and renew your expiring one.</span></span></span></p>\r\n<p> </p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription in <em>[SITENAME]</em>. <span style=\"line-height: 1.3em;\">Do not reply to this email, it\'s sent from an unmonitored email address.</span></p>\r\n</div>\r\n<p style=\"text-align: right; font-size: 7pt; color: #ccc;\">Powered by <a href=\"https://www.akeebabackup.com/products/akeeba-subscriptions.html\" style=\"color: #ccf; text-decoration: none;\">Akeeba Subscriptions</a></p>', '*', 1, 11, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
-	(12, 'asexpirationnotify_after', 0, 'Your expired subscription on [SITENAME]', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>We are contacting you to remind you that your subscription on [SITENAME] with the following details has already expired:</p>\r\n<table width=\"100%\" border=\"0\" cellspacing=\"2\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td width=\"25%\"><strong>Username</strong></td>\r\n<td>[USERNAME] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription type</strong></td>\r\n<td>[LEVEL] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription status</strong></td>\r\n<td>[ENABLED] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Payment status</strong></td>\r\n<td>[PAYSTATE] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid From</strong></td>\r\n<td>[PUBLISH_UP] GMT</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid To</strong></td>\r\n<td>[PUBLISH_DOWN] GMT </td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p><span><span><span>You can login any time on our site and renew your expired subscription. Renewing your subscription is very easy! You just have to go to the</span></span></span><span style=\"line-height: 1.3em;\"> </span><a href=\"[MYSUBSURL]\" style=\"line-height: 1.3em;\">subscriptions overview</a><span style=\"line-height: 1.3em;\"> page</span><span style=\"line-height: 1.3em;\"> and click on the Renew link.</span></p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription in <em>[SITENAME]</em>. <span style=\"line-height: 1.3em;\">Do not reply to this email, it\'s sent from an unmonitored email address.</span></p>\r\n</div>\r\n<p style=\"text-align: right; font-size: 7pt; color: #ccc;\">Powered by <a href=\"https://www.akeebabackup.com/products/akeeba-subscriptions.html\" style=\"color: #ccf; text-decoration: none;\">Akeeba Subscriptions</a></p>', '*', 1, 12, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0)
+	(1, 'subscriptionemails_paid', 0, 'Your [LEVEL] subscription at [SITENAME] is now enabled', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>The payment for your [LEVEL] subscription on our site has just been cleared. Your subscription is now activated and will remain active until [PUBLISH_DOWN] GMT.</p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n<p>You can <a href=\"[MYSUBSURL]\">review the status of all your subscriptions</a> any time on our site.</p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription in <em>[SITENAME]</em>. <span style=\"line-height: 1.3em;\">Do not reply to this email, it\'s sent from an unmonitored email address.</span></p>\r\n</div>', '*', 1, 1, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
+	(2, 'subscriptionemails_new_active', 0, 'Your new [LEVEL] subscription at [SITENAME]', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>Your new <span style=\"line-height: 1.3em;\">[LEVEL] </span><span style=\"line-height: 1.3em;\">subscription is now activated and will remain active until [PUBLISH_DOWN] GMT.</span></p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n<p>You can <a href=\"[MYSUBSURL]\">review the status of all your subscriptions</a> any time on our site.</p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription in <em>[SITENAME]</em>. <span style=\"line-height: 1.3em;\">Do not reply to this email, it\'s sent from an unmonitored email address.</span></p>\r\n</div>', '*', 1, 2, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
+	(3, 'subscriptionemails_new_renewal', 0, 'Your [LEVEL] subscription renewal at [SITENAME]', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>Your <span style=\"line-height: 1.3em;\">[LEVEL] </span><span style=\"line-height: 1.3em;\">subscription has been renewed. The renewed subscription will be activated on [PUBLISH_UP] GMT and remain active until [PUBLISH_DOWN] GMT.</span></p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n<p>You can <a href=\"[MYSUBSURL]\">review the status of all your subscriptions</a> any time on our site.</p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription in <em>[SITENAME]</em>. <span style=\"line-height: 1.3em;\">Do not reply to this email, it\'s sent from an unmonitored email address.</span></p>\r\n</div>', '*', 1, 3, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
+	(4, 'subscriptionemails_new_pending', 0, 'Your new [LEVEL] subscription at [SITENAME] is being processed', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>The payment for your new or renewed <span style=\"line-height: 1.3em;\">[LEVEL] </span><span style=\"line-height: 1.3em;\">subscription is currently being processed. When the payment is cleared we will send you a new email. </span><span style=\"line-height: 1.3em;\">Please note that on some occasions it may take 2 to 7 business days for the payment to be cleared. This time period is outside of our control and is mainly due to restrictions imposed by your bank or the payment processor company.</span></p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n<p>You can <a href=\"[MYSUBSURL]\">review the status of all your subscriptions</a> any time on our site.</p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription in <em>[SITENAME]</em>. <span style=\"line-height: 1.3em;\">Do not reply to this email, it\'s sent from an unmonitored email address.</span></p>\r\n</div>', '*', 1, 4, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
+	(5, 'subscriptionemails_cancelled_new', 0, 'Your new [LEVEL] subscription at [SITENAME] could not be processed', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>The payment processor declined the payment for your new or renewed <span style=\"line-height: 1.3em;\">[LEVEL] </span><span style=\"line-height: 1.3em;\">subscription</span><span style=\"line-height: 1.3em;\">. Please revisit our site and retry subscribing using the same username and email address. You may want to select a different means of payment, for example a different credit card. We apologise for the inconvenience</span></p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n<p>You can <a href=\"[MYSUBSURL]\">review the status of all your subscriptions</a> any time on our site.</p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you to tried to subscribe to <em>[SITENAME]</em>. <span style=\"line-height: 1.3em;\">Do not reply to this email, it\'s sent from an unmonitored email address.</span></p>\r\n</div>', '*', 1, 5, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
+	(6, 'subscriptionemails_cancelled_existing', 0, 'Your [LEVEL] subscription at [SITENAME] was cancelled', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>The payment for your <span style=\"line-height: 1.3em;\">[LEVEL] </span><span style=\"line-height: 1.3em;\">subscription was cancelled by our payment processor or refunded at your request</span><span style=\"line-height: 1.3em;\">.</span></p>\r\n<p><span style=\"line-height: 1.3em;\">If you believe you are receiving this message in error and would like to remain subscribed to our site, please visit our site, log in with your username and password and retry subscribing. You may want to select a different means of payment, for example a different credit card. We apologise for the inconvenience</span></p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n<p>You can <a href=\"[MYSUBSURL]\">review the status of all your subscriptions</a> any time on our site.</p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you had a subscription at <em>[SITENAME]</em>. Do not reply to this email, it\'s sent from an unmonitored email address.</p>\r\n</div>', '*', 1, 6, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
+	(7, 'subscriptionemails_expired', 0, 'Your [LEVEL] subscription at [SITENAME] has expired', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>Your <span style=\"line-height: 1.3em;\">[LEVEL] </span><span style=\"line-height: 1.3em;\">subscription on our site has expired</span><span style=\"line-height: 1.3em;\">. If you want to renew it </span><a href=\"[MYSUBSURL]\" style=\"line-height: 1.3em;\">please visit the subscriptions status page on our site</a> and click on the \"Renew\" button to the right of the expired subscription.</p>\r\n<p><span style=\"line-height: 1.3em;\"><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></span></p>\r\n<p>You can <a href=\"[MYSUBSURL]\">review the status of all your subscriptions</a> any time on our site.</p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you had a subscription at <em>[SITENAME]</em>. Do not reply to this email, it\'s sent from an unmonitored email address.</p>\r\n</div>', '*', 1, 7, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
+	(8, 'subscriptionemails_published', 0, 'Your renewed [LEVEL] subscription at [SITENAME] has been activated', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>Your <span style=\"line-height: 1.3em;\">[LEVEL] </span><span style=\"line-height: 1.3em;\">subscription renewal on our site has been activated</span><span style=\"line-height: 1.3em;\">. It will remain active until [PUBLISH_DOWN] GMT.</span></p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n<p>You can <a href=\"[MYSUBSURL]\">review the status of all your subscriptions</a> any time on our site.</p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription at <em>[SITENAME]</em>. Do not reply to this email, it\'s sent from an unmonitored email address.</p>\r\n</div>', '*', 1, 8, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
+	(9, 'subscriptionemails_generic', 0, 'Your [LEVEL] subscription at [SITENAME] has been updated', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>Your <span style=\"line-height: 1.3em;\">[LEVEL] </span><span style=\"line-height: 1.3em;\">subscription on our site has been modified. Its new details are:</span></p>\r\n<table width=\"100%\" border=\"0\" cellspacing=\"2\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td width=\"25%\"><strong>Username</strong></td>\r\n<td>[USERNAME] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription type</strong></td>\r\n<td>[LEVEL] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription status</strong></td>\r\n<td>[ENABLED] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Payment status</strong></td>\r\n<td>[PAYSTATE] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid From</strong></td>\r\n<td>[PUBLISH_UP] GMT</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid To</strong></td>\r\n<td>[PUBLISH_DOWN] GMT </td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p><span style=\"line-height: 1.3em;\"><span style=\"line-height: 1.3em;\">You can </span><a href=\"[MYSUBSURL]\" style=\"line-height: 1.3em;\">review the status of all your subscriptions</a><span style=\"line-height: 1.3em;\"> any time on our site.</span></span></p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription at <em>[SITENAME]</em>. Do not reply to this email, it\'s sent from an unmonitored email address.</p>\r\n</div>', '*', 1, 9, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
+	(10, 'asexpirationnotify_first', 0, 'Your [LEVEL] subscription on [SITENAME] will expire soon', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>Your [LEVEL] subscription with the following details is going to expire soon:</p>\r\n<table width=\"100%\" border=\"0\" cellspacing=\"2\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td width=\"25%\"><strong>Username</strong></td>\r\n<td>[USERNAME] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription type</strong></td>\r\n<td>[LEVEL] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription status</strong></td>\r\n<td>[ENABLED] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Payment status</strong></td>\r\n<td>[PAYSTATE] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid From</strong></td>\r\n<td>[PUBLISH_UP] GMT</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid To</strong></td>\r\n<td>[PUBLISH_DOWN] GMT </td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p><span style=\"line-height: 1.3em;\"><span style=\"line-height: 1.3em;\"><span style=\"line-height: 1.3em;\">You can login any time on our site to </span><a href=\"[MYSUBSURL]\" style=\"line-height: 1.3em;\">review the status of all your subscriptions</a><span style=\"line-height: 1.3em;\"> and renew your expiring one.</span></span></span></p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription in <em>[SITENAME]</em>. <span style=\"line-height: 1.3em;\">Do not reply to this email, it\'s sent from an unmonitored email address.</span></p>\r\n</div>', '*', 1, 10, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
+	(11, 'asexpirationnotify_second', 0, 'Your [LEVEL] subscription on [SITENAME] is about to expire', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>Your [LEVEL] subscription with the following details is going to expire very soon:</p>\r\n<table width=\"100%\" border=\"0\" cellspacing=\"2\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td width=\"25%\"><strong>Username</strong></td>\r\n<td>[USERNAME] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription type</strong></td>\r\n<td>[LEVEL] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription status</strong></td>\r\n<td>[ENABLED] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Payment status</strong></td>\r\n<td>[PAYSTATE] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid From</strong></td>\r\n<td>[PUBLISH_UP] GMT</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid To</strong></td>\r\n<td>[PUBLISH_DOWN] GMT </td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p><span style=\"line-height: 1.3em;\"><span style=\"line-height: 1.3em;\"><span style=\"line-height: 1.3em;\">You can login any time on our site to </span><a href=\"[MYSUBSURL]\" style=\"line-height: 1.3em;\">review the status of all your subscriptions</a><span style=\"line-height: 1.3em;\"> and renew your expiring one.</span></span></span></p>\r\n<p> </p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription in <em>[SITENAME]</em>. <span style=\"line-height: 1.3em;\">Do not reply to this email, it\'s sent from an unmonitored email address.</span></p>\r\n</div>', '*', 1, 11, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0),
+	(12, 'asexpirationnotify_after', 0, 'Your expired subscription on [SITENAME]', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello [FIRSTNAME],</p>\r\n<p>We are contacting you to remind you that your subscription on [SITENAME] with the following details has already expired:</p>\r\n<table width=\"100%\" border=\"0\" cellspacing=\"2\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td width=\"25%\"><strong>Username</strong></td>\r\n<td>[USERNAME] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription type</strong></td>\r\n<td>[LEVEL] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription status</strong></td>\r\n<td>[ENABLED] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Payment status</strong></td>\r\n<td>[PAYSTATE] </td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid From</strong></td>\r\n<td>[PUBLISH_UP] GMT</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid To</strong></td>\r\n<td>[PUBLISH_DOWN] GMT </td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p><span><span><span>You can login any time on our site and renew your expired subscription. Renewing your subscription is very easy! You just have to go to the</span></span></span><span style=\"line-height: 1.3em;\"> </span><a href=\"[MYSUBSURL]\" style=\"line-height: 1.3em;\">subscriptions overview</a><span style=\"line-height: 1.3em;\"> page</span><span style=\"line-height: 1.3em;\"> and click on the Renew link.</span></p>\r\n<p><span style=\"line-height: 1.3em;\">We\'d like to remind you that you have registered on our site using the username [USERNAME] and email address [USEREMAIL].</span></p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">You are receiving this automatic email message because you have a subscription in <em>[SITENAME]</em>. <span style=\"line-height: 1.3em;\">Do not reply to this email, it\'s sent from an unmonitored email address.</span></p>\r\n</div>', '*', 1, 12, '2013-01-23 00:00:00', 42, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0)
 ;
             ]]></query>
         </action>
-
-
 
         <action table="#__akeebasubs_levels" canfail="1">
             <condition type="missing" value="akeebasubs_levelgroup_id" />
@@ -812,14 +851,6 @@ ALTER TABLE `#__akeebasubs_invoices` ADD COLUMN
             ]]></query>
         </action>
 
-        <action table="#__akeebasubs_customfields" canfail="1">
-            <condition type="true" />
-            <query><![CDATA[
-ALTER TABLE `#__akeebasubs_customfields`
-	MODIFY COLUMN `akeebasubs_level_id` VARCHAR(255) NOT NULL DEFAULT '0';
-	         ]]></query>
-        </action>
-
         <action table="#__akeebasubs_invoicetemplates" canfail="1">
             <condition type="missing" value="isbusiness" />
             <query><![CDATA[
@@ -876,17 +907,10 @@ ALTER TABLE `#__akeebasubs_taxrules` ADD COLUMN `akeebasubs_level_id` BIGINT(20)
             ]]></query>
         </action>
 
-        <action table="#__akeebasubs_customfields" canfail="1">
-            <condition type="true" />
-            <query><![CDATA[
-ALTER TABLE `#__akeebasubs_customfields` MODIFY COLUMN `show` enum('all','level','notlevel') NOT NULL DEFAULT 'all';
-            ]]></query>
-        </action>
-
         <action table="#__akeebasubs_invoicetemplates" canfail="1">
             <condition type="missing" value="noinvoice" />
             <query><![CDATA[
-ALTER TABLE `#__akeebasubs_invoicetemplates` ADD `noinvoice` TINYINT NOT NULL DEFAULT '0' AFTER `ordering`;
+ALTER TABLE `#__akeebasubs_invoicetemplates` ADD COLUMN `noinvoice` TINYINT NOT NULL DEFAULT '0' AFTER `ordering`;
             ]]></query>
         </action>
 
@@ -914,61 +938,206 @@ ALTER TABLE `#__akeebasubs_levels` ADD COLUMN `content_url` VARCHAR(2048) NULL D
         <action table="#__akeebasubs_coupons" canfail="1">
             <condition type="missing" value="akeebasubs_apicoupon_id" />
             <query><![CDATA[
-ALTER TABLE `#__akeebasubs_coupons` ADD `akeebasubs_apicoupon_id` INT NOT NULL AFTER `akeebasubs_coupon_id`;
+ALTER TABLE `#__akeebasubs_coupons` ADD COLUMN `akeebasubs_apicoupon_id` INT NOT NULL AFTER `akeebasubs_coupon_id`;
             ]]></query>
         </action>
 
         <action table="#__akeebasubs_levels" canfail="1">
             <condition type="missing" value="orderurl" />
             <query><![CDATA[
-ALTER TABLE `#__akeebasubs_levels` ADD `orderurl` VARCHAR( 255 ) NULL AFTER `ordertext` ;
+ALTER TABLE `#__akeebasubs_levels` ADD COLUMN `orderurl` VARCHAR( 255 ) NULL AFTER `ordertext` ;
             ]]></query>
         </action>
 
         <action table="#__akeebasubs_levels" canfail="1">
             <condition type="missing" value="cancelurl" />
             <query><![CDATA[
-ALTER TABLE `#__akeebasubs_levels` ADD `cancelurl` VARCHAR( 255 ) NULL AFTER `canceltext` ;
+ALTER TABLE `#__akeebasubs_levels` ADD COLUMN `cancelurl` VARCHAR( 255 ) NULL AFTER `canceltext` ;
             ]]></query>
         </action>
 
         <action table="#__akeebasubs_coupons" canfail="1">
             <condition type="missing" value="email" />
             <query><![CDATA[
-ALTER TABLE `#__akeebasubs_coupons` ADD `email` VARCHAR( 255 ) NULL AFTER `user`;
+ALTER TABLE `#__akeebasubs_coupons` ADD COLUMN `email` VARCHAR( 255 ) NULL AFTER `user`;
             ]]></query>
         </action>
 
         <action table="#__akeebasubs_users" canfail="1">
             <condition type="missing" value="needs_logout" />
             <query><![CDATA[
-ALTER TABLE `#__akeebasubs_users` ADD `needs_logout` TINYINT NOT NULL DEFAULT '0';
+ALTER TABLE `#__akeebasubs_users` ADD COLUMN `needs_logout` TINYINT NOT NULL DEFAULT '0';
             ]]></query>
         </action>
 
-			<action table="#__akeebasubs_upgrades" canfail="1">
-				<condition type="true"/>
-				<query><![CDATA[
+        <action table="#__akeebasubs_upgrades" canfail="1">
+            <condition type="true"/>
+            <query><![CDATA[
 ALTER TABLE `#__akeebasubs_upgrades` CHANGE `type` `type` ENUM('value','percent', 'lastpercent') NOT NULL DEFAULT 'value' ;
-            ]]></query>
-			</action>
+        ]]></query>
+        </action>
 
-			<action table="#__akeebasubs_subscriptions" canfail="1">
-				<condition type="missing" value="ip_country" />
-				<query><![CDATA[
+        <action table="#__akeebasubs_subscriptions" canfail="1">
+            <condition type="missing" value="ip_country" />
+            <query><![CDATA[
 ALTER TABLE `#__akeebasubs_subscriptions` ADD COLUMN `ip` VARCHAR(255) AFTER `params`;
-				]]></query>
-				<query><![CDATA[
+            ]]></query>
+            <query><![CDATA[
 ALTER TABLE `#__akeebasubs_subscriptions` ADD COLUMN `ip_country` VARCHAR(255) AFTER `ip`;
+            ]]></query>
+        </action>
+
+        <action table="#__akeebasubs_upgrades" canfail="1">
+            <condition type="missing" value="expired" />
+            <query><![CDATA[
+ALTER TABLE `#__akeebasubs_upgrades` ADD COLUMN `expired` tinyint(1) NOT NULL DEFAULT '0' AFTER `combine`;
+            ]]></query>
+        </action>
+
+        <action table="#__akeebasubs_emailtemplates" canfail="1">
+            <condition type="missing" value="modified_by" />
+            <query><![CDATA[
+ALTER TABLE `#__akeebasubs_upgrades` DROP COLUMN `modifed_by`;
+            ]]></query>
+            <query><![CDATA[
+ALTER TABLE `#__akeebasubs_upgrades` ADD COLUMN `modified_by` int(11) NOT NULL DEFAULT 0;
+            ]]></query>
+        </action>
+
+        <action table="#__akeebasubs_countrycurrencies" canfail="0">
+            <condition type="missing" value="" />
+            <query><![CDATA[
+CREATE TABLE `#__akeebasubs_countrycurrencies` (
+  `country` char(2) NOT NULL DEFAULT '',
+  `currency` char(3) NOT NULL DEFAULT 'EUR',
+  `name` varchar(255) DEFAULT 'Euro',
+  `symbol` varchar(10) DEFAULT '€',
+  PRIMARY KEY (`country`)
+) DEFAULT COLLATE utf8_general_ci;
 				]]></query>
-			</action>
+            <query><![CDATA[
+INSERT INTO `#__akeebasubs_countrycurrencies` (`country`, `currency`, `name`, `symbol`)
+VALUES
+	('AU', 'AUD', 'Australian dollar', 'A$'),
+	('BG', 'BGN', 'Lev', 'лв.'),
+	('BR', 'BRL', 'Real', 'R$'),
+	('CA', 'CAD', 'Canadian dollar', 'C$'),
+	('CH', 'CHF', 'Swiss franc', 'CHF'),
+	('CN', 'CNY', 'Yuan renminbi', '¥'),
+	('CZ', 'CZK', 'Koruna', 'Kč'),
+	('DK', 'DKK', 'Krone', 'kr'),
+	('IE', 'EUR', 'Euro', '€'),
+	('IT', 'EUR', 'Euro', '€'),
+	('SK', 'EUR', 'Euro', '€'),
+	('LT', 'EUR', 'Euro', '€'),
+	('LU', 'EUR', 'Euro', '€'),
+	('LV', 'EUR', 'Euro', '€'),
+	('MC', 'EUR', 'Euro', '€'),
+	('NL', 'EUR', 'Euro', '€'),
+	('PT', 'EUR', 'Euro', '€'),
+	('VA', 'EUR', 'Euro', '€'),
+	('SI', 'EUR', 'Euro', '€'),
+	('SM', 'EUR', 'Euro', '€'),
+	('MT', 'EUR', 'Euro', '€'),
+	('DE', 'EUR', 'Euro', '€'),
+	('CY', 'EUR', 'Euro', '€'),
+	('BE', 'EUR', 'Euro', '€'),
+	('AT', 'EUR', 'Euro', '€'),
+	('AD', 'EUR', 'Euro', '€'),
+	('EE', 'EUR', 'Euro', '€'),
+	('ES', 'EUR', 'Euro', '€'),
+	('FI', 'EUR', 'Euro', '€'),
+	('FR', 'EUR', 'Euro', '€'),
+	('GR', 'EUR', 'Euro', '€'),
+	('GB', 'GBP', 'Pound sterling', '£'),
+	('HK', 'HKD', 'Hong Kong dollar', 'HK$'),
+	('HR', 'HRK', 'Kuna', 'kn'),
+	('HU', 'HUF', 'Forint', 'Ft'),
+	('ID', 'IDR', 'Rupiah', 'Rp'),
+	('IL', 'ILS', 'Shekel', '₪'),
+	('IN', 'INR', 'Rupee', '₹'),
+	('JP', 'JPY', 'Yen', '¥'),
+	('KR', 'KRW', 'Won', '₩'),
+	('MX', 'MXN', 'Peso', 'MX$'),
+	('MY', 'MYR', 'Ringgit', 'RM'),
+	('NO', 'NOK', 'Krone', 'kr'),
+	('NZ', 'NZD', 'New Zealand dollar', 'NZ$'),
+	('PH', 'PHP', 'Peso', '₱'),
+	('PL', 'PLN', 'Zloty', 'zł'),
+	('RO', 'RON', 'Leu', 'lei'),
+	('RU', 'RUB', 'Rouble', 'руб'),
+	('SE', 'SEK', 'Krona', 'kr'),
+	('SG', 'SGD', 'Singapore dollar', 'SG$'),
+	('TH', 'THB', 'Baht', '฿'),
+	('TR', 'TRY', 'Lira', '₺'),
+	('US', 'USD', 'US dollar', '$'),
+	('ZA', 'ZAR', 'Rand', 'R');
+				]]></query>
+        </action>
 
-            <action table="#__akeebasubs_upgrades" canfail="1">
-                <condition type="missing" value="expired" />
-                <query><![CDATA[
-    ALTER TABLE `#__akeebasubs_upgrades` ADD COLUMN `expired` tinyint(1) NOT NULL DEFAULT '0' AFTER `combine`;
-                ]]></query>
-            </action>
+        <action table="#__akeebasubs_forexrates" canfail="0">
+            <condition type="missing" value="" />
+            <query><![CDATA[
+CREATE TABLE `#__akeebasubs_forexrates` (
+  `akeebasubs_forexrate_id` char(3) NOT NULL DEFAULT '',
+  `rate` double NOT NULL DEFAULT '1',
+  PRIMARY KEY (`akeebasubs_forexrate_id`)
+) DEFAULT COLLATE utf8_general_ci;
+					]]></query>
+        </action>
 
+        <action table="#__akeebasubs_subscriptions" canfail="0">
+            <condition type="missing" value="net_amount_alt" />
+            <query><![CDATA[
+ALTER TABLE `#__akeebasubs_subscriptions` ADD COLUMN `net_amount_alt` FLOAT NOT NULL;
+				]]></query>
+            <query><![CDATA[
+ALTER TABLE `#__akeebasubs_subscriptions` ADD COLUMN `tax_amount_alt` FLOAT NOT NULL;
+				]]></query>
+            <query><![CDATA[
+ALTER TABLE `#__akeebasubs_subscriptions` ADD COLUMN `gross_amount_alt` FLOAT NOT NULL;
+				]]></query>
+            <query><![CDATA[
+ALTER TABLE `#__akeebasubs_subscriptions` ADD COLUMN `prediscount_amount_alt` FLOAT NOT NULL;
+				]]></query>
+            <query><![CDATA[
+ALTER TABLE `#__akeebasubs_subscriptions` ADD COLUMN `discount_amount_alt` FLOAT NOT NULL;
+				]]></query>
+            <query><![CDATA[
+ALTER TABLE `#__akeebasubs_subscriptions` ADD COLUMN `affiliate_comission_alt` FLOAT NOT NULL;
+				]]></query>
+        </action>
+
+        <action table="__akeebasubs_emailtemplates" canfail="1">
+            <condition type="equals" operator="not" value="1"><![CDATA[
+SELECT COUNT(*) FROM `#__akeebasubs_emailtemplates` WHERE `key` = 'reseller_emailerr';
+            ]]></condition>
+            <query><![CDATA[
+INSERT INTO `#__akeebasubs_emailtemplates` (`akeebasubs_emailtemplate_id`, `key`, `subscription_level_id`, `subject`, `body`, `language`, `enabled`)
+VALUES
+	(NULL, 'reseller_emailerr', 0, 'Error fetching the coupon for the subscription [SUB:ID]', '<div style=\"background-color: #e0e0e0; padding: 10px 20px;\">\r\n<div style=\"background-color: #f9f9f9; border-radius: 10px; padding: 5px 10px;\">\r\n<p>Hello,</p>\r\n<p>an error occurred while trying to fetch the coupon for the subscription with ID [SUB:ID]. This is the error received:<span style=\"line-height: 1.3em;\"></span></p>\r\n<p>[RESELLER_ERROR]</p>\r\n<p>Here you can find all the details of the involved subscription:</p>\r\n<table style=\"width: 100%;\" border=\"0\" cellspacing=\"2\" cellpadding=\"2\">\r\n<tbody>\r\n<tr>\r\n<td width=\"25%\"><strong>Username</strong></td>\r\n<td>[USERNAME]</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription type</strong></td>\r\n<td>[LEVEL]</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Subscription status</strong></td>\r\n<td>[ENABLED]</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Payment status</strong></td>\r\n<td>[PAYSTATE]</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid From</strong></td>\r\n<td>[PUBLISH_UP] GMT</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Valid To</strong></td>\r\n<td>[PUBLISH_DOWN] GMT</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p><span style=\"line-height: 1.3em;\">You are receiving this email since you are a Super Administrator of your site or your email address was listed to be contacted in case of error.</span></p>\r\n</div>\r\n<p style=\"font-size: x-small; color: #667;\">Do not reply to this email, it\'s sent from an unmonitored email address.</p>\r\n</div>', '*', 1);
+            ]]></query>
+        </action>
+
+        <!-- Convert to UTF8MB4 -->
+        <action table="#__akeebasubs_levels" canfail="0">
+            <condition type="utf8mb4upgrade" />
+            <query><![CDATA[
+ALTER TABLE `#__akeebasubs_levels` DROP KEY `slug`;
+            ]]></query>
+            <query><![CDATA[
+ALTER TABLE `#__akeebasubs_levels` ADD UNIQUE KEY `slug` (`slug`(100));
+            ]]></query>
+        </action>
+
+        <action table="#__akeebasubs_coupons" canfail="0">
+            <condition type="utf8mb4upgrade" />
+            <query><![CDATA[
+ALTER TABLE `#__akeebasubs_coupons` DROP KEY `coupon`;
+            ]]></query>
+            <query><![CDATA[
+ALTER TABLE `#__akeebasubs_coupons` ADD UNIQUE KEY `coupon` (`coupon`(100));
+            ]]></query>
+        </action>
     </sql>
 </schema>

@@ -1,130 +1,141 @@
 <?php
 /**
- * @package		akeebasubs
- * @copyright	Copyright (c)2010-2015 Nicholas K. Dionysopoulos / AkeebaBackup.com
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
+ * @package        akeebasubs
+ * @copyright      Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
 
 defined('_JEXEC') or die();
 
-$akeebasubsinclude = include_once JPATH_ADMINISTRATOR.'/components/com_akeebasubs/assets/akeebasubs.php';
-if(!$akeebasubsinclude) { unset($akeebasubsinclude); return; } else { unset($akeebasubsinclude); }
-
-class plgAkeebasubsJoomla extends plgAkeebasubsAbstract
+/**
+ * Akeeba Subscriptions - Joomla! User Groups integration
+ *
+ * Adds and removes users to Joomla! user groups when the subscription state changes
+ */
+class plgAkeebasubsJoomla extends \Akeeba\Subscriptions\Admin\PluginAbstracts\AkeebasubsBase
 {
+	/**
+	 * Public constructor
+	 *
+	 * @param object $subject
+	 * @param array  $config
+	 */
 	public function __construct(& $subject, $config = array())
 	{
-		$templatePath = dirname(__FILE__);
-		$name = 'joomla';
+		$config['templatePath'] = dirname(__FILE__);
+		$config['name']         = 'joomla';
 
-		parent::__construct($subject, $name, $config, $templatePath);
+		parent::__construct($subject, $config);
 	}
 
+	/**
+	 * Called whenever the administrator asks to refresh integration status.
+	 *
+	 * @param   int $user_id The Joomla! user ID to refresh information for.
+	 *
+	 * @return  void
+	 */
 	public function onAKUserRefresh($user_id)
 	{
 		// Load groups
-		$addGroups = array();
+		$addGroups    = array();
 		$removeGroups = array();
 		$this->loadUserGroups($user_id, $addGroups, $removeGroups);
-		if(empty($addGroups) && empty($removeGroups)) return;
+
+		if (empty($addGroups) && empty($removeGroups))
+		{
+			return;
+		}
 
 		// Get DB connection
 		$db = JFactory::getDBO();
 
-		// Add to Joomla! 1.6 groups
-		if(!empty($addGroups)) {
+		// Add to Joomla! groups
+		if (!empty($addGroups))
+		{
 			// 1. Delete existing assignments
 			$groupSet = array();
-			foreach($addGroups as $group) {
+
+			foreach ($addGroups as $group)
+			{
 				$groupSet[] = $db->q($group);
 			}
+
 			$query = $db->getQuery(true)
-				->delete($db->qn('#__user_usergroup_map'))
-				->where($db->qn('user_id').' = '.$user_id)
-				->where($db->qn('group_id').' IN ('.implode(', ', $groupSet).')');
+			            ->delete($db->qn('#__user_usergroup_map'))
+			            ->where($db->qn('user_id') . ' = ' . $user_id)
+			            ->where($db->qn('group_id') . ' IN (' . implode(', ', $groupSet) . ')');
+
 			$db->setQuery($query);
 			$db->execute();
 
 			// 2. Add new assignments
 			$query = $db->getQuery(true)
-				->insert($db->qn('#__user_usergroup_map'))
-				->columns(array(
-					$db->qn('user_id'),
-					$db->qn('group_id'),
-				));
+			            ->insert($db->qn('#__user_usergroup_map'))
+			            ->columns(array(
+				            $db->qn('user_id'),
+				            $db->qn('group_id'),
+			            ));
 
-			foreach($addGroups as $group) {
-				$query->values($db->q($user_id).', '.$db->q($group));
+			foreach ($addGroups as $group)
+			{
+				$query->values($db->q($user_id) . ', ' . $db->q($group));
 			}
 
 			$db->setQuery($query);
 			$db->execute();
 		}
 
-		// Remove from Joomla! 1.6 groups
-		if(!empty($removeGroups)) {
-			$query = $db->getQuery(true)
-				->delete($db->qn('#__user_usergroup_map'))
-				->where($db->qn('user_id').' = '.$db->q($user_id));
+		// Remove from Joomla! groups
+		if (!empty($removeGroups))
+		{
+			$query    = $db->getQuery(true)
+			               ->delete($db->qn('#__user_usergroup_map'))
+			               ->where($db->qn('user_id') . ' = ' . $db->q($user_id));
+
 			$groupSet = array();
-			foreach($removeGroups as $group) {
+
+			foreach ($removeGroups as $group)
+			{
 				$groupSet[] = $db->q($group);
 			}
-			$query->where($db->qn('group_id').' IN ('.implode(', ', $groupSet).')');
+
+			$query->where($db->qn('group_id') . ' IN (' . implode(', ', $groupSet) . ')');
 			$db->setQuery($query);
 			$db->execute();
 		}
 	}
 
-	protected function getGroups()
+	/**
+	 * Used by the template to render selection fields
+	 *
+	 * @param   \Akeeba\Subscriptions\Admin\Model\Levels  $level  The subscription level
+	 * @param   string                                    $type   add or remove
+	 *
+	 * @return  string  The HTML for the drop-down field
+	 */
+	protected function getSelectField(\Akeeba\Subscriptions\Admin\Model\Levels $level, $type)
 	{
-		static $groups = null;
-
-		if(is_null($groups)) {
-			$groups = array();
-
-			$db = JFactory::getDBO();
-			$query = $db->getQuery(true)
-				->select(array(
-					$db->qn('title'),
-					$db->qn('id'),
-				))->from($db->qn('#__usergroups'));
-			$db->setQuery($query);
-			$res = $db->loadObjectList();
-
-			if(!empty($res)) {
-				foreach($res as $item) {
-					$t = trim($item->title);
-					$groups[$t] = $item->id;
-				}
-			}
+		if (!in_array($type, ['add', 'remove']))
+		{
+			return '';
 		}
-	}
 
-	protected function getSelectField($level, $type)
-	{
-		if($type == 'add') {
-			if (isset($level->params->joomla_addgroups))
-			{
-				$addgroups = $level->params->joomla_addgroups;
-			}
-			else
-			{
-				$addgroups = array();
-			}
-			return JHtml::_('access.usergroup', 'params[joomla_addgroups][]', $addgroups, array('multiple' => 'multiple', 'size' => 8, 'class' => 'input-large'), false);
+		$key = "joomla_{$type}groups";
+
+		if (isset($level->params[$key]))
+		{
+			$groupList = $level->params[$key];
 		}
-		if($type == 'remove') {
-			if (isset($level->params->joomla_removegroups))
-			{
-				$removegroups = $level->params->joomla_removegroups;
-			}
-			else
-			{
-				$removegroups = array();
-			}
-			return JHtml::_('access.usergroup', 'params[joomla_removegroups][]', $removegroups, array('multiple' => 'multiple', 'size' => 8, 'class' => 'input-large'), false);
+		else
+		{
+			$groupList = array();
 		}
-		return '';
+
+		return JHtml::_('access.usergroup', "params[$key][]", $groupList, array(
+			'multiple' => 'multiple',
+			'size'     => 8,
+			'class'    => 'input-large'
+		), false);
 	}
 }

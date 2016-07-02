@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form
+	type="browse"
+	show_header="1"
+	show_filters="1"
+	show_pagination="1"
+	norows_placeholder="COM_AKEEBASUBS_COMMON_NORECORDS"
+>
+	<headerset>
+		<header name="akeebasubs_apicoupon_id" type="RowSelect" tdwidth="20px" />
+
+		<header name="akeebasubs_apicoupon_id" type="Field" tdwidth="20px" label="#" id="num" />
+
+		<header name="title" type="Searchable" sortable="true"
+			searchfieldname="search"
+			filterclass="input-small"
+			label="COM_AKEEBASUBS_COUPONS_FTITLE"
+		/>
+
+		<header name="key" type="Field" sortable="false" tdwidth="15%"
+		filterclass="input-small"
+			label="COM_AKEEBASUBS_APICOUPONS_FIELD_KEY"
+		/>
+
+		<header name="password" type="Field" sortable="false" tdwidth="15%"
+			label="COM_AKEEBASUBS_APICOUPONS_FIELD_PWD"
+		/>
+
+        <header name="limits" type="Field" sortable="false"
+            label="COM_AKEEBASUBS_APICOUPONS_LIMITS"
+         />
+
+		<header name="enabled" type="Published" sortable="true" tdwidth="8%"
+			label="JPUBLISHED"
+		/>
+	</headerset>
+
+	<fieldset name="items">
+		<field name="akeebasubs_apicoupon_id" type="SelectRow"/>
+
+		<field name="akeebasubs_apicoupon_id" type="Text" id="num" />
+
+		<field name="title" type="Text"
+			show_link="true"
+			url="index.php?option=com_akeebasubs&amp;view=APICoupons&amp;task=edit&amp;id=[ITEM:ID]"
+		/>
+
+		<field name="key" type="Text"
+			format="&lt;b&gt;%s&lt;/b&gt;"
+			show_link="true"
+			url="index.php?option=com_akeebasubs&amp;view=APICoupons&amp;task=edit&amp;id=[ITEM:ID]"
+		/>
+
+		<field name="password" type="Text" />
+
+    <field name="limits" type="APICouponLimits" />
+
+		<field name="enabled" type="Published"/>
+	</fieldset>
+</form>

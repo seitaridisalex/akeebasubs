@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form
+    tabbed="1"
+>
+
+    <fieldset
+        name="details"
+        label="COM_AKEEBASUBS_LEVEL_TAB_DETAILS"
+        class="tab-pane active"
+    >
+
+        <field
+            name="title"
+            type="Text"
+            label="COM_AKEEBASUBS_LEVEL_FIELD_TITLE"
+            class="title"
+        />
+
+        <field
+            name="slug"
+            type="Text"
+            label="COM_AKEEBASUBS_LEVEL_FIELD_SLUG"
+            description="COM_AKEEBASUBS_LEVEL_FIELD_SLUG_TIP"
+        />
+
+        <field
+            name="access"
+            type="AccessLevel"
+            label="JFIELD_ACCESS_LABEL"
+        />
+
+        <field
+            name="image"
+            type="Image"
+            label="COM_AKEEBASUBS_LEVEL_FIELD_IMAGE"
+        />
+
+        <field
+            name="enabled"
+            type="Published"
+            label="JPUBLISHED"
+        />
+
+        <field
+            name="description"
+            type="Editor"
+            label="COM_AKEEBASUBS_LEVEL_FIELD_DESCRIPTION"
+        />
+    </fieldset>
+
+
+    <fieldset
+            name="priceduration"
+            label="COM_AKEEBASUBS_LEVEL_TAB_PRICEDURATION"
+            class="tab-pane"
+            >
+
+        <field
+            name="price"
+            type="ViewTemplate"
+            source="admin:com_akeebasubs/Levels/form_price"
+            label="COM_AKEEBASUBS_LEVEL_FIELD_PRICE"
+        />
+
+        <field
+            name="signupfee"
+            type="ViewTemplate"
+            source="admin:com_akeebasubs/Levels/form_price"
+            label="COM_AKEEBASUBS_LEVEL_FIELD_SIGNUPFEE"
+        />
+
+        <field
+            name="duration"
+            type="Text"
+            label="COM_AKEEBASUBS_LEVEL_FIELD_DURATION"
+        />
+
+        <field
+            name="fixed_date"
+            type="Calendar"
+            label="COM_AKEEBASUBS_LEVEL_FIELD_FIXED_DATE"
+            description="COM_AKEEBASUBS_LEVEL_FIELD_FIXED_DATE_TIP"
+        />
+
+        <field
+            name="forever"
+            type="BooleanToggle"
+            label="COM_AKEEBASUBS_LEVEL_FIELD_FOREVER"
+        />
+
+        <field
+            name="payment_plugins"
+            type="ViewTemplate"
+            source="admin:com_akeebasubs/Levels/form_paymentplugins"
+            label="COM_AKEEBASUBS_LEVEL_FIELD_PAYMENT_PLUGINS"
+        />
+
+
+        <field
+            name="akeebasubs_levelgroup_id"
+            type="Model"
+            label="COM_AKEEBASUBS_LEVELS_FIELD_LEVELGROUP"
+            translate="false"
+            apply_access="false"
+            key_field="akeebasubs_levelgroup_id"
+            value_field="title"
+            model="LevelGroups"
+            none="COM_AKEEBASUBS_SELECT_LEVELGROUP"
+        />
+    </fieldset>
+
+
+    <fieldset
+            name="actions"
+            label="COM_AKEEBASUBS_LEVEL_TAB_ACTIONS"
+            class="tab-pane"
+            source="admin:com_akeebasubs/Levels/form_actions"
+            >
+    </fieldset>
+
+
+    <fieldset
+            name="messages"
+            label="COM_AKEEBASUBS_LEVEL_TAB_MESSAGE"
+            class="tab-pane"
+            >
+
+        <field
+            name="orderurl"
+            type="Url"
+            label="COM_AKEEBASUBS_LEVELS_FIELD_ORDERURL"
+            description="COM_AKEEBASUBS_LEVELS_FIELD_ORDERURL_DESC"
+        />
+
+        <field
+            name="ordertext"
+            type="Editor"
+            label="COM_AKEEBASUBS_LEVEL_FIELD_ORDERTEXT"
+        />
+
+        <field
+            name="cancelurl"
+            type="Url"
+            label="COM_AKEEBASUBS_LEVELS_FIELD_CANCELURL"
+            description="COM_AKEEBASUBS_LEVELS_FIELD_CANCELURL_DESC"
+        />
+
+        <field
+            name="canceltext"
+            type="Editor"
+            label="COM_AKEEBASUBS_LEVEL_FIELD_CANCELTEXT"
+        />
+
+    </fieldset>
+
+
+    <fieldset
+            name="renewalsnotifications"
+            label="COM_AKEEBASUBS_LEVEL_TAB_RENEWALSNOTIFICATIONS"
+            class="tab-pane"
+            >
+
+        <field
+            name="recurring"
+            type="BooleanToggle"
+            label="COM_AKEEBASUBS_LEVELS_FIELD_RECURRING"
+        />
+
+        <field
+            name="only_once"
+            type="BooleanToggle"
+            label="COM_AKEEBASUBS_LEVELS_FIELD_ONLY_ONCE"
+        />
+
+        <field
+            name="renew_url"
+            type="Url"
+            label="COM_AKEEBASUBS_LEVELS_FIELD_RENEW_URL"
+            description="COM_AKEEBASUBS_LEVELS_FIELD_RENEW_URL_DESC"
+        />
+
+        <field
+            name="content_url"
+            type="Url"
+            label="COM_AKEEBASUBS_LEVELS_FIELD_CONTENT_URL"
+            description="COM_AKEEBASUBS_LEVELS_FIELD_CONTENT_URL_DESC"
+        />
+
+        <field
+            name="notify1"
+            type="Text"
+            label="COM_AKEEBASUBS_LEVEL_FIELD_NOTIFY1"
+        />
+
+        <field
+            name="notify2"
+            type="Text"
+            label="COM_AKEEBASUBS_LEVEL_FIELD_NOTIFY2"
+        />
+
+        <field
+            name="notifyafter"
+            type="Text"
+            label="COM_AKEEBASUBS_LEVEL_FIELD_NOTIFYAFTER"
+        />
+
+    </fieldset>
+</form>

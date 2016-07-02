@@ -17,10 +17,10 @@
       </affiliation>
     </author>
 
-    <pubdate>January 2014</pubdate>
+    <pubdate>April 2015</pubdate>
 
     <copyright>
-      <year>2010-2015</year>
+      <year>2010-2016</year>
 
       <holder>Akeeba Ltd</holder>
     </copyright>
@@ -44,143 +44,6 @@
   <chapter xml:id="intro-and-installation">
     <title>Introduction and installation</title>
 
-    <section xml:id="introduction">
-      <title>Introducing Akeeba Subscriptions</title>
-
-      <bridgehead>At a glance</bridgehead>
-
-      <para>Akeeba Subscriptions is a subscriptions management component for
-      <trademark>Joomla!</trademark> 2.x/3.x and compatible distributions. It
-      is built using FOF (Framework on Framework, also known as Joomla! RAD),
-      ensuring greater stability and compatibility across different Joomla!
-      releases. It is licensed under the <link
-      xlink:href="http://www.gnu.org/licenses/gpl.html">GNU General Public
-      License (GPL) version 3</link> or –at your option– any later version
-      published by the Free Software Foundation.</para>
-
-      <important>
-        <para>This component is an on-line subscriptions manager. It is
-        written with the intent of providing time-limited subscriptions to
-        software, support and very specific kinds of content (Joomla!
-        articles, SobiPro listings). It is absolutely not a CRM (Custmer
-        Relationship Management) application. It is definitely not a media
-        access restriction application – media CAN NOT be resrticted the same
-        manner as content. It's not a downloads manager – you need a separate
-        application for managing software downloads, such as Akeeba
-        Subscriptions, DOCman, Phoca Downloads etc. If you want something to
-        manage print magazine subscriptions, country club memberships,
-        off-line or on-line media rental, grace periods for memberships etc
-        you are looking at the WRONG solution. Please read the documentation
-        thoroughly. If a feature you want is not listed here it is not
-        implemented and it will likely NOT be implemented.</para>
-      </important>
-
-      <bridgehead>The killer features</bridgehead>
-
-      <para>Its feature list is nothing short of amazing. Out of the box,
-      Akeeba Subscriptions supports these features:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para>Streamlined administrator interface which can even present you
-          an interactive sales graph and sales report as soon as you launch
-          the component</para>
-        </listitem>
-
-        <listitem>
-          <para>Rich subscription levels (subscription packages) editor which
-          allows you to choose different images for each of your subscriptions
-          and even a different order confirmation and order cancellation text
-          to show to your users.</para>
-        </listitem>
-
-        <listitem>
-          <para>The easiest subscription management interface you've seen on a
-          component. It will even show you your users' faces, powered by
-          Gravatar.</para>
-        </listitem>
-
-        <listitem>
-          <para>Users can upgrade or add extensions ("renewals") to their
-          subscriptions. Renewing a subscription will create a new
-          subscription which becomes valid the very second their old one
-          expires. Users do not lose any of their subscription time when
-          renewing, unlike most other subscription systems out there.</para>
-        </listitem>
-
-        <listitem>
-          <para>Full support for delayed payments, e.g. when using e-checks
-          with PayPal.</para>
-        </listitem>
-
-        <listitem>
-          <para>Discount coupon codes which allow you to set an absolute money
-          value or percentage discount for all or a specific subscription
-          level and user, have publish up/publish down dates or a usage limit
-          (e.g. the coupon code is valid only for the first 100 people to use
-          it) – or a combination of any and all of the above!</para>
-        </listitem>
-
-        <listitem>
-          <para>Automatic discounts for upgrading or renewing subscriptions
-          based on the subscription level and days of presence in the
-          subscription package. This allows you to easily create rules like:
-          30% discount if you renew up to 30 days before the end of your
-          subscription, 15% discount if you renew within the last 30 days, no
-          discount otherwise.</para>
-        </listitem>
-
-        <listitem>
-          <para>Full support for complex tax calculations based on country,
-          state and ZIP code. It fully integrates with the European Union's
-          VIES system so that you can charge no VAT tax for intra-EU B2B
-          transactions. Now with VAT MOSS support for EU companies!</para>
-        </listitem>
-
-        <listitem>
-          <para>The subscription form can work with or without Javascript.
-          With Javascript it becomes a fully fledged, auto-validating
-          subscription form. Without Javascript it works as a standard web
-          form, accessible to users who do not wish / cannot use Javascript on
-          their browser.</para>
-        </listitem>
-
-        <listitem>
-          <para>Integration with Joomla! user groups. This allows direct
-          integration with several popular components such as JCE, DOCman, K2
-          etc.</para>
-        </listitem>
-
-        <listitem>
-          <para>Content restriction: a content plugin to show parts of your
-          content only to registered subscribers, without the need of any
-          external tool. Only applies to HTML content rendered by components,
-          modules and plugins which support the use of standard Joomla!
-          content plugins.</para>
-        </listitem>
-
-        <listitem>
-          <para>Payment methods: PayPal (for personal, verified and business
-          accounts), 2Checkout, PayMill, Stripe, Off-line payments and more.
-          Check out our documentation for more information.</para>
-        </listitem>
-
-        <listitem>
-          <para>Send emails to subscribers upon subscription, when their
-          subscription/payment status changes and when their subscription is
-          about to expire</para>
-        </listitem>
-      </itemizedlist>
-
-      <bridgehead>Support policy</bridgehead>
-
-      <para>NO SUPPORT. We have discontinued support for this component. It is
-      now a developer's product. This means that we will not provide any kind
-      of support, help, instructions, custom feature implementations or any
-      other kind of work related to this component for a fee or for free. This
-      documentation is written for our own reference only.</para>
-    </section>
-
     <section xml:id="requirements">
       <title>Requirements and compatibility</title>
 
@@ -192,25 +55,23 @@
         free.</para>
       </warning>
 
-      <para>Akeeba Subscriptions 1.0.b4 and later will attempt to detect if
-      your server meets the minimum requirements. If it does not, it will only
-      do a partial installation (no plugins and modules will be installed) and
-      you will be presented with an error message. In any case, Akeeba
-      Subscriptions requires the following server-side configuration:</para>
+      <para>Akeeba Subscriptions requires the following server-side
+      configuration:</para>
 
       <itemizedlist>
         <listitem>
-          <para><trademark>Joomla!</trademark> and PHP version compatibilities
-          are detailed in <link
-          xlink:href="https://www.akeebabackup.com/compatibility.html">our
-          Version Compatibility matrix</link>.</para>
+          <para><trademark>Joomla!</trademark> 3.3 or later</para>
         </listitem>
 
         <listitem>
-          <para>MySQL 5.0.41 or later. Earlier database server versions will
-          not be supported. Do note that earlier releases of MySQL are
-          obsolete and not supported any more by Oracle (the company who
-          controls the development of MySQL).</para>
+          <para>PHP 5.4.0 or later</para>
+        </listitem>
+
+        <listitem>
+          <para>MySQL 5.1 or later, 5.5 or 5.6 strongly recommended. Earlier
+          database server versions will not be supported. Do note that earlier
+          releases of MySQL are obsolete and not supported any more by Oracle
+          (the company who controls the development of MySQL).</para>
         </listitem>
       </itemizedlist>
     </section>
@@ -357,8 +218,7 @@
           <guimenu>Extensions</guimenu>, <guimenuitem>Manage</guimenuitem>
           link on the top menu. If you are on Joomla! 3.x please click on the
           <guilabel>Upload Package File</guilabel> tab. Locate the
-          <guibutton>Browse</guibutton> button next to the <guilabel>Package
-          File</guilabel> (Joomla! 2.5, 3.0 and 3.1) or <guilabel>Extension
+          <guibutton>Browse</guibutton> button next to the <guilabel>Extension
           package file</guilabel> (Joomla! 3.2 and later) field. Locate the
           installation ZIP file you had previously downloaded and select it.
           Back to the page, click on the <guibutton>Upload &amp;
@@ -522,10 +382,8 @@
           <para>From the icon your Joomla! administrator control panel page.
           On Joomla! 3 you will find the icon in the left-hand sidebar, under
           the <guilabel>Maintenance</guilabel> header. It has an icon which
-          looks like an empty star. On Joomla! 2.5 you will find it in the
-          main area of the control panel page, under <guilabel>Quick
-          Icons</guilabel>. When there are updates found for any of your
-          extensions you will see the <guilabel>Updates are
+          looks like an empty star. When there are updates found for any of
+          your extensions you will see the <guilabel>Updates are
           available</guilabel> message. Clicking on it will get you to the
           Update page of Joomla! Extensions Manager.</para>
         </listitem>
@@ -535,9 +393,8 @@
           <guimenu>Extensions</guimenu>, <guimenuitem>Extensions
           Manager</guimenuitem>. From that page click on the
           <guilabel>Update</guilabel> tab found in the left-hand sidebar on
-          Joomla! 3 and the top navigation bar in Joomla! 2.5. Clicking on it
-          will get you to the Update page of Joomla! Extensions
-          Manager.</para>
+          Joomla! 3. Clicking on it will get you to the Update page of Joomla!
+          Extensions Manager.</para>
         </listitem>
       </itemizedlist>
 
@@ -545,8 +402,7 @@
       Updates</guibutton> button in the toolbar. If you do not see the updates
       still you may want to wait up to 24 hours before retrying. This has to
       do with the way the update CDN works and how Joomla! caches the update
-      information. Unfortunately we can't do anything about it, especially in
-      Joomla! 3 (there is no way to forcibly clean the updates cache).</para>
+      information. Unfortunately we can't do anything about it.</para>
 
       <para>If there is an update available for Akeeba Subscriptions tick the
       box to the left of its row and then click on the
@@ -576,23 +432,6 @@
         Subscriptions will always remove all your settings. You definitely not
         want that to happen!</para>
       </important>
-
-      <bridgehead>Live update (versions 1.0 up to and including
-      2.3.2)</bridgehead>
-
-      <note>
-        <para>This method was removed in Akeeba Subscriptions 2.3.3</para>
-      </note>
-
-      <para>On older versions of Akeeba Subscriptions there is a different
-      update method, if your server supports it. It is called the "Live
-      Update" feature. Whenever you visit the Akeeba Subscriptions Control
-      Panel, it will automatically check for the existence of an updated
-      version and it will notify you. Clicking on the notification allows you
-      to perform a live update without further interaction. Do note that if
-      your server is protected by a firewall you'll have to enable port 80 and
-      443 TCP traffic to www.akeebabackup.com and cdn.akeebabackup.com for
-      this feature to work properly.</para>
     </section>
 
     <section xml:id="requesting-support">
@@ -783,26 +622,26 @@
       <itemizedlist>
         <listitem>
           <para><link
-          xlink:href="http://magazine.joomla.org/issues/issue-jan-2015/item/637-Joomla-1-6,-1-7,-and-2-5-ACL-Concepts-Overview">ACL
+          xlink:href="http://magazine.joomla.org/issues/issue-jan-2016/item/637-Joomla-1-6,-1-7,-and-2-5-ACL-Concepts-Overview">ACL
           concepts overview</link> (beginners)</para>
         </listitem>
 
         <listitem>
           <para><link
-          xlink:href="http://magazine.joomla.org/issues/issue-feb-2015/item/639-Joomla-ACL-Access-Levels">Joomla!
+          xlink:href="http://magazine.joomla.org/issues/issue-feb-2016/item/639-Joomla-ACL-Access-Levels">Joomla!
           ACL: Access Levels</link> (beginners; scroll all the way down for a
           very good video)</para>
         </listitem>
 
         <listitem>
           <para><link
-          xlink:href="http://magazine.joomla.org/issues/Issue-Aug-2015/item/825-A-Case-for-Role-Based-ACL">A
+          xlink:href="http://magazine.joomla.org/issues/Issue-Aug-2016/item/825-A-Case-for-Role-Based-ACL">A
           case for role-based ACL</link> (advanced)</para>
         </listitem>
 
         <listitem>
           <para><link
-          xlink:href="http://magazine.joomla.org/issues/Issue-Sept-2015/item/856-Implementing-Role-Based-ACL">Implementing
+          xlink:href="http://magazine.joomla.org/issues/Issue-Sept-2016/item/856-Implementing-Role-Based-ACL">Implementing
           role-based ACL</link> (advanced)</para>
         </listitem>
 
@@ -1748,6 +1587,37 @@
             </warning>
           </listitem>
         </varlistentry>
+
+        <varlistentry>
+          <term>Render zero price as FREE</term>
+
+          <listitem>
+            <para>When the subscription price is zero show it as FREE instead
+            of 0.00</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Summary images</term>
+
+          <listitem>
+            <para>Should we display subscription level images in the My
+            Subscriptions page? If so, what is the forced width of the
+            images?</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Use Akeeba Strapper</term>
+
+          <listitem>
+            <para>If your template does not use Bootstrap 2.3 you need to
+            enable Akeeba Strapper to display the interface correctly. You can
+            choose between front-end only, back-end only or both. You can find
+            Akeeba Strapper and its configuration in your site's
+            /media/strapper30 directory.</para>
+          </listitem>
+        </varlistentry>
       </variablelist>
 
       <para><guilabel>Integrated invoicing</guilabel></para>
@@ -1902,23 +1772,37 @@
         </varlistentry>
       </variablelist>
 
-      <para><guilabel>Live Update</guilabel></para>
+      <para><guilabel>Updates</guilabel></para>
 
-      <para>These options control how the integrated Live Update which allows
-      you to update our component works</para>
+      <para>These options control how the updates work</para>
 
       <variablelist>
         <varlistentry>
-          <term>Minimum stability</term>
+          <term>Auto-update CLI settings</term>
 
           <listitem>
-            <para>Choose the minimum stability level of releases to be
-            notified for. By default this is set to Stable and is the
-            recommended setting for live sites. If you want to help us build
-            better software with less bugs please consider installing alphas,
-            betas on your test/staging site or RCs on your live site. Your
-            feedback helps us improve the software. Thank you in
-            advance!</para>
+            <para>What the auto update CLI script should do: notify only (send
+            email about update availability), update only (install the updated
+            version) or both notify and update.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Notification frequency and Notification time</term>
+
+          <listitem>
+            <para>Maximum frequency of notification emails sent by the update
+            CLI script. Actual frequency may be lower, depending on your CRON
+            job settings.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Email for update notification</term>
+
+          <listitem>
+            <para>Email address to be notified about updates from the update
+            CLI script. One email only.</para>
           </listitem>
         </varlistentry>
       </variablelist>
@@ -5329,10 +5213,10 @@ Rule C gives $ 30 discount</programlisting>
         </tip>
 
         <para>And now, the interesting part: assigning a localised message per
-        language constant and site language. Using Joomla! 2.5 and later it is
-        easy, using its <guilabel>Language Override</guilabel> feature. Log
-        into your site's back-end and go to <guimenu>Extensions</guimenu>,
-        <guisubmenu>Language Manager</guisubmenu>, then click on
+        language constant and site language. This is easy, using its
+        <guilabel>Language Override</guilabel> feature. Log into your site's
+        back-end and go to <guimenu>Extensions</guimenu>, <guisubmenu>Language
+        Manager</guisubmenu>, then click on
         <guimenuitem>Overrides</guimenuitem>. Right above the list, on the
         right-hand side, there is a drop down. Select your desired language,
         e.g. <guilabel>English (United Kingdom) - Site</guilabel>.</para>
@@ -6095,62 +5979,13 @@ Rule C gives $ 30 discount</programlisting>
 
         <bridgehead>Overriding the loading of Bootstrap / jQuery</bridgehead>
 
-        <para>Akeeba Subscriptions uses the Akeeba Strapper library to load
-        its own copies of Bootstrap and jQuery on Joomla! 2.5 or its Bootstrap
-        overrides in Joomla! 3. If you have a Joomla! 2.5 site which uses
-        Bootstrap 2.x or a Joomla! 3 site which doesn't use Bootstrap 2.x
-        (e.g. it uses Foundation Zurb, Bootsrap 3.x or something in the like)
-        or if you are loading jQuery on your own (e.g. from a CDN) you MUST
-        tell Akeeba Strapper what to load and when. You can do this through
-        media overrides.</para>
-
-        <procedure>
-          <step>
-            <para>Find your current template's subdirectory in your site's
-            root, under the <filename>templates</filename> directory. In this
-            example, we will assume it is
-            <filename>templates/<replaceable>mytemplate</replaceable></filename></para>
-          </step>
-
-          <step>
-            <para>Create a new directory
-            <filename>templates/<replaceable>mytemplate</replaceable>/media/akeeba_strapper</filename>
-            This is your Strapper media override directory.</para>
-          </step>
-
-          <step>
-            <para>Copy the file
-            <filename>media/akeeba_strapper/strapper.ini</filename> into the
-            <filename>templates/<replaceable>mytemplate</replaceable>/media/akeeba_strapper</filename>
-            directory. From now on, Akeeba Strapper will consult this new
-            <filename>strapper.ini</filename> file instead of the file found
-            under <filename>media/akeeba_strapper</filename> to decide what to
-            load.</para>
-          </step>
-
-          <step>
-            <para>Edit the
-            <filename>templates/<replaceable>mytemplate</replaceable>/media/akeeba_strapper/strapper.ini</filename>
-            file and change the Bootstrap and jQuery loading rules.</para>
-          </step>
-        </procedure>
-
-        <important>
-          <para>These settings apply for all components using Akeeba Strapper.
-          This includes all components with a front-end part released by
-          Akeeba Ltd (e.g. Akeeba Subscriptions, Akeeba Ticket System or
-          Akeeba DocImport) as well as a few third party components (e.g.
-          Twentronix Cookie Confirm).</para>
-        </important>
-
-        <bridgehead>Overriding the CSS or JS loaded by Akeeba
-        Strapper</bridgehead>
-
-        <para>Akeeba Strapper also loads its own CSS and Javascript files. You
-        can override them as explained in the "Customising the CSS" and
-        "Customising the Javascript" sections above. The source directories
-        for Akeeba Strapper's files can be found under
-        <filename>media/akeeba_strapper</filename>.</para>
+        <para>Akeeba Subscriptions uses Bootstrap 2.x and jQuery shipped with
+        Joomla! itself. If you have a Joomla! site which doesn't use Bootstrap
+        2.x (e.g. it uses Foundation Zurb, Bootsrap 3.x or something in the
+        like) or if you are loading jQuery on your own (e.g. from a CDN) you
+        will have to rewrite the entire front-end on your own. Sorry, the
+        Joomla! User Interface guideliness explicitly state that compatibility
+        with Bootstrap 2.x's CSS and JS must be provided by templates.</para>
       </section>
 
       <section xml:id="customising-emails">
@@ -10915,22 +10750,32 @@ Rule C gives $ 30 discount</programlisting>
         free.</para>
       </warning>
 
-      <para>Since Akeeba Subscriptions 3.5.0 we recommend developers wishing
-      to create plugins for Akeeba Subscriptions to place them in the
+      <para>Since Akeeba Subscriptions 5.0 we recommend developers wishing to
+      create plugins for Akeeba Subscriptions to place them in the
       <filename>akeebasubs</filename> directory.</para>
 
       <para>Moreover, we have created a base class,
-      <code>plgAkeebasubsAbstract</code>, which can make your life simpler.
-      You are suggested to use code like the following to create your custom
-      plugins:</para>
+      <code>Akeeba\Subscriptions\Admin\PluginAbstracts\AkeebasubsBase</code>,
+      which can make your life simpler. You are suggested to use code like the
+      following to create your custom plugins:</para>
 
       <programlisting>&lt;?php
 defined('_JEXEC') or die();
 
-$akeebasubsinclude = include_once JPATH_ADMINISTRATOR.'/components/com_akeebasubs/assets/akeebasubs.php';
-if(!$akeebasubsinclude) { unset($akeebasubsinclude); return; } else { unset($akeebasubsinclude); }
+if (!defined('FOF30_INCLUDED') &amp;&amp; !@include_once(JPATH_LIBRARIES . '/fof30/include.php'))
+		{
+			die ('FOF is not enabled'); // Or simply return to not load the plugin at all
+		}
 
-class plgAkeebasubsMycustomplugin extends plgAkeebasubsAbstract
+// These lines allow you to use the shorthand class names
+use Akeeba\Subscriptions\Admin\Model\Levels;
+use Akeeba\Subscriptions\Admin\Model\Subscriptions;
+use Akeeba\Subscriptions\Admin\Model\Users;
+use FOF30\Container\Container;
+
+Container::getInstance('com_akeebasubs'); // This sets up the autoloader (if it's not already loaded)
+
+class plgAkeebasubsMyplugin extends <code>Akeeba\Subscriptions\Admin\PluginAbstracts\AkeebasubsBase</code>
 {
     // your code goes here
 }</programlisting>
@@ -10952,7 +10797,8 @@ class plgAkeebasubsMycustomplugin extends plgAkeebasubsAbstract
         </warning>
 
         <para><emphasis role="bold">Prototype</emphasis>: <code>public
-        function onAKSubscriptionChange($row, $info)</code></para>
+        function onAKSubscriptionChange(Subscriptions $row, array
+        $info)</code></para>
 
         <para><emphasis role="bold">Synopsis</emphasis>: This event is called
         whenever a subscription is created or modified.</para>
@@ -10960,7 +10806,7 @@ class plgAkeebasubsMycustomplugin extends plgAkeebasubsAbstract
         <para><emphasis role="bold">Sample plugin</emphasis>:
         plugins/akeebasubs/subscriptionemails.php</para>
 
-        <para>The <code>$row</code> variable contains a JTable descendant
+        <para>The <code>$row</code> variable contains a DataModel descendant
         which gives you access to all of the information in the subscription
         record (#__akeebasubs_subscriptions table's fields). The
         <code>$info</code> variable contains a hash array with useful
@@ -11457,8 +11303,7 @@ class plgAkeebasubsMycustomplugin extends plgAkeebasubsAbstract
         </warning>
 
         <para><emphasis role="bold">Prototype</emphasis>: <code>public
-        function onSubscriptionLevelFormRender(AkeebasubsTableLevel
-        $level)</code></para>
+        function onSubscriptionLevelFormRender(Levels $level)</code></para>
 
         <para><emphasis role="bold">Synopsis</emphasis>: This event is called
         when the subscription level editor form (back-end) is displayed. It
@@ -11468,19 +11313,13 @@ class plgAkeebasubsMycustomplugin extends plgAkeebasubsAbstract
         class' implementation</para>
 
         <para>You will rarely have to override this method. You just need to
-        provide two subdirectories in your plugin's folder:</para>
+        provide one subdirectory in your plugin's folder:</para>
 
         <itemizedlist>
           <listitem>
             <para><filename>tmpl</filename>. This is where your back-end
             editor form template file (<filename>default.php</filename>) is
             stored.</para>
-          </listitem>
-
-          <listitem>
-            <para><filename>override</filename>. Leave it empty. This is where
-            a user can put his customised <filename>default.php</filename>
-            template file to override yours.</para>
           </listitem>
         </itemizedlist>
       </section>
@@ -11532,7 +11371,7 @@ class plgAkeebasubsMycustomplugin extends plgAkeebasubsAbstract
         </warning>
 
         <para><emphasis role="bold">Prototype</emphasis>: <code>public
-        function onAKUserSaveData($row)</code></para>
+        function onAKUserSaveData(&amp;$data)</code></para>
 
         <para><emphasis role="bold">Synopsis</emphasis>: This plugin is called
         when Akeeba Subscriptions is saving user's data to the
@@ -11545,8 +11384,8 @@ class plgAkeebasubsMycustomplugin extends plgAkeebasubsAbstract
         the user record with new information, either during sign-up or when
         you manually update this information in the back-end.</para>
 
-        <para>The $row variable contains a AkeebasubsTableUser object with the
-        information to be stored in the #__akeebasubs_users table.</para>
+        <para>The $data variable contains a the raw data to be stored in the
+        #__akeebasubs_users table.</para>
       </section>
 
       <section xml:id="dev-onCancelMessage">
@@ -11561,7 +11400,7 @@ class plgAkeebasubsMycustomplugin extends plgAkeebasubsAbstract
         </warning>
 
         <para><emphasis role="bold">Prototype</emphasis>: <code>public
-        function onCancelMessage($row)</code></para>
+        function onCancelMessage(Subscriptions $row)</code></para>
 
         <para><emphasis role="bold">Synopsis</emphasis>: This plugin is called
         when Akeeba Subscriptions is displaying the order cancellation
@@ -11575,8 +11414,8 @@ class plgAkeebasubsMycustomplugin extends plgAkeebasubsAbstract
         displaying the order cancellation message in the front-end of the
         site.</para>
 
-        <para>The $row variable contains an AkeebasubsTableSubscription object
-        of the subscription for which the message is being displayed.</para>
+        <para>The $row variable contains a Subscriptions object of the
+        subscription for which the message is being displayed.</para>
 
         <para>Anything you return is considered to be HTML which will be
         displayed on the message page, right after the message.</para>
@@ -11594,7 +11433,7 @@ class plgAkeebasubsMycustomplugin extends plgAkeebasubsAbstract
         </warning>
 
         <para><emphasis role="bold">Prototype</emphasis>: <code>public
-        function onOrderMessage($row)</code></para>
+        function onOrderMessage(Subscriptions $row)</code></para>
 
         <para><emphasis role="bold">Synopsis</emphasis>: This plugin is called
         when Akeeba Subscriptions is displaying the order confirmation
@@ -11608,8 +11447,8 @@ class plgAkeebasubsMycustomplugin extends plgAkeebasubsAbstract
         displaying the order confirmation message in the front-end of the
         site.</para>
 
-        <para>The $row variable contains an AkeebasubsTableSubscription object
-        of the subscription for which the message is being displayed.</para>
+        <para>The $row variable contains an Subscriptions object of the
+        subscription for which the message is being displayed.</para>
 
         <para>Anything you return is considered to be HTML which will be
         displayed on the message page, right after the message.</para>
@@ -11626,6 +11465,40 @@ class plgAkeebasubsMycustomplugin extends plgAkeebasubsAbstract
         any other kind of work related to this component for a fee or for
         free.</para>
       </warning>
+
+      <para>Since Akeeba Subscriptions 5.0 we ask developers wishing to create
+      payment plugins for Akeeba Subscriptions to place them in the
+      <filename>akpayment</filename> directory.</para>
+
+      <para>Moreover, we have created a base class,
+      <code>Akeeba\Subscriptions\Admin\PluginAbstracts\AkpaymentBase</code>,
+      which can make your life simpler. You are suggested to use code like the
+      following to create your custom payment plugins:</para>
+
+      <programlisting>&lt;?php
+defined('_JEXEC') or die();
+
+if (!defined('FOF30_INCLUDED') &amp;&amp; !@include_once(JPATH_LIBRARIES . '/fof30/include.php'))
+		{
+			die ('FOF is not enabled'); // Or simply return to not load the plugin at all
+		}
+
+// These lines allow you to use the shorthand class names
+use Akeeba\Subscriptions\Admin\Model\Levels;
+use Akeeba\Subscriptions\Admin\Model\Subscriptions;
+use FOF30\Container\Container;
+
+Container::getInstance('com_akeebasubs'); // This sets up the autoloader (if it's not already loaded)
+
+class plgAkpaymentMyplugin extends <code>Akeeba\Subscriptions\Admin\PluginAbstracts\AkpaymentBase</code>
+{
+    // your code goes here
+}</programlisting>
+
+      <para>This allows you to use our base class. In the event that a user
+      enables the plugin without having a post-3.5.0 Akeeba Subscriptions
+      version installed the plugin will not load, therefore not causing a
+      fatal PHP error.</para>
 
       <section>
         <title>onAKPaymentGetIdentity</title>
@@ -11683,8 +11556,8 @@ class plgAkeebasubsMycustomplugin extends plgAkeebasubsAbstract
         </warning>
 
         <para><emphasis role="bold">Prototype</emphasis>: <code>public
-        function onAKPaymentNew($paymentmethod, $user, $level,
-        $subscription)</code></para>
+        function onAKPaymentNew($paymentmethod, JUser $user, Levels $level,
+        Subscriptions $subscription)</code></para>
 
         <para><emphasis role="bold">Synopsis</emphasis>: This method is called
         whenever the user asks for a payment to be made for his new

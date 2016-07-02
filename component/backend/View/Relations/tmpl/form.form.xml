@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form>
+
+    <fieldset
+        name="basic"
+        label="COM_AKEEBASUBS_RELATION_BASIC_TITLE"
+        class="span6"
+    >
+        <field
+            name="source_level_id"
+            type="Model"
+            label="COM_AKEEBASUBS_RELATIONS_FIELD_SOURCE_LEVEL_ID"
+            key_field="akeebasubs_level_id"
+            value_field="title"
+            model="Levels"
+        />
+
+        <field
+            name="target_level_id"
+            type="Model"
+            label="COM_AKEEBASUBS_RELATIONS_FIELD_TARGET_LEVEL_ID"
+            key_field="akeebasubs_level_id"
+            value_field="title"
+            model="Levels"
+        />
+
+        <field name="mode"
+               type="GenericList"
+               label="COM_AKEEBASUBS_RELATIONS_FIELD_TYPE"
+               onchange="akeebasubs_relations_mode_onChange();"
+        >
+            <option value="rules">COM_AKEEBASUBS_RELATIONS_MODE_RULES</option>
+            <option value="fixed">COM_AKEEBASUBS_RELATIONS_MODE_FIXED</option>
+            <option value="flexi">COM_AKEEBASUBS_RELATIONS_MODE_FLEXI</option>
+        </field>
+
+        <field
+            name="type"
+            type="GenericList"
+            label="COM_AKEEBASUBS_RELATIONS_FIELD_TYPE"
+        >
+            <option value="value">COM_AKEEBASUBS_COUPON_TYPE_VALUE</option>
+            <option value="percent">COM_AKEEBASUBS_COUPON_TYPE_PERCENT</option>
+        </field>
+
+        <field
+            name="expiration"
+            type="GenericList"
+            label="COM_AKEEBASUBS_RELATIONS_FIELD_EXPIRATION"
+        >
+            <option value="replace">COM_AKEEBASUBS_RELATIONS_FIELD_FLEX_EXPIRATION_REPLACE</option>
+            <option value="after">COM_AKEEBASUBS_RELATIONS_FIELD_FLEX_EXPIRATION_AFTER</option>
+            <option value="overlap">COM_AKEEBASUBS_RELATIONS_FIELD_FLEX_EXPIRATION_OVERLAP</option>
+        </field>
+
+        <field
+            name="combine"
+            id="combined"
+            type="BooleanToggle"
+            label="COM_AKEEBASUBS_RELATIONS_FIELD_COMBINE"
+        />
+
+        <field
+            name="enabled"
+            type="Published"
+            label="JPUBLISHED"
+        />
+    </fieldset>
+
+    <fieldset
+        name="akeebasubs-relations-fixed"
+        class="span6"
+        label="COM_AKEEBASUBS_RELATION_FIXED_TITLE"
+    >
+        <field
+            name="amount"
+            type="Text"
+            label="COM_AKEEBASUBS_RELATIONS_FIELD_AMOUNT"
+            filter="float"
+        />
+    </fieldset>
+
+    <fieldset
+        name="akeebasubs-relations-flexi"
+        class="span6"
+        label="COM_AKEEBASUBS_RELATION_FLEXI_TITLE"
+    >
+        <field
+            name="flex_amount"
+            type="Text"
+            filter="float"
+            label="COM_AKEEBASUBS_RELATION_FLEXIBLE_TITLE"
+            class="input-mini"
+        />
+
+        <field
+            name="flex_period"
+            type="Text"
+            filter="integer"
+            label_placement="empty"
+            prepend_text="COM_AKEEBASUBS_RELATION_FLEXI_PRE"
+            class="input-mini"
+        />
+
+        <field
+            name="flex_uom"
+            type="GenericList"
+            append_text="COM_AKEEBASUBS_RELATION_FLEXI_POST"
+            class="input-small"
+            label_placement="empty"
+        >
+            <option value="d">COM_AKEEBASUBS_RELATIONS_FIELD_FLEX_UOM_D</option>
+            <option value="w">COM_AKEEBASUBS_RELATIONS_FIELD_FLEX_UOM_W</option>
+            <option value="m">COM_AKEEBASUBS_RELATIONS_FIELD_FLEX_UOM_M</option>
+            <option value="y">COM_AKEEBASUBS_RELATIONS_FIELD_FLEX_UOM_Y</option>
+        </field>
+
+        <field
+            name="spacer1"
+            type="spacer"
+            label_placement="none"
+        />
+
+        <field
+                name="low_amount"
+                type="Text"
+                filter="float"
+                label="COM_AKEEBASUBS_RELATION_LOWTHRESHOLD_TITLE"
+                class="input-mini"
+                append_text="COM_AKEEBASUBS_RELATION_LOW_PRE"
+                />
+
+        <field
+                name="low_threshold"
+                type="Text"
+                filter="integer"
+                label_placement="empty"
+                class="input-mini"
+                append_text="COM_AKEEBASUBS_RELATION_LOW_POST"
+                />
+
+        <field
+            name="spacer2"
+            type="spacer"
+            label_placement="none"
+        />
+
+        <field
+                name="high_amount"
+                type="Text"
+                filter="float"
+                label="COM_AKEEBASUBS_RELATION_HIGHTHRESHOLD_TITLE"
+                class="input-mini"
+                append_text="COM_AKEEBASUBS_RELATION_HIGH_PRE"
+                />
+
+        <field
+                name="high_threshold"
+                type="Text"
+                filter="integer"
+                label_placement="empty"
+                class="input-mini"
+                append_text="COM_AKEEBASUBS_RELATION_HIGH_POST"
+                />
+
+        <field
+                name="spacer3"
+                type="spacer"
+                label_placement="none"
+                />
+
+        <field
+            name="flex_timecalculation"
+            type="GenericList"
+            label="COM_AKEEBASUBS_RELATIONS_FIELD_FLEX_TIMECALCULATION"
+        >
+            <option value="current">COM_AKEEBASUBS_RELATIONS_FIELD_FLEX_TIMECALCULATION_CURRENT</option>
+            <option value="future">COM_AKEEBASUBS_RELATIONS_FIELD_FLEX_TIMECALCULATION_FUTURE</option>
+        </field>
+
+        <field
+            name="flex_rounding"
+            type="GenericList"
+            label="COM_AKEEBASUBS_RELATIONS_FIELD_TIME_ROUNDING"
+        >
+            <option value="floor">COM_AKEEBASUBS_RELATIONS_FIELD_FLEX_TIMEROUNDING_FLOOR</option>
+            <option value="ceil">COM_AKEEBASUBS_RELATIONS_FIELD_FLEX_TIMEROUNDING_CEIL</option>
+            <option value="round">COM_AKEEBASUBS_RELATIONS_FIELD_FLEX_TIMEROUNDING_ROUND</option>
+        </field>
+
+    </fieldset>
+</form>

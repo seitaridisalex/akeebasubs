@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form>
+	<fieldset name="basic_configuration">
+		<field
+			name="username"
+			type="Text"
+			label="COM_AKEEBASUBS_BLOCKRULES_FIELD_USERNAME"
+			hint="COM_AKEEBASUBS_BLOCKRULES_FIELD_USERNAME"
+			description="COM_AKEEBASUBS_BLOCKRULES_FIELD_USERNAME_HELP"
+			class="input-xlarge"
+			required="false"
+		/>
+
+		<field
+			name="name"
+			type="Text"
+			label="COM_AKEEBASUBS_BLOCKRULES_FIELD_NAME"
+            hint="COM_AKEEBASUBS_BLOCKRULES_FIELD_NAME"
+			description="COM_AKEEBASUBS_BLOCKRULES_FIELD_NAME_HELP"
+			class="input-xlarge"
+			required="false"
+		/>
+
+		<field
+			name="email"
+			type="Text"
+			label="COM_AKEEBASUBS_BLOCKRULES_FIELD_EMAIL"
+            hint="COM_AKEEBASUBS_BLOCKRULES_FIELD_EMAIL"
+			description="COM_AKEEBASUBS_BLOCKRULES_FIELD_EMAIL_HELP"
+			class="input-xlarge"
+			required="false"
+		/>
+
+		<field
+			name="iprange"
+			type="Text"
+			label="COM_AKEEBASUBS_BLOCKRULES_FIELD_IPRANGE"
+            hint="COM_AKEEBASUBS_BLOCKRULES_FIELD_IPRANGE"
+			description="COM_AKEEBASUBS_BLOCKRULES_FIELD_IPRANGE_HELP"
+			class="input-xlarge"
+			required="false"
+		/>
+
+        <field name="enabled" type="Published" label="JSTATUS"
+               description="JFIELD_PUBLISHED_DESC" class="inputbox"
+               filter="intval" size="1" default="1"
+               required="true"/>
+
+	</fieldset>
+</form>

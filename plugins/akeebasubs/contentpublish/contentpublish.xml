@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5.0" type="plugin" group="akeebasubs" method="upgrade">
+<extension version="3.3.0" type="plugin" group="akeebasubs" method="upgrade">
 	<name>PLG_AKEEBASUBS_CONTENTPUBLISH</name>
 	<author>Nicholas K. Dionysopoulos</author>
 	<authorEmail>nicholas@dionysopoulos.me</authorEmail>
 	<authorUrl>http://www.akeebabackup.com</authorUrl>
-	<copyright>Copyright (c)2011-2013 Nicholas K. Dionysopoulos</copyright>
+	<copyright>Copyright (c)2011-2016 Nicholas K. Dionysopoulos</copyright>
 	<license>GNU General Public License version 3, or later</license>
-	<creationDate>April 2011</creationDate>
-	<version>1.0</version>
+	<creationDate>April 2015</creationDate>
+	<version>5.0</version>
 	<description>PLG_AKEEBASUBS_CONTENTPUBLISH_DESCRIPTION</description>
 	<files>
 		<filename plugin="contentpublish">contentpublish.php</filename>
-		<folder>override</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages folder="language">

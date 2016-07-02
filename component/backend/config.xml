@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<config>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<config addfieldpath="administrator/components/com_akeebasubs/assets/elements">
 	<fieldset name="currency" label="COM_AKEEBASUBS_CONFIG_CURRENCY_TITLE">
 		<field type="text"
 			name="currency"
@@ -45,12 +50,6 @@
 			label="COM_AKEEBASUBS_CONFIG_FRONTEND_SECRET"
 			description="COM_AKEEBASUBS_CONFIG_FRONTEND_SECRET_DESC"
 		/>
-		<field name="stepsbar" type="list" default="1"
-			label="COM_AKEEBASUBS_CONFIG_FRONTEND_STEPSBAR"
-			description="COM_AKEEBASUBS_CONFIG_FRONTEND_STEPSBAR_DESC">
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
-		</field>
 		<field name="includesignup" type="list" default="2"
 			label="COM_AKEEBASUBS_CONFIG_FRONTEND_INCLUDESIGNUP"
 			description="COM_AKEEBASUBS_CONFIG_FRONTEND_INCLUDESIGNUP_DESC">
@@ -64,79 +63,7 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-		<field name="emailasusername" type="list" default="0"
-			label="COM_AKEEBASUBS_CONFIG_FRONTEND_EMAILASUSERNAME"
-			description="COM_AKEEBASUBS_CONFIG_FRONTEND_EMAILASUSERNAME_DESC">
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
-		</field>
-		<field name="personalinfo" type="list" default="1"
-			label="COM_AKEEBASUBS_CONFIG_FRONTEND_PERSONALINFO"
-			description="COM_AKEEBASUBS_CONFIG_FRONTEND_PERSONALINFO_DESC">
-			<option value="-1">COM_AKEEBASUBS_CONFIG_FRONTEND_PERSONALINFO_ONLYCOUNTRY</option>
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
-		</field>
-		<field name="businessfields" type="list" default="auto"
-			label="COM_AKEEBASUBS_CONFIG_FRONTEND_BUSINESSFIELDS_LABEL"
-			description="COM_AKEEBASUBS_CONFIG_FRONTEND_BUSINESSFIELDS_DESC">
-			<option value="auto">COM_AKEEBASUBS_CONFIG_FRONTEND_BUSINESSFIELDS_AUTO</option>
-			<option value="never">COM_AKEEBASUBS_CONFIG_FRONTEND_BUSINESSFIELDS_NEVER</option>
-			<option value="always">COM_AKEEBASUBS_CONFIG_FRONTEND_BUSINESSFIELDS_ALWAYS</option>
-		</field>
 
-		<field name="showregularfield" type="list" default="1"
-			label="COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWREGULARFIELD"
-			description="COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWREGULARFIELD_DESC">
-			<option value="-1">COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWFIELDCOMMON_AUTO</option>
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
-		</field>
-		<field name="showdiscountfield" type="list" default="1"
-			label="COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWDISCOUNTFIELD"
-			description="COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWDISCOUNTFIELD_DESC">
-			<option value="-1">COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWFIELDCOMMON_AUTO</option>
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
-		</field>
-		<field name="showtaxfield" type="list" default="1"
-			label="COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWTAXFIELD"
-			description="COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWTAXFIELD_DESC">
-			<option value="-1">COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWFIELDCOMMON_AUTO</option>
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
-		</field>
-		<field name="showcouponfield" type="list" default="1"
-			label="COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWCOUPONFIELD"
-			description="COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWCOUPONFIELD_DESC">
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
-		</field>
-		<field name="showcountries" type="text"
-			default=""
-			size="40"
-			label="COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWCOUNTRIES"
-			description="COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWCOUNTRIES_DESC"
-		/>
-		<field name="hidecountries" type="text"
-			default=""
-			size="40"
-			label="COM_AKEEBASUBS_CONFIG_FRONTEND_HIDECOUNTRIES"
-			description="COM_AKEEBASUBS_CONFIG_FRONTEND_HIDECOUNTRIES_DESC"
-		/>
-		<field name="showstatefield" type="list" default="1"
-			label="COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWSTATEFIELD"
-			description="COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWSTATEFIELD_DESC">
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
-		</field>
-
-		<field name="allowlogin" type="list" default="1"
-			label="COM_AKEEBASUBS_CONFIG_FRONTEND_ALLOWLOGIN"
-			description="COM_AKEEBASUBS_CONFIG_FRONTEND_ALLOWLOGIN_DESC">
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
-		</field>
 		<field name="showrenew" type="list" default="1"
 			label="COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWRENEW_LABEL"
 			description="COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWRENEW_DESC">
@@ -175,6 +102,13 @@
 			<option value="0">JNo</option>
 			<option value="1">JYes</option>
 		</field >
+		<field name="showlocalprices" type="list"
+			default="1"
+			label="COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWLOCALPRICES_LABEL"
+			description="COM_AKEEBASUBS_CONFIG_FRONTEND_SHOWLOCALPRICES_DESC">
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
+		</field >
 		<field name="reqcoupon" type="list" default="0"
 			label="COM_AKEEBASUBS_CONFIG_FRONTEND_REQCOUPON_LABEL"
 			description="COM_AKEEBASUBS_CONFIG_FRONTEND_REQCOUPON_DESC">
@@ -193,6 +127,25 @@
 			<option value="0">JNo</option>
 			<option value="1">JYes</option>
 		</field >
+
+		<field name="summaryimages" type="list" default="0"
+			label="COM_AKEEBASUBS_CONFIG_FRONTEND_SUMMARYIMAGES_LABEL"
+			description="COM_AKEEBASUBS_CONFIG_FRONTEND_SUMMARYIMAGES_DESC">
+			<option value="0">COM_AKEEBASUBS_CONFIG_FRONTEND_SUMMARYIMAGES_OPT_DROPDOWN</option>
+			<option value="20">COM_AKEEBASUBS_CONFIG_FRONTEND_SUMMARYIMAGES_OPT_MICROIMAGE</option>
+			<option value="32">COM_AKEEBASUBS_CONFIG_FRONTEND_SUMMARYIMAGES_OPT_SMALLIMAGE</option>
+			<option value="64">COM_AKEEBASUBS_CONFIG_FRONTEND_SUMMARYIMAGES_OPT_MEDIUMIMAGE</option>
+			<option value="128">COM_AKEEBASUBS_CONFIG_FRONTEND_SUMMARYIMAGES_OPT_LARGEIMAGE</option>
+		</field >
+
+        <field name="usestrapper" type="list" default="3"
+               label="COM_AKEEBASUBS_CONFIG_FRONTEND_USESTRAPPER_LABEL"
+               description="COM_AKEEBASUBS_CONFIG_FRONTEND_USESTRAPPER_DESC">
+            <option value="0">COM_AKEEBASUBS_CONFIG_FRONTEND_USESTRAPPER_NONE</option>
+            <option value="1">COM_AKEEBASUBS_CONFIG_FRONTEND_USESTRAPPER_FRONTEND</option>
+            <option value="2">COM_AKEEBASUBS_CONFIG_FRONTEND_USESTRAPPER_BACKEND</option>
+            <option value="3">COM_AKEEBASUBS_CONFIG_FRONTEND_USESTRAPPER_BOTH</option>
+        </field >
 
 		<field name="siteurl" type="hidden" default="" />
 	</fieldset>
@@ -219,6 +172,27 @@
 				label="COM_AKEEBASUBS_CONFIG_INVOICE_OVERRIDE_TITLE"
 				description="COM_AKEEBASUBS_CONFIG_INVOICE_OVERRIDE_DESC"
 		/>
+
+		<field name="creditnote_autosend" type="list" default="0"
+			   label="COM_AKEEBASUBS_CONFIG_CREDITNOTE_AUTOSEND_TITLE"
+			   description="COM_AKEEBASUBS_CONFIG_CREDITNOTE_AUTOSEND_DESC">
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
+		</field>
+
+		<field name="creditnote_override" type="text"
+			   default="0"
+			   size="6"
+			   label="COM_AKEEBASUBS_CONFIG_CREDITNOTE_OVERRIDE_TITLE"
+			   description="COM_AKEEBASUBS_CONFIG_CREDITNOTE_OVERRIDE_DESC"
+		/>
+
+		<field name="invoice_altcurrency" type="akeebasubscurrencies"
+			   default=""
+			   label="COM_AKEEBASUBS_CONFIG_INVOICE_ALTCURRENCY_TITLE"
+			   description="COM_AKEEBASUBS_CONFIG_INVOICE_ALTCURRENCY_DESC"
+				/>
+
 		<field name="invoice_vatnote" type="text"
 				default="VAT liability is transferred to the recipient, pursuant EU Directive nr 2006/112/EC and local tax laws implementing this directive."
 				size="50"

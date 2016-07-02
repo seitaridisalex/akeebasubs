@@ -1,7 +1,7 @@
 <?php
 /**
  * @package AkeebaSubs
- * @copyright Copyright (c)2010-2015 Nicholas K. Dionysopoulos
+ * @copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
  * @license GNU General Public License version 3, or later
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@ define('_JEXEC', 1);
 // Required by the CMS
 define('DS', DIRECTORY_SEPARATOR);
 
-$minphp = '5.3.1';
+$minphp = '5.4.0';
 if (version_compare(PHP_VERSION, $minphp, 'lt'))
 {
 	$curversion = PHP_VERSION;
@@ -102,15 +102,15 @@ else
 }
 require_once JPATH_LIBRARIES . '/cms.php';
 
-// You can't fix stupid… but you can try working around it
-if( (!function_exists('json_encode')) || (!function_exists('json_decode')) )
-{
-	require_once JPATH_ADMINISTRATOR . '/components/com_akeebasubs/helpers/jsonlib.php';
-}
-
 JLoader::import('joomla.application.cli');
 JLoader::import('joomla.application.component.helper');
 JLoader::import('cms.component.helper');
+
+if (version_compare(JVERSION, '3.4.9999', 'ge'))
+{
+	// Joomla! 3.5 and later does not load the configuration.php unless you explicitly tell it to.
+	JFactory::getConfig(JPATH_CONFIGURATION . '/configuration.php');
+}
 
 /**
  * Akeeba Subscriptions expiration notification CLI app
@@ -213,6 +213,12 @@ class AkeebaSubscriptionsUpdateApp extends JApplicationCli
 
 		// Set the current directory.
 		$this->set('cwd', getcwd());
+
+		// Work around Joomla! 3.4.7's JSession bug
+		if (version_compare(JVERSION, '3.4.7', 'eq'))
+		{
+			JFactory::getSession()->restart();
+		}
 	}
 
     public function flushAssets()
@@ -243,8 +249,11 @@ class AkeebaSubscriptionsUpdateApp extends JApplicationCli
 		if (!defined('_JEXEC'))
 			define('_JEXEC', 1);
 
-		// Load F0F
-		JLoader::import('f0f.include');
+		// Load FOF
+		if (!defined('FOF30_INCLUDED') && !@include_once(JPATH_LIBRARIES . '/fof30/include.php'))
+		{
+			die('FOF 3.0 is not installed');
+		}
 
 		// Load the version.php file
 		include_once JPATH_COMPONENT_ADMINISTRATOR . '/version.php';
@@ -284,8 +293,9 @@ class AkeebaSubscriptionsUpdateApp extends JApplicationCli
 
         $this->out("Checking for new versions");
 
-        /** @var AkeebasubsModelUpdates $updateModel */
-        $updateModel = F0FModel::getTmpInstance('Updates', 'AkeebasubsModel');
+		$container = \FOF30\Container\Container::getInstance('com_akeebasubs');
+		/** @var \Akeeba\Subscriptions\Admin\Model\Updates $updateModel */
+		$updateModel = $container->factory->model('Updates')->tmpInstance();
 
         $result = $updateModel->autoupdate();
 

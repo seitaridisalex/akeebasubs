@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5.0" type="plugin" group="akeebasubs" method="upgrade">
+<extension version="3.3.0" type="plugin" group="akeebasubs" method="upgrade">
 	<name>PLG_AKEEBASUBS_ADMINEMAILS_XML_TITLE</name>
-	<author>ZOOlanders.com</author>
-	<authorEmail>info@zoolanders.com</authorEmail>
-	<authorUrl>http://www.akeebabackup.com</authorUrl>
-	<copyright>Copyright (c)2011-2013 ZOOlanders.com</copyright>
-	<license>GNU General Public License version 3, or later</license>
-	<creationDate>2011-11-09</creationDate>
-	<version>1.0</version>
+    <author>Nicholas K. Dionysopoulos</author>
+    <authorEmail>nicholas@dionysopoulos.me</authorEmail>
+    <authorUrl>http://www.akeebabackup.com</authorUrl>
+    <copyright>Copyright (c)2011-2016 Nicholas K. Dionysopoulos</copyright>
+    <license>GNU General Public License version 3, or later</license>
+    <creationDate>April 2015</creationDate>
+    <version>5.0</version>
 	<description>PLG_AKEEBASUBS_ADMINEMAILS_DESCRIPTION</description>
 	<files>
 		<filename plugin="adminemails">adminemails.php</filename>

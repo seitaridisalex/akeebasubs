@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form
+        type="browse"
+        show_header="1"
+        show_filters="1"
+        show_pagination="1"
+        norows_placeholder="COM_AKEEBASUBS_COMMON_NORECORDS"
+        >
+    <headerset>
+        <header name="ordering" type="Ordering" sortable="true" tdwidth="20px" />
+
+        <header name="akeebasubs_level_id" type="RowSelect" tdwidth="20px" />
+
+        <header name="akeebasubs_level_id" type="Field" tdwidth="20px" label="#" id="num" />
+
+        <header name="image" type="Field" sortable="false" tdwidth="32px" label="&amp;nbsp;" />
+
+        <header name="title" type="Searchable" sortable="true" />
+
+        <header name="akeebasubs_levelgroup_id" type="model"
+                label="COM_AKEEBASUBS_LEVELS_FIELD_LEVELGROUP"
+                sortable="true"  translate="false" apply_access="false"
+                key_field="akeebasubs_levelgroup_id" value_field="title"
+                model="LevelGroups"
+                tdwidth="8%"
+                />
+
+        <header name="duration" type="Field" sortable="true" />
+
+        <header name="recurring" type="Field" sortable="true" />
+
+        <header name="price" type="Field" sortable="true" />
+
+        <header name="access" type="AccessLevel" sortable="true" tdwidth="8%" />
+
+        <header name="enabled" type="Published" sortable="true" tdwidth="8%" />
+    </headerset>
+
+    <fieldset name="items">
+        <field name="ordering" type="Ordering" labelclass="order"/>
+
+        <field name="akeebasubs_level_id" type="SelectRow"/>
+
+        <field name="akeebasubs_level_id" type="Text" id="num" />
+
+        <field name="image" type="Image"/>
+
+        <field name="title" type="text"
+               show_link="true"
+               url="index.php?option=com_akeebasubs&amp;view=Levels&amp;task=edit&amp;id=[ITEM:ID]"
+                />
+
+        <field name="akeebasubs_levelgroup_id" type="Model"
+               sortable="true"  translate="false" apply_access="false"
+               key_field="akeebasubs_levelgroup_id" value_field="title"
+               model="LevelGroups"
+               none="COM_AKEEBASUBS_SELECT_LEVELGROUP"
+                />
+
+        <field name="duration" type="Text" />
+
+        <field name="recurring" type="Published" prefix="recurring"/>
+
+        <field name="price" type="LevelPrice" />
+
+        <field name="access" type="AccessLevel"/>
+
+        <field name="enabled" type="Published"/>
+    </fieldset>
+</form>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form>
+	<fieldset
+            name="items"
+            label="COM_AKEEBASUBS_COUPON_BASIC_TITLE"
+            class="span6">
+
+        <field
+            name="title"
+            type="Text"
+            label="COM_AKEEBASUBS_COUPON_FIELD_TITLE"
+            description="COM_AKEEBASUBS_APICOUPONS_FIELD_TITLE_DESC"
+		/>
+
+		<field
+            name="key"
+            type="Text"
+			label="COM_AKEEBASUBS_APICOUPONS_FIELD_KEY"
+            description="COM_AKEEBASUBS_APICOUPONS_FIELD_KEY_DESC"
+		/>
+
+		<field
+            name="password"
+            type="Text"
+            label="COM_AKEEBASUBS_APICOUPONS_FIELD_PWD"
+            description="COM_AKEEBASUBS_APICOUPONS_FIELD_PWD_DESC"
+        />
+
+        <field
+            name="type"
+            type="GenericList"
+            label="COM_AKEEBASUBS_COUPON_FIELD_TYPE">
+            <option value="value">COM_AKEEBASUBS_COUPON_TYPE_VALUE</option>
+            <option value="percent">COM_AKEEBASUBS_COUPON_TYPE_PERCENT</option>
+        </field>
+
+        <field
+            name="value"
+            type="text"
+            label="COM_AKEEBASUBS_COUPON_FIELD_VALUE"
+        />
+
+		<field
+            name="enabled"
+            type="Published"
+            label="JPUBLISHED"
+        />
+	</fieldset>
+
+    <fieldset
+        name="limits"
+        label="COM_AKEEBASUBS_COUPONS_LIMITS"
+        class="span6"
+    >
+
+        <field
+            name="subscriptions"
+            type="Model"
+            model="Levels"
+            key_field="akeebasubs_level_id"
+            value_field="title"
+            translate="false"
+            apply_access="false"
+            multiple="true"
+            label="COM_AKEEBASUBS_COUPON_FIELD_SUBSCRIPTIONS"
+            required="false"
+        />
+
+        <field
+            name="usage_limits"
+            type="ViewTemplate"
+            source="admin:com_akeebasubs/APICoupons/form_usagelimits"
+            label="COM_AKEEBASUBS_APICOUPONS_FIELD_USAGE_LIMITS"
+            description="COM_AKEEBASUBS_APICOUPONS_FIELD_USAGE_LIMITS_DESC"
+        />
+
+    </fieldset>
+</form>

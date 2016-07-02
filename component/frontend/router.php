@@ -1,25 +1,28 @@
 <?php
 
 /**
- * @package		akeebasubs
- * @copyright	Copyright (c)2010-2015 Nicholas K. Dionysopoulos / AkeebaBackup.com
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
+ * @package        akeebasubs
+ * @copyright      Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
 defined('_JEXEC') or die();
 
-include_once JPATH_LIBRARIES . '/f0f/include.php';
+include_once JPATH_LIBRARIES . '/fof30/include.php';
+
+use \FOF30\Inflector\Inflector;
 
 function AkeebasubsBuildRoute(&$query)
 {
 	$segments = array();
 
 	// Default view
-	$default = 'levels';
+	$default = 'Levels';
 
 	// We need to find out if the menu item link has a view param
 	if (array_key_exists('Itemid', $query))
 	{
 		$menu = JFactory::getApplication()->getMenu()->getItem($query['Itemid']);
+
 		if (!is_object($menu))
 		{
 			$menuquery = array();
@@ -37,36 +40,50 @@ function AkeebasubsBuildRoute(&$query)
 	// Add the view
 	$newView = array_key_exists('view', $query) ? $query['view'] :
 		(array_key_exists('view', $menuquery) ? $menuquery['view'] : $default);
-	if ($newView == 'level')
+
+	$newView = ucfirst($newView);
+
+	if ($newView == 'Level')
 	{
-		$newView = 'new';
+		$newView = 'New';
 	}
-	elseif ($newView == 'message')
+	elseif ($newView == 'Message')
 	{
 		if (!array_key_exists('layout', $query))
+		{
 			$query['layout'] = 'order';
+		}
+
 		if ($query['layout'] == 'order')
 		{
-			$newView = 'thankyou';
+			$newView = 'ThankYou';
 		}
 		else
 		{
-			$newView = 'cancelled';
+			$newView = 'Cancelled';
 		}
+
 		unset($query['layout']);
 	}
-	elseif ($newView == 'userinfo')
+	elseif (($newView == 'Userinfo') || ($newView == 'UserInfo'))
 	{
+		$newView = 'UserInfo';
+
 		if (!array_key_exists('layout', $query))
+		{
 			unset($query['layout']);
+		}
 	}
-	$segments[] = $newView;
+
+	$segments[] = strtolower($newView);
 	unset($query['view']);
 
 	// Add the slug
 	if ($newView != 'userinfo')
 	{
-		if (array_key_exists('slug', $query) && (F0FInflector::isSingular($segments[0]) || ($segments[0] == 'new')))
+		$container = \FOF30\Container\Container::getInstance('com_akeebasubs');
+
+		if (array_key_exists('slug', $query) && ($container->inflector->isSingular($segments[0]) || ($segments[0] == 'new')))
 		{
 			$segments[1] = $query['slug'];
 			unset($query['slug']);
@@ -88,15 +105,15 @@ function AkeebasubsParseRoute($segments)
 
 	// accepted layouts:
 	$layoutsAccepted = array(
-		'message' => array('order', 'cancel'),
-		'invoice' => array('item')
+		'Messages' => array('order', 'cancel'),
+		'Invoice' => array('item')
 	);
 
 	// default view
 	$default = 'levels';
 
 	$mObject = JFactory::getApplication()->getMenu()->getActive();
-	$menu	 = is_object($mObject) ? $mObject->query : array();
+	$menu = is_object($mObject) ? $mObject->query : array();
 
 	// circumvent the auto-segment decoding
 	$segments = str_replace(':', '-', $segments);
@@ -117,28 +134,46 @@ function AkeebasubsParseRoute($segments)
 
 		switch ($vars['view'])
 		{
+			case 'New':
 			case 'new':
-				$vars['view']	 = 'level';
+				$vars['view'] = 'Level';
+				$vars['task'] = 'read';
 				break;
+
+			case 'Invoices':
 			case 'invoices':
-				$vars['view']	 = 'invoices';
-				$vars['layout']	 = 'default';
+				$vars['view'] = 'Invoices';
+				$vars['layout'] = 'default';
 				break;
+
+			case 'Invoice':
 			case 'invoice':
-				$vars['view']	 = 'invoice';
-				$vars['layout']	 = 'item';
+				$vars['view'] = 'Invoice';
+				$vars['task'] = 'read';
+				$vars['layout'] = 'item';
 				break;
+
 			case 'thankyou':
-				$vars['view']	 = 'message';
-				$vars['layout']	 = 'order';
+			case 'Thankyou':
+			case 'ThankYou':
+				$vars['view'] = 'Messages';
+				$vars['task'] = 'thankyou';
+				$vars['layout'] = 'order';
 				break;
+
 			case 'cancelled':
-				$vars['view']	 = 'message';
-				$vars['layout']	 = 'cancel';
+			case 'Cancelled':
+				$vars['view'] = 'Messages';
+				$vars['task'] = 'cancel';
+				$vars['layout'] = 'cancel';
 				break;
+
 			case 'userinfo':
-				$vars['view']	 = 'userinfo';
-				$vars['layout']	 = 'default';
+			case 'Userinfo':
+			case 'UserInfo':
+				$vars['view'] = 'UserInfo';
+				$vars['task'] = 'read';
+				$vars['layout'] = 'default';
 				break;
 		}
 
@@ -161,9 +196,11 @@ function AkeebasubsParseRoute($segments)
 		}
 
 		// if we are in a singular view, the next item is the slug, unless we are in the userinfo view
-		if (F0FInflector::isSingular($vars['view']) && ($vars['view'] != 'userinfo'))
+		$container = \FOF30\Container\Container::getInstance('com_akeebasubs');
+
+		if ($container->inflector->isSingular($vars['view']) && ($vars['view'] != 'UserInfo'))
 		{
-			if (in_array($vars['view'], array('subscription', 'invoice')))
+			if (in_array($vars['view'], array('Subscription', 'Invoice')))
 			{
 				$vars['id'] = array_shift($segments);
 			}

@@ -143,7 +143,7 @@
  */
 
 // Main configuration file. Define the K_TCPDF_EXTERNAL_CONFIG constant to skip this file.
-require_once(dirname(__FILE__).'/config/tcpdf_config.php');
+require_once(dirname(__FILE__) . '/config/tcpdf_config.php');
 
 /**
  * @class TCPDF
@@ -1971,18 +1971,18 @@ class TCPDF {
 			mb_internal_encoding('ASCII');
 		}
 		// get array of HTML colors
-		require(dirname(__FILE__).'/htmlcolors.php');
+		require(dirname(__FILE__) . '/htmlcolors.php');
 		$this->webcolor = $webcolor;
 		// get array of custom spot colors
 		if (file_exists(dirname(__FILE__).'/spotcolors.php')) {
-			require(dirname(__FILE__).'/spotcolors.php');
+			require(dirname(__FILE__) . '/spotcolors.php');
 			$this->spotcolor = $spotcolor;
 		} else {
 			$this->spotcolor = array();
 		}
-		require_once(dirname(__FILE__).'/unicode_data.php');
+		require_once(dirname(__FILE__) . '/unicode_data.php');
 		$this->unicode = new TCPDF_UNICODE_DATA();
-		require_once(dirname(__FILE__).'/encodings_maps.php');
+		require_once(dirname(__FILE__) . '/encodings_maps.php');
 		$this->encmaps = new TCPDF_ENCODING_MAPS();
 		$this->font_obj_ids = array();
 		$this->page_obj_id = array();

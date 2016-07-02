@@ -1,6 +1,6 @@
 /**
  * @package		akeebasubs
- * @copyright	Copyright (c)2010-2015 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @copyright	Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
 /**
@@ -10,7 +10,7 @@ if(typeof(akeeba) == 'undefined') {
 	var akeeba = {};
 }
 if(typeof(akeeba.jQuery) == 'undefined') {
-	akeeba.jQuery = jQuery.noConflict();
+	akeeba.jQuery = window.jQuery.noConflict();
 }
 
 (function($) {

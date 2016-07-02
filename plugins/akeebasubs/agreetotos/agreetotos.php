@@ -1,7 +1,7 @@
 <?php
 /**
  * @package        akeebasubs
- * @copyright      Copyright (c)2010-2015 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @copyright      Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
 
@@ -75,10 +75,12 @@ class plgAkeebasubsAgreetotos extends JPlugin
 		$checked = $current ? 'checked="checked"' : '';
 		$labelText = JText::sprintf('PLG_AKEEBASUBS_AGREETOTOS_AGREE_LABEL', $urlField);
 		$extraText = JText::sprintf('PLG_AKEEBASUBS_AGREETOTOS_TOS_INFO_LABEL', JText::_('PLG_AKEEBASUBS_AGREETOTOS_TOS_LABEL'));
+		$labelText2 = strip_tags($labelText);
 		$html = <<<HTML
 <label class="checkbox">
-	<span class="icon icon-info-sign hasPopover" title="$extraText"></span>
-	<input type="checkbox" name="custom[agreetotos]" id="agreetotos" $checked /> $labelText
+	<input type="checkbox" name="custom[agreetotos]" id="agreetotos" $checked />
+	<span class="glyphicon glyphicon-info-sign hasPopover" title="$labelText2" data-content="$extraText"></span>
+	$labelText
 </label>
 HTML;
 
@@ -86,7 +88,6 @@ HTML;
 			'id'           => 'agreetotos',
 			'label'        => '* ',
 			'elementHTML'  => $html,
-			'invalidLabel' => JText::_('PLG_AKEEBASUBS_AGREETOTOS_ERR_REQUIRED'),
 			'isValid'      => $current != 0
 		);
 		// Add the field to the return output
@@ -95,22 +96,21 @@ HTML;
 		// ----- ADD THE JAVASCRIPT -----
 		$javascript = <<<JS
 
-;// This comment is intentionally put here to prevent badly written plugins from causing a Javascript error
-// due to missing trailing semicolon and/or newline in their code.
 (function($) {
 	$(document).ready(function(){
 		// Tell Akeeba Subscriptions how to fetch the extra field data
 		addToValidationFetchQueue(plg_akeebasubs_agreetotos_fetch);
 		// Tell Akeeba Subscriptions how to validate the extra field data
 		addToValidationQueue(plg_akeebasubs_agreetotos_validate);
+		
 		// Immediate validation of the field
 		if (akeebasubs_apply_validation)
 		{
 			$('#agreetotos').change(function(e){
 				if($('#agreetotos').is(':checked')) {
-					$('#agreetotos_invalid').css('display','none');
+					$('#agreetotos').parents('div.form-group').removeClass('has-error');
 				} else {
-					$('#agreetotos_invalid').css('display','inline-block');
+					$('#agreetotos').parents('div.form-group').addClass('has-error');
 				}
 			});
 		}
@@ -133,8 +133,7 @@ function plg_akeebasubs_agreetotos_validate(response)
     var thisIsValid = true;
 
 	(function($) {
-		$('#agreetotos').parents('div.control-group').removeClass('error has-error success has-success');
-		$('#agreetotos_invalid').css('display','none');
+		$('#agreetotos').parents('div.form-group').removeClass('has-error');
 
 		if (!akeebasubs_apply_validation)
 		{
@@ -143,12 +142,9 @@ function plg_akeebasubs_agreetotos_validate(response)
 		}
 
 		if(response.custom_validation.agreetotos || $('#agreetotos').is(':checked')) {
-			$('#agreetotos').parents('div.control-group').addClass('success has-success');
-			$('#agreetotos_invalid').css('display','none');
 			thisIsValid = true;
 		} else {
-			$('#agreetotos').parents('div.control-group').addClass('error has-error');
-			$('#agreetotos_invalid').css('display','inline-block');
+			$('#agreetotos').parents('div.form-group').addClass('has-error');
 			thisIsValid = false;
 		}
 	})(akeeba.jQuery);

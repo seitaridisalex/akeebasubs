@@ -1,14 +1,18 @@
 <?php
 /**
- * @package		akeebasubs
- * @subpackage	plugins.akeebasubs.adminemails
- * @copyright	Copyright (c)2011-2013 ZOOlanders.com
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
+ * @package        akeebasubs
+ * @subpackage     plugins.akeebasubs.adminemails
+ * @copyright      Copyright (c)2011-2013 ZOOlanders.com, (c)2013-2016 Nicholas K. Dionysopoulos
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
 
 defined('_JEXEC') or die();
 
-class plgAkeebasubsAdminemails extends JPlugin
+use Akeeba\Subscriptions\Admin\Model\Subscriptions;
+
+require_once __DIR__ . '/../subscriptionemails/subscriptionemails.php';
+
+class plgAkeebasubsAdminemails extends plgAkeebasubsSubscriptionemails
 {
 	protected $emails = array();
 
@@ -17,7 +21,8 @@ class plgAkeebasubsAdminemails extends JPlugin
 	 */
 	public function __construct(& $subject, $config = array())
 	{
-		if(!is_object($config['params'])) {
+		if (!is_object($config['params']))
+		{
 			JLoader::import('joomla.registry.registry');
 			$config['params'] = new JRegistry($config['params']);
 		}
@@ -26,76 +31,34 @@ class plgAkeebasubsAdminemails extends JPlugin
 
 		$emailsString = trim($this->params->get('emails', ''));
 
-		if(empty($emailsString)) {
-			$this->emails = array();
-		} else {
-			$this->emails = explode(',', $emailsString);
-		}
-
-		if (!class_exists('AkeebasubsHelperEmail'))
+		if (empty($emailsString))
 		{
-			@include_once JPATH_ROOT . '/components/com_akeebasubs/helpers/email.php';
+			$this->emails = array();
+		}
+		else
+		{
+			$this->emails = explode(',', $emailsString);
 		}
 	}
 
 	/**
 	 * Called whenever a subscription is modified. Namely, when its enabled status,
 	 * payment status or valid from/to dates are changed.
+	 *
+	 * @param   Subscriptions  $row   The subscriptions row
+	 * @param   array          $info  The row modification information
+	 *
+	 * @return  void
 	 */
-	public function onAKSubscriptionChange($row, $info)
+	public function onAKSubscriptionChange(Subscriptions $row, array $info)
 	{
 		// No point running if there are no emails defined, right?
-		if(empty($this->emails)) return;
-
-		// No payment has been made yet; do not contact the user
-		if($row->state == 'N') return;
-
-		// Did the payment status just change to C or P? It's a new subscription
-		if(array_key_exists('state', (array)$info['modified']) && in_array($row->state, array('P','C'))) {
-			if($row->enabled) {
-				if(is_object($info['previous']) && $info['previous']->state == 'P') {
-					// A pending subscription just got paid
-					$this->sendEmail($row, 'paid');
-				} else {
-					// A new subscription just got paid; send new subscription notification
-					$this->sendEmail($row, 'new_active');
-				}
-			} elseif($row->state == 'C') {
-				// A new subscription which is for a renewal (will be active in a future date)
-				$this->sendEmail($row, 'new_renewal');
-			} else {
-				// A new subscription which is pending payment by the processor
-				$this->sendEmail($row, 'new_pending');
-			}
-		} elseif(array_key_exists('state', (array)$info['modified']) && ($row->state == 'X')) {
-			// The payment just got refused
-			if(!is_object($info['previous']) || $info['previous']->state == 'N') {
-				// A new subscription which could not be paid
-				$this->sendEmail($row, 'cancelled_new');
-			} else {
-				// A pending or paid subscription which was cancelled/refunded/whatever
-				$this->sendEmail($row, 'cancelled_existing');
-			}
-		} elseif($info['status'] == 'modified') {
-			// If the subscription got disabled and contact_flag is 3, do not send out
-			// an expiration notification. The flag is set to 3 only when a user has
-			// already renewed his subscription.
-			if(array_key_exists('enabled', (array)$info['modified']) && !$row->enabled && ($row->contact_flag == 3)) {
-				return;
-			} elseif(array_key_exists('enabled', (array)$info['modified']) && !$row->enabled) {
-				// Disabled subscription, suppose expired
-				if(($row->state == 'C')) $this->sendEmail($row, 'expired');
-			} elseif(array_key_exists('enabled', (array)$info['modified']) && $row->enabled) {
-				// Subscriptions just enabled, suppose date triggered
-				if(($row->state == 'C')) $this->sendEmail($row, 'published');
-			} elseif(array_key_exists('contact_flag', (array)$info['modified']) ) {
-				// Only contact_flag change; ignore
-				return;
-			} else {
-				// All other cases: generic email
-				$this->sendEmail($row, 'generic');
-			}
+		if (empty($this->emails))
+		{
+			return;
 		}
+
+		parent::onAKSubscriptionChange($row, $info);
 	}
 
 	/**
@@ -108,19 +71,20 @@ class plgAkeebasubsAdminemails extends JPlugin
 	public function onAKGetEmailKeys()
 	{
 		$this->loadLanguage();
+
 		return array(
-			'section'		=> $this->_name,
-			'title'			=> JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAILSECTION'),
-			'keys'			=> array(
-				'paid'					=> JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_PAID'),
-				'new_active'			=> JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_NEW_ACTIVE'),
-				'new_renewal'			=> JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_NEW_RENEWAL'),
-				'new_pending'			=> JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_NEW_PENDING'),
-				'cancelled_new'			=> JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_CANCELLED_NEW'),
-				'cancelled_existing'	=> JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_CANCELLED_EXISTING'),
-				'expired'				=> JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_EXPIRED'),
-				'published'				=> JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_PUBLISHED'),
-				'generic'				=> JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_GENERIC'),
+			'section' => $this->_name,
+			'title'   => JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAILSECTION'),
+			'keys'    => array(
+				'paid'               => JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_PAID'),
+				'new_active'         => JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_NEW_ACTIVE'),
+				'new_renewal'        => JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_NEW_RENEWAL'),
+				'new_pending'        => JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_NEW_PENDING'),
+				'cancelled_new'      => JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_CANCELLED_NEW'),
+				'cancelled_existing' => JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_CANCELLED_EXISTING'),
+				'expired'            => JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_EXPIRED'),
+				'published'          => JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_PUBLISHED'),
+				'generic'            => JText::_('PLG_AKEEBASUBS_ADMINEMAILS_EMAIL_GENERIC'),
 			)
 		);
 	}
@@ -128,17 +92,17 @@ class plgAkeebasubsAdminemails extends JPlugin
 	/**
 	 * Sends out the email to the owner of the subscription.
 	 *
-	 * @param $row AkeebasubsTableSubscription The subscription row object
-	 * @param $type string The type of the email to send (generic, new,)
+	 * @param   Subscriptions $row  The subscription row object
+	 * @param   string        $type The type of the email to send (generic, new, ...)
+	 * @param   array         $info Subscription modification information (used in children classes)
+	 *
+	 * @return bool
 	 */
-	private function sendEmail($row, $type = '')
+	protected function sendEmail($row, $type = '', array $info = [])
 	{
-		// Get the user object
-		$user = JFactory::getUser($row->user_id);
-
 		// Get a preloaded mailer
 		$key = 'plg_akeebasubs_' . $this->_name . '_' . $type;
-		$mailer = AkeebasubsHelperEmail::getPreloadedMailer($row, $key);
+		$mailer = \Akeeba\Subscriptions\Admin\Helper\Email::getPreloadedMailer($row, $key);
 
 		if ($mailer === false)
 		{

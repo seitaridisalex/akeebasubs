@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form
+	type="browse"
+	show_header="1"
+	show_filters="1"
+	show_pagination="1"
+	norows_placeholder="COM_AKEEBASUBS_COMMON_NORECORDS"
+>
+	<headerset>
+		<header name="akeebasubs_user_id" type="RowSelect" tdwidth="16px" />
+
+		<header name="username" type="Searchable" sortable="true" filterclass="input-small" />
+
+		<header name="name" type="Searchable" sortable="true" filterclass="input-small" />
+
+		<header name="email" type="Searchable" sortable="true" filterclass="input-small" />
+
+        <header name="levelid"
+                type="Model"
+                model="Levels"
+                key_field="akeebasubs_level_id"
+                value_field="title"
+                label="COM_AKEEBASUBS_TITLE_LEVELS"
+                sortable="false"
+        />
+
+        <header name="getRenewals" type="Selectable" label="COM_AKEEBASUBS_REPORTS_USER_RENEWAL">
+            <option value="1">COM_AKEEBASUBS_RENEWALS_USERSWITHRENEWALS</option>
+            <option value="-1">COM_AKEEBASUBS_RENEWALS_USERSWITHOUTRENEWALS</option>
+        </header>
+	</headerset>
+
+	<fieldset name="items">
+		<field name="akeebasubs_user_id" type="SelectRow" />
+
+		<field name="user_id" type="User"
+			avatar_size="32" show_email="false" show_name="false"
+			show_link="true"
+		/>
+
+		<field name="name" type="Text" empty_replacement="–––"
+			show_link="true"
+			url="index.php?option=com_akeebasubs&amp;view=User&amp;id=[ITEM:ID]"
+		/>
+
+		<field name="email" type="Text" empty_replacement="–––"
+			show_link="true"
+			url="index.php?option=com_akeebasubs&amp;view=User&amp;id=[ITEM:ID]"
+		/>
+
+        <field name="raw_subs"
+               type="Model"
+               model="Levels"
+               key_field="akeebasubs_level_id"
+               value_field="title"
+               empty_replacement="–––" />
+
+        <field name="count_renewals" type="Text" empty_replacement="–––" />
+	</fieldset>
+</form>

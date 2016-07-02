@@ -1,44 +1,34 @@
 <?php
-
 /**
  * @package        akeebasubs
- * @copyright      Copyright (c)2010-2015 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @copyright      Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
+
 defined('_JEXEC') or die();
 
 JLoader::import('joomla.plugin.plugin');
 
-// Make sure F0F is loaded, otherwise do not run
-if (!defined('F0F_INCLUDED'))
-{
-	include_once JPATH_LIBRARIES . '/f0f/include.php';
-}
-
-if (!defined('F0F_INCLUDED') || !class_exists('F0FLess', true))
-{
-	return;
-}
-
-// Do not run if Akeeba Subscriptions is not enabled
-JLoader::import('joomla.application.component.helper');
-
-if (!JComponentHelper::isEnabled('com_akeebasubs', true))
-{
-	return;
-}
-
-// Require to send the correct emails in the Professional release
-require_once JPATH_ADMINISTRATOR . '/components/com_akeebasubs/version.php';
+use FOF30\Container\Container;
+use Akeeba\Subscriptions\Admin\Model\Subscriptions;
 
 /**
- * Class plgSystemAs2cocollation
+ * plgSystemAs2cocollation plugin. Collates 2Checkout sales with the information in Akeeba Subscriptions. Useful if you
+ * don't get notifications for AmEx and Discover payments like we do (we are told that we are the only account this
+ * happens, but who knows?)
  *
  * Example call:
  * http://localhost/index.php?option=com_akeebasubs&view=cron&command=2cocollation&secret=yoursecret
  */
 class plgSystemAs2cocollation extends JPlugin
 {
+	/**
+	 * Should this plugin be allowed to run? True if FOF can be loaded and the Akeeba Subscriptions component is enabled
+	 *
+	 * @var  bool
+	 */
+	private $enabled = true;
+
 	/**
 	 * @var   boolean  Should I enable debug mode? DO NOT USE IN PRODUCTION.
 	 */
@@ -59,6 +49,19 @@ class plgSystemAs2cocollation extends JPlugin
 	 */
 	public function __construct(&$subject, $config = array())
 	{
+		if (!defined('FOF30_INCLUDED') && !@include_once(JPATH_LIBRARIES . '/fof30/include.php'))
+		{
+			$this->enabled = false;
+		}
+
+		// Do not run if Akeeba Subscriptions is not enabled
+		JLoader::import('joomla.application.component.helper');
+
+		if (!JComponentHelper::isEnabled('com_akeebasubs'))
+		{
+			$this->enabled = false;
+		}
+
 		if (!is_object($config['params']))
 		{
 			JLoader::import('joomla.registry.registry');
@@ -99,6 +102,11 @@ class plgSystemAs2cocollation extends JPlugin
 	 */
 	public function onAkeebasubsCronTask($task, $options = array())
 	{
+		if (!$this->enabled)
+		{
+			return;
+		}
+
 		if ($task != '2cocollation')
 		{
 			return;
@@ -172,15 +180,16 @@ class plgSystemAs2cocollation extends JPlugin
 			$sale = $this->loadSaleId($id);
 
 			// Find the subscription ID
-			$pNameParts = explode(':', $sale['sale']['invoices'][0]['lineitems'][0]['product_name']);
-			$subId = trim($pNameParts[1]);
+			$subId = trim($sale['sale']['invoices'][0]['vendor_order_id']);
 
 			// Construct the processor key
 			$invoiceId = $sale['sale']['invoices'][0]['invoice_id'];
 			$processorKey = $id . '/' . $invoiceId;
 
 			// Load the subscription
-			$sub = F0FModel::getTmpInstance('Subscriptions', 'AkeebasubsModel')->getItem($subId);
+			/** @var Subscriptions $sub */
+			$sub = Container::getInstance('com_akeebasubs', [], 'site')->factory->model('Subscriptions')->tmpInstance();
+			$sub->find($subId);
 
 			if ($sub->akeebasubs_subscription_id != $subId)
 			{
@@ -240,7 +249,7 @@ class plgSystemAs2cocollation extends JPlugin
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($ch, CURLOPT_USERPWD, self::$apiUsername . ':' . self::$apiPassword);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_CAINFO, JPATH_ADMINISTRATOR . '/components/com_akeebasubs/assets/cacert.pem');
+		curl_setopt($ch, CURLOPT_CAINFO, JPATH_LIBRARIES . '/fof30/Download/Adapter/cacert.pem');
 
 		$json_resp = curl_exec($ch);
 		curl_close($ch);
@@ -287,7 +296,7 @@ class plgSystemAs2cocollation extends JPlugin
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($ch, CURLOPT_USERPWD, self::$apiUsername . ':' . self::$apiPassword);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_CAINFO, JPATH_ADMINISTRATOR . '/components/com_akeebasubs/assets/cacert.pem');
+		curl_setopt($ch, CURLOPT_CAINFO, JPATH_LIBRARIES . '/fof30/Download/Adapter/cacert.pem');
 
 		$json_resp = curl_exec($ch);
 		curl_close($ch);

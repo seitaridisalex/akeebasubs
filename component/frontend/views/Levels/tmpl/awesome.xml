@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<metadata>
+	<layout title="COM_AKEEBASUBS_VIEW_LEVELS_AWESOME_TITLE">
+		<message>
+				<![CDATA[COM_AKEEBASUBS_VIEW_LEVELS_AWESOME_DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>COM_AKEEBASUBS_VIEW_LEVELS_AWESOME_TITLE</name>
+		<description>COM_AKEEBASUBS_VIEW_LEVELS_AWESOME_DESC</description>
+	</state>
+	<config addfieldpath="/components/com_akeebasubs/elements">
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="ids" type="sql2" default=""
+					label="COM_AKEEBASUBS_VIEW_LEVELS_LEVELS_TITLE"
+					description="COM_AKEEBASUBS_VIEW_LEVELS_LEVELS_DESC"
+					query="SELECT `akeebasubs_level_id` AS `key`, `title` AS `value` FROM `#__akeebasubs_levels`"
+					key_field="key"
+					value_field="value" />
+			</fieldset>
+		</fields>
+	</config>
+</metadata>

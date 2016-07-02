@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form>
+
+    <fieldset
+        name="basic"
+        label="COM_AKEEBASUBS_UPGRADE_BASIC_TITLE"
+        class="span6"
+        >
+        <field
+            name="title"
+            type="Text"
+            label="COM_AKEEBASUBS_UPGRADES_FIELD_TITLE"
+            class="title"
+        />
+
+        <field
+            name="enabled"
+            type="Published"
+            label="JPUBLISHED"
+        />
+    </fieldset>
+
+    <fieldset
+        name="discount"
+        label="COM_AKEEBASUBS_UPGRADE_DISCOUNT_TITLE"
+        class="span6"
+    >
+        <field
+            name="from_id"
+            type="Model"
+            label="COM_AKEEBASUBS_UPGRADES_FIELD_FROM_ID"
+            key_field="akeebasubs_level_id"
+            value_field="title"
+            model="Levels"
+        />
+
+        <field
+            name="to_id"
+            type="Model"
+            label="COM_AKEEBASUBS_UPGRADES_FIELD_TO_ID"
+            key_field="akeebasubs_level_id"
+            value_field="title"
+            model="Levels"
+        />
+
+        <field
+            name="min_presence"
+            type="Text"
+            label="COM_AKEEBASUBS_UPGRADES_FIELD_MIN_PRESENCE"
+        />
+
+        <field
+            name="max_presence"
+            type="Text"
+            label="COM_AKEEBASUBS_UPGRADES_FIELD_MAX_PRESENCE"
+        />
+
+        <field
+            name="type"
+            type="GenericList"
+            label="COM_AKEEBASUBS_UPGRADES_FIELD_TYPE"
+            >
+            <option value="value">COM_AKEEBASUBS_UPGRADE_TYPE_VALUE</option>
+            <option value="percent">COM_AKEEBASUBS_UPGRADE_TYPE_PERCENT</option>
+            <option value="lastpercent">COM_AKEEBASUBS_UPGRADE_TYPE_LASTPERCENT</option>
+        </field>
+
+        <field
+            name="value"
+            type="Text"
+            label="COM_AKEEBASUBS_UPGRADES_FIELD_VALUE"
+        />
+
+        <field
+            name="combine"
+            id="combined"
+            type="BooleanToggle"
+            default="0"
+            label="COM_AKEEBASUBS_UPGRADES_FIELD_COMBINE"
+        />
+
+        <field
+            name="expired"
+            type="BooleanToggle"
+            default="0"
+            label="COM_AKEEBASUBS_UPGRADES_FIELD_EXPIRED"
+            description="COM_AKEEBASUBS_UPGRADES_FIELD_EXPIRED_DESC"
+        />
+
+
+    </fieldset>
+</form>

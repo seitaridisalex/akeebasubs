@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5.0" type="plugin" group="system" method="upgrade">
-	<name>System - Akeeba Subscriptions Expiration Notification</name>
+<extension version="3.3.0" type="plugin" group="system" method="upgrade">
+	<name>PLG_SYSTEM_ASEXPIRATIONNOTIFY</name>
 	<author>Nicholas K. Dionysopoulos</author>
 	<authorEmail>nicholas@dionysopoulos.me</authorEmail>
 	<authorUrl>http://www.akeebabackup.com</authorUrl>
-	<copyright>Copyright (c)2011-2013 Nicholas K. Dionysopoulos</copyright>
+	<copyright>Copyright (c)2011-2016 Nicholas K. Dionysopoulos</copyright>
 	<license>GNU General Public License version 3, or later</license>
 	<creationDate>2011-10-31</creationDate>
 	<version>1.1</version>
-	<description>
-		Emails the users before their subscription expires, based on the
-		preferences set in each subscription level (default: 30 and 15 days
-		before the subscription expiration). It tries to trigger itself around
-		midnight (server time) if there's adequate traffic, otherwise as soon as
-		there is traffic anytime after midnight.
-	</description>
+	<description>PLG_SYSTEM_ASEXPIRATIONNOTIFY_XML_DESC</description>
 	<files>
 		<filename plugin="asexpirationnotify">asexpirationnotify.php</filename>
 		<folder>asexpirationnotify</folder>
@@ -23,4 +17,18 @@
 		<language tag="en-GB">en-GB/en-GB.plg_system_asexpirationnotify.ini</language>
 		<language tag="en-GB">en-GB/en-GB.plg_system_asexpirationnotify.sys.ini</language>
 	</languages>
+
+	<config addfieldpath="administrator/components/com_akeebasubs/assets/elements">
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="scheduling" type="radio" default="1"
+					   label="PLG_SYSTEM_ASEXPIRATIONNOTIFY_SCHEDULING_LABEL"
+					   description="PLG_SYSTEM_ASEXPIRATIONNOTIFY_SCHEDULING_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+
 </extension>

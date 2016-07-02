@@ -5,7 +5,7 @@
 <div id="payment-errors" class="alert alert-error" style="display: none;"></div>
 <?php
 /*
- * 2013-01-31 nicholas: I moved thos fields outside the form because we MUST
+ * 2013-01-31 nicholas: I moved those fields outside the form because we MUST
  * NOT submit the credit card information back to the site. The whole point of
  * using the bridge JS to get a token is exactly that. Not having the CC info
  * reach our server allows us to do transactions even from servers which are not

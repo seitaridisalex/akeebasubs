@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="2.5.0" method="upgrade" client="site">
-	<name>Akeeba Subscriptions - List subscription levels</name>
-	<author>Nicholas K. Dionysopoulos</author>
-	<creationDate>March 2011</creationDate>
-	<copyright>Copyright (C) 2011-2015 Nicholas K. Dionysopoulos / AkeebaBackup.com</copyright>
-	<license>GNU GPLv3 - http://www.gnu.org/licenses/gpl.html</license>
-	<authorEmail>nicholas@akeebabackup.com</authorEmail>
-	<authorUrl>www.akeebabackup.com</authorUrl>
-	<version>1.0</version>
+<extension type="module" version="3.3.0" method="upgrade" client="site">
+	<name>MOD_AKSLEVELS</name>
+    <author>Nicholas K. Dionysopoulos</author>
+    <copyright>Copyright (C) 2011-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com</copyright>
+    <license>GNU GPLv3 - http://www.gnu.org/licenses/gpl.html</license>
+    <authorEmail>nicholas@akeebabackup.com</authorEmail>
+    <authorUrl>www.akeebabackup.com</authorUrl>
+    <creationDate>April 2015</creationDate>
+    <version>5.0</version>
 	<description>MOD_AKSLEVELS_DESCRIPTION</description>
 	<files>
 		<file module="mod_akslevels">mod_akslevels.php</file>
@@ -25,7 +25,7 @@
 				<field name="ids" type="sql2" default=""
 					label="MOD_AKSLEVELS_LEVELS_TITLE"
 					description="MOD_AKSLEVELS_LEVELS_DESC"
-					query="SELECT `akeebasubs_level_id`, `title` FROM `#__akeebasubs_levels`"
+					query="SELECT akeebasubs_level_id, title FROM #__akeebasubs_levels"
 					key_field="akeebasubs_level_id"
 					value_field="title" />
 				<field name="layout" type="list" default="awesome" label="MOD_AKSLEVELS_LAYOUT_LABEL" description="MOD_AKSLEVELS_LAYOUT_DESC">

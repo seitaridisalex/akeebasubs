@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@package AkeebaSubs
+@copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+@license GNU General Public License version 3, or later
+-->
+<form>
+	<fieldset name="basic">
+		<field name="akeebasubs_level_id" type="Model"
+			label="COM_AKEEBASUBS_TAXRULES_LEVEL"
+			sortable="true"  translate="false" apply_access="false"
+			key_field="akeebasubs_level_id" value_field="title"
+			model="Levels"
+		>
+			<option value="">COM_AKEEBASUBS_TAXRULES_LEVEL_ALL</option>
+		</field>
+
+		<field name="country" type="GenericList"
+			label="COM_AKEEBASUBS_TAXRULES_COUNTRY"
+            source_class="\Akeeba\Subscriptions\Admin\Helper\Select"
+            source_method="getCountries"
+			sortable="true" tdwidth="15%"
+		/>
+		
+		<field name="state" type="GenericList"
+			label="COM_AKEEBASUBS_TAXRULES_STATE"
+            source_class="\Akeeba\Subscriptions\Admin\Helper\Select"
+            source_method="getStates"
+			sortable="true" tdwidth="15%"
+		/>
+
+		<field
+            name="city"
+            type="Text"
+            label="COM_AKEEBASUBS_TAXRULES_CITY"
+		/>
+		
+		<field name="vies" type="GenericList"
+			tdwidth="30px"
+			label="COM_AKEEBASUBS_TAXRULES_VIES"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+            name="taxrate"
+            type="Text"
+			label="COM_AKEEBASUBS_TAXRULES_TAXRATE"
+            class="input-small"
+            append_text="%"
+		/>
+
+		<field
+            name="enabled"
+            type="published"
+            label="JPUBLISHED"
+        />
+	</fieldset>
+</form>

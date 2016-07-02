@@ -1,57 +1,43 @@
-/.buildpath
-/.settings
-.idea/*
-/Akeeba Subscriptions.esproj
-/release
-/nbproject
-
-/documentation/akeebasubs-guide.xml~
-/TODO
-/component/backend/version.php
-component/backend/liveupdate/assets
-component/backend/liveupdate/classes
-component/backend/liveupdate/language
-component/backend/liveupdate/LICENSE.txt
-component/backend/liveupdate/liveupdate.php
-plugins/system/oneclickaction/language/en-GB
-plugins/system/oneclickaction/LICENSE.txt
-plugins/system/oneclickaction/oneclickaction.php
-plugins/system/oneclickaction/oneclickaction.xml
-plugins/system/oneclickaction/sql
-component/fof
-component/strapper
-
-component/language/en-GB
-translations/plugins/system/oneclickaction
-
-modules/site/*/language/en-GB
-plugins/*/*/language/en-GB
-component/language/backend
-component/language/frontend
-modules/admin/akeebasubs/language/en-GB
-
-/.tx/
-/tx_config
-/tx.sh
-
-/RELEASENOTES.html
-/DESCRIPTION.html
-/build/templates/release.json
-
-component/backend/invoices/*.pdf
-component/backend/assets/tcpdf/certificates/*.cer
-
-_test
-
+# Project management
 /.idea
-plugins/akpayment/mobilpaycc/mobilpaycc/private/*.cer
-plugins/akpayment/mobilpaysms/mobilpaysms/private/*.cer
 
-/build/templates/release*.json
+# Build files
 /build/bin
-/build/phingext
 /build/buildlang
 /build/epub
+/build/phingext
 /build/tools
 
-/_experiments
+# Test configuration
+/Tests/config.php
+
+# Composer dependencies
+vendor
+
+# TCPDF
+/component/backend/assets/tcpdf/certificates/*.cer
+
+# Generated invoices and credit notes
+/component/backend/invoices/*.pdf
+/component/backend/invoices/*/*.pdf
+/component/backend/creditnotes/*.pdf
+/component/backend/creditnotes/*/*.pdf
+
+# Version and manifest files
+/component/akeebasubs.xml
+/component/pkg_akeebasubs.xml
+/component/cli/*akeebasubs.xml
+/component/backend/version.php
+
+# Language files (symlinked)
+/component/language/backend
+/component/language/frontend
+/modules/admin/akeebasubs/language/en-GB
+/modules/site/*/language/en-GB
+/plugins/*/*/language/en-GB
+
+# Documentation backups
+/documentation/*.xml~
+
+# Release directory
+/release
