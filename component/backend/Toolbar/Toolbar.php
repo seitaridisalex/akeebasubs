@@ -246,7 +246,7 @@ class Toolbar extends \FOF30\Toolbar\Toolbar
 
 		$bar = \JToolBar::getInstance('toolbar');
 
-		// Add "Subscription Refresh"Run Integrations"
+		// Add "Run Integrations"
 		JToolBarHelper::divider();
 		$bar->appendButton('Link', 'play', JText::_('COM_AKEEBASUBS_SUBSCRIPTIONS_SUBREFRESH'), 'javascript:akeebasubs_refresh_integrations();');
 

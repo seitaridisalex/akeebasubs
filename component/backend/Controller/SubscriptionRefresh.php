@@ -35,19 +35,19 @@ class SubscriptionRefresh extends Controller
 		$model = $this->getModel('Subscriptions');
 
 		$limitStart = $this->input->getInt('forceoffset', 0);
-		$limit = $this->input->getInt('forcelimit', 100);
+		$limit      = $this->input->getInt('forcelimit', 100);
 
-		$model->limitstart(0)->limit(0);
+		$model->limitstart($limitStart)->limit($limit);
 		$model->setState('refresh', 1);
-		$list = $model->get();
-		$total = $model->count();
-		$processed = 0;
+		$list      = $model->get();
+		$total     = $model->count();
+		$processed = count($list);
 
-		if (count($list))
+		if ($processed)
 		{
 			$this->container->platform->importPlugin('akeebasubs');
 
-			foreach($list as $item)
+			foreach ($list as $item)
 			{
 				$user_id = $item->user_id;
 				$this->container->platform->runPlugins('onAKUserRefresh', array($user_id));
@@ -55,8 +55,8 @@ class SubscriptionRefresh extends Controller
 		}
 
 		$response = array(
-			'total'	=> $model->count(),
-			'processed'	=> count($list)
+			'total'     => $total,
+			'processed' => $processed
 		);
 
 		echo json_encode($response);

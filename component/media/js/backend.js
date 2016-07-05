@@ -48,7 +48,7 @@ function akeebasubs_ri_step()
 				'task'				: 'process',
 				'format'			: 'raw',
 				'forceoffset'		: akeebasubs_ri_offset,
-				'forcelimit'		: 250,
+				'forcelimit'		: 100,
 				'refresh'			: 1,
 				'_token'			: akeebasubs_token
 			},
