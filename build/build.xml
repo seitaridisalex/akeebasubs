@@ -24,11 +24,6 @@
 		<exclude name="backend/assets/tcpdf/certificates/*.cer" />
 	</fileset>
 
-    <fileset dir="${dirs.component}/cli" id="cli">
-        <include name="*.php" />
-        <include name="file_akeebasubs.xml" />
-    </fileset>
-
 	<fileset dir="${dirs.release}" id="package">
 		<include name="com_*.zip" />
 		<include name="file_*.zip" />

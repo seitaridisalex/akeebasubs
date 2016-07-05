@@ -128,6 +128,11 @@ class Com_AkeebasubsInstallerScript extends \FOF30\Utils\InstallScript
 			'components/com_akeebasubs/View/Level/tmpl/default_level.php',
 			'components/com_akeebasubs/View/Level/tmpl/default_login.php',
 			'components/com_akeebasubs/View/Level/tmpl/steps.php',
+
+			// Obsolete CLI scripts
+			'cli/akeebasubs-expiration-control.php',
+			'cli/akeebasubs-expiration-notify.php',
+			'cli/akeebasubs-update.php',
 		],
 		'folders' => [
 			'administrator/components/com_akeebasubs/commands',
