@@ -234,7 +234,7 @@ class Subscribe extends Model
 				{
 					$user = JFactory::getUser();
 
-					if ($user->username == $state->username)
+					if (!empty($state->username) && ($user->username == $state->username))
 					{
 						$isValid = true;
 					}
