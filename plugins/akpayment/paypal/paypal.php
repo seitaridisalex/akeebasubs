@@ -240,7 +240,7 @@ class plgAkpaymentPaypal extends AkpaymentBase
 			$mc_gross = floatval($data['mc_gross']);
 
 			// @todo On recurring subscriptions recalculate the net, tax and gross price by removing the signup fee
-			if ($recurring && ($subscription->recurring_amount >= 0.01))
+			if ($recurring && ($subscription->recurring_amount >= 0.01) && $subscription->state != 'N')
 			{
 				$gross = $subscription->recurring_amount;
 			}
