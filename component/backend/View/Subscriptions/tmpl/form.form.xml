@@ -174,4 +174,12 @@
             >
     </fieldset>
 
+    <fieldset
+            name="invoices"
+            label="COM_AKEEBASUBS_MAINMENU_INVOICES"
+            class="tab-pane"
+            source="admin:com_akeebasubs/Subscriptions/form_invoice"
+            >
+    </fieldset>
+
 </form>

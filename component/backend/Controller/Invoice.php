@@ -9,6 +9,7 @@ namespace Akeeba\Subscriptions\Admin\Controller;
 
 defined('_JEXEC') or die;
 
+use Akeeba\Subscriptions\Admin\Model\Subscriptions;
 use FOF30\Container\Container;
 use FOF30\Controller\DataController;
 use FOF30\Controller\Exception\ItemNotFound;
@@ -247,6 +248,43 @@ class Invoice extends DataController
 
 		// (Re-)generate the invoice
 		$sub = $model->subscription;
+
+		$status = ($model->createInvoice($sub) === true);
+
+		// Post-action redirection
+		if ($customURL = $this->input->get('returnurl', '', 'string'))
+		{
+			$customURL = base64_decode($customURL);
+		}
+
+		$url = !empty($customURL) ? $customURL : 'index.php?option=com_akeebasubs&view=Invoices';
+
+		if ($status === false)
+		{
+			$this->setRedirect($url, \JText::_('COM_AKEEBASUBS_INVOICES_MSG_NOTGENERATED'), 'error');
+		}
+		else
+		{
+			$this->setRedirect($url, \JText::_('COM_AKEEBASUBS_INVOICES_MSG_GENERATED'));
+		}
+	}
+
+	public function generateForSubscription()
+	{
+		// Check that this is an administrator
+		if (!$this->checkACL('core.manage'))
+		{
+			throw new AccessForbidden;
+		}
+
+		$id = $this->input->getInt('id');
+
+		/** @var Subscriptions $sub */
+		$sub = $this->container->factory->model('Subscriptions')->tmpInstance();
+		$sub->findOrFail($id);
+
+		/** @var \Akeeba\Subscriptions\Admin\Model\Invoices $model */
+		$model = $this->getModel();
 
 		$status = ($model->createInvoice($sub) === true);
 
