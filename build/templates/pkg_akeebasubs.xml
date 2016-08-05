@@ -18,7 +18,7 @@
         <file type="component" id="com_akeebasubs">com_akeebasubs.zip</file>
 
         <!-- CLI scripts -->
-        <file type="file" id="file_akeebasubs">file_akeebasubs.zip</file>
+        <!-- <file type="file" id="file_akeebasubs">file_akeebasubs.zip</file> -->
 
         <!-- Modules -->
         <file type="module" client="site" id="mod_aksexpires">mod_aksexpires.zip</file>
