@@ -128,7 +128,14 @@
 			<option value="1">JYes</option>
 		</field >
 
-		<field name="summaryimages" type="list" default="0"
+        <field name="warndnt" type="list" default="1"
+               label="COM_AKEEBASUBS_CONFIG_FRONTEND_WARNDNT_LABEL"
+               description="COM_AKEEBASUBS_CONFIG_FRONTEND_WARNDNT_DESC">
+            <option value="0">JNo</option>
+            <option value="1">JYes</option>
+        </field >
+
+        <field name="summaryimages" type="list" default="0"
 			label="COM_AKEEBASUBS_CONFIG_FRONTEND_SUMMARYIMAGES_LABEL"
 			description="COM_AKEEBASUBS_CONFIG_FRONTEND_SUMMARYIMAGES_DESC">
 			<option value="0">COM_AKEEBASUBS_CONFIG_FRONTEND_SUMMARYIMAGES_OPT_DROPDOWN</option>

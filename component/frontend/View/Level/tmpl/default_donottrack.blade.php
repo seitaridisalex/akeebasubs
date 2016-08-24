@@ -9,8 +9,8 @@ defined('_JEXEC') or die();
 
 ?>
 {{-- "Do Not Track" warning --}}
-@if($this->dnt)
-	<div class="alert alert-block alert-danger" style="text-align: center;font-weight: bold">
+@if($this->dnt && $this->cparams->warndnt)
+	<div class="alert alert-warning" style="text-align: center">
 		@lang('COM_AKEEBASUBS_DNT_WARNING')
 	</div>
 @endif
