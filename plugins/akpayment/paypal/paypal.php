@@ -168,7 +168,7 @@ class plgAkpaymentPaypal extends AkpaymentBase
 				$data['txn_type'] = 'workaround_to_missing_txn_type';
 			}
 
-			$validTypes = array('workaround_to_missing_txn_type', 'web_accept', 'recurring_payment', 'subscr_payment');
+			$validTypes = array('workaround_to_missing_txn_type', 'web_accept', 'subscr_payment', 'recurring_payment', 'recurring_payment_outstanding_payment');
 			$isValid = in_array($data['txn_type'], $validTypes);
 
 			if (!$isValid)
