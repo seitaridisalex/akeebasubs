@@ -8,7 +8,7 @@
 defined('_JEXEC') or die;
 
 $backtrace_array = debug_backtrace();
-$filename = $backtrace_array[1]['file'];
+$filename = $backtrace_array[0]['file'];
 $folder = dirname($filename);
 $altFolder = basename($filename) . '.bak';
 
