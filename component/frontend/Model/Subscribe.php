@@ -16,6 +16,7 @@ use FOF30\Container\Container;
 use FOF30\Model\Model;
 use FOF30\Utils\Ip;
 use JFactory;
+use JUser;
 
 defined('_JEXEC') or die;
 
@@ -379,7 +380,7 @@ class Subscribe extends Model
 			);
 
 			// We have to use JUser directly instead of JFactory getUser
-			$user = new \JUser(0);
+			$user = new JUser(0);
 
 			\JLoader::import('joomla.application.component.helper');
 			$usersConfig = \JComponentHelper::getParams('com_users');
@@ -417,24 +418,6 @@ class Subscribe extends Model
 		else
 		{
 			// UPDATE EXISTING USER
-
-			// Remove unpaid subscriptions on the same level for this user
-			/** @var Subscriptions $subscriptionsModel */
-			$subscriptionsModel = $this->container->factory->model('Subscriptions')->tmpInstance();
-
-			$unpaidSubs = $subscriptionsModel
-				->user_id($user->id)
-				->paystate('N', 'X')
-				->get(true);
-
-			if (!empty($unpaidSubs))
-			{
-				/** @var Subscriptions $unpaidSub */
-				foreach ($unpaidSubs as $unpaidSub)
-				{
-					$unpaidSub->delete($unpaidSub->akeebasubs_subscription_id);
-				}
-			}
 
 			// Update existing user's details
 			/** @var JoomlaUsers $userRecord */
@@ -684,14 +667,16 @@ class Subscribe extends Model
 		{
 			return false;
 		}
-		else
-		{
-			$user = $this->getState('user', $user);
-		}
+
+		$user = $this->getState('user', $user);
 
 		// Store the user's ID in the session
 		$session = $this->container->session;
 		$session->set('subscribes.user_id', $user->id, 'com_akeebasubs');
+
+		// Remove new subscriptions which are not yet paid for this user
+		// !! Removed because it was causing problems with users retrying to pay for the same subscription
+		// $this->removeNotYetPaidSubscriptions($user);
 
 		// Step #4. Create or add user extra fields
 		// ----------------------------------------------------------------------
@@ -798,14 +783,17 @@ class Subscribe extends Model
 					$startDate = $expiryDate + 1;
 				}
 
-				// Also mark the old subscription as "communicated". We don't want
-				// to spam our users with subscription renewal notices or expiration
-				// notification after they have effectively renewed!
+				/**
+				 * Also mark the old subscription as "communicated". We don't want to spam our users with subscription
+				 * renewal notices or expiration notification after they have effectively renewed!
+				 *
+				 * Note that we don't update the rows here! It would be premature. If the user abandons the payment we
+				 * want to remind them of the expiring subscriptions. That's why the information for no-contact
+				 * subscriptions is passed to the payment plugin which stores it as custom parameters to the
+				 * subscription record. It will then apply the no-contact information when the payment is finalized, by
+				 * the AkpaymentBase::fixSubscriptionDates() method.
+				 */
 				$noContact[] = $row->akeebasubs_subscription_id;
-
-//				$row->save([
-//					'contact_flag' => 3
-//				]);
 			}
 		}
 
@@ -1198,7 +1186,7 @@ class Subscribe extends Model
 	/**
 	 * Send an activation email to the user
 	 *
-	 * @param   \JUser  $user
+	 * @param   JUser  $user
 	 * @param   array   $indata
 	 *
 	 * @return  bool
@@ -1417,5 +1405,35 @@ class Subscribe extends Model
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Remove new (unpaid) subscriptions for this user
+	 *
+	 * @param   JUser  $user  The user we are removing subscriptions for
+	 *
+	 * @return  void
+	 */
+	private function removeNotYetPaidSubscriptions(JUser $user)
+	{
+		// Remove unpaid subscriptions on the same level for this user
+		/** @var Subscriptions $subscriptionsModel */
+		$subscriptionsModel = $this->container->factory->model('Subscriptions')->tmpInstance();
+
+		$unpaidSubs = $subscriptionsModel
+			->user_id($user->id)
+			->paystate('N')
+			->get(true);
+
+		if (!count($unpaidSubs))
+		{
+			return;
+		}
+
+		/** @var Subscriptions $unpaidSub */
+		foreach ($unpaidSubs as $unpaidSub)
+		{
+			$unpaidSub->delete($unpaidSub->akeebasubs_subscription_id);
+		}
 	}
 }
