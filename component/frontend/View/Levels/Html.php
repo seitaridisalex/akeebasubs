@@ -257,8 +257,9 @@ class Html extends \FOF30\View\DataView\Html
 				$levelPrice = -$signupFee;
 			}
 
-			$formattedPrice = sprintf('%1.02F', ($levelPrice + $signupFee) * $vatMultiplier);
-			$preDiscount = max(($preDiscount + $signupFee) * $vatMultiplier, 0);
+			$priceForFormatting = ($levelPrice + $signupFee) * $vatMultiplier;
+			$formattedPrice     = sprintf('%1.02F', $priceForFormatting);
+			$preDiscount        = max(($preDiscount + $signupFee) * $vatMultiplier, 0);
 			$levelPrice += $signupFee;
 		}
 		else
@@ -268,7 +269,8 @@ class Html extends \FOF30\View\DataView\Html
 				$levelPrice = 0;
 			}
 
-			$formattedPrice = sprintf('%1.02F', ($levelPrice) * $vatMultiplier);
+			$priceForFormatting = ($levelPrice) * $vatMultiplier;
+			$formattedPrice = sprintf('%1.02F', $priceForFormatting);
 			$preDiscount = $preDiscount * $vatMultiplier;
 		}
 
@@ -310,6 +312,7 @@ class Html extends \FOF30\View\DataView\Html
 			'priceInteger'         => $price_integer,
 			'priceFractional'      => $price_fractional,
 			'formattedPriceSignup' => $formattedPriceSU,
+			'priceForFormatting'   => $priceForFormatting,
 
 			'signupFee'            => $signupFee,
 			'signupInteger'        => $price_integerSU,
