@@ -112,7 +112,7 @@ class plgSystemAsexpirationcontrol extends JPlugin
 		JLoader::import('joomla.utilities.date');
 		$jNow = new JDate();
 
-		// Load a list of subscriptions which have to expire -- F0F does the rest magically!
+		// Load a list of subscriptions which have to expire -- FOF does the rest magically!
 		/** @var Subscriptions $subsModel */
 		$subsModel = Container::getInstance('com_akeebasubs')->factory->model('Subscriptions')->tmpInstance();
 		$subs = $subsModel
