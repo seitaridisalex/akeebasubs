@@ -32,10 +32,10 @@ class plgAkeebasubsAtscredits extends \Akeeba\Subscriptions\Admin\PluginAbstract
 	 */
 	public function __construct(& $subject, $config = array())
 	{
-		// Include F0F. Required for ATS.
-		if (!defined('F0F_INCLUDED'))
+		// Include FOF. Required for ATS.
+		if (!defined('FOF30_INCLUDED'))
 		{
-			require_once JPATH_LIBRARIES . '/f0f/include.php';
+			@include_once(JPATH_LIBRARIES . '/fof30/include.php');
 		}
 
 		parent::__construct($subject, $config);
