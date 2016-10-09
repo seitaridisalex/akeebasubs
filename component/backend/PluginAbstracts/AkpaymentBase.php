@@ -9,6 +9,9 @@ namespace Akeeba\Subscriptions\Admin\PluginAbstracts;
 
 use Akeeba\Subscriptions\Admin\Model\Levels;
 use Akeeba\Subscriptions\Admin\Model\Subscriptions;
+use Akeeba\Subscriptions\Site\Model\Subscribe\StateData;
+use Akeeba\Subscriptions\Site\Model\Subscribe\ValidatorFactory;
+use Akeeba\Subscriptions\Site\Model\TaxHelper;
 use FOF30\Container\Container;
 use JDate;
 use JFactory;
@@ -62,8 +65,8 @@ abstract class AkpaymentBase extends JPlugin
 	/**
 	 * Public constructor for the plugin
 	 *
-	 * @param   object  $subject  The object to observe
-	 * @param   array   $config   An optional associative array of configuration settings.
+	 * @param   object $subject The object to observe
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -143,10 +146,10 @@ abstract class AkpaymentBase extends JPlugin
 					'title'                 => $title,
 					'image'                 => $image,
 					'recurringCancellation' => $this->ppRecurringCancellation,
-					'activeCountries'		=> array(
+					'activeCountries'       => array(
 						'type'     => $this->params->get('typeCountryList', 2),
 						'list'     => $this->params->get('countryList', array()),
-                        'priority' => $this->params->get('countryPriority', array())
+						'priority' => $this->params->get('countryPriority', array())
 					)
 				)
 		);
@@ -159,7 +162,7 @@ abstract class AkpaymentBase extends JPlugin
 	 * payment plugins to implement an optional surcharge per payment
 	 * method.
 	 *
-	 * @param   object  $data  The input data
+	 * @param   object $data The input data
 	 *
 	 * @return  float  The surcharge for this subscription level
 	 */
@@ -169,13 +172,13 @@ abstract class AkpaymentBase extends JPlugin
 
 		if ($data->paymentmethod == $this->ppName)
 		{
-			$percent = false;
+			$percent   = false;
 			$surcharge = $this->params->get('surcharge', '0');
 
-			if (substr($surcharge, -1) == '%')
+			if (substr($surcharge, - 1) == '%')
 			{
-				$percent = true;
-				$surcharge = substr($surcharge, 0, -1);
+				$percent   = true;
+				$surcharge = substr($surcharge, 0, - 1);
 			}
 
 			$surcharge = floatval($surcharge);
@@ -193,10 +196,10 @@ abstract class AkpaymentBase extends JPlugin
 	 * Returns the payment form to be submitted by the user's browser. The form must have an ID of
 	 * "paymentForm" and a visible submit button.
 	 *
-	 * @param   string         $paymentmethod    The currently used payment method. Check it against $this->ppName.
-	 * @param   JUser          $user             User buying the subscription
-	 * @param   Levels         $level            Subscription level
-	 * @param   Subscriptions  $subscription     The new subscription's object
+	 * @param   string        $paymentmethod The currently used payment method. Check it against $this->ppName.
+	 * @param   JUser         $user          User buying the subscription
+	 * @param   Levels        $level         Subscription level
+	 * @param   Subscriptions $subscription  The new subscription's object
 	 *
 	 * @return  string  The payment form to render on the page. Use the special id 'paymentForm' to have it
 	 *                  automatically submitted after 5 seconds.
@@ -206,8 +209,8 @@ abstract class AkpaymentBase extends JPlugin
 	/**
 	 * Processes a callback from the payment processor
 	 *
-	 * @param   string  $paymentmethod  The currently used payment method. Check it against $this->ppName
-	 * @param   array   $data           Input (request) data
+	 * @param   string $paymentmethod The currently used payment method. Check it against $this->ppName
+	 * @param   array  $data          Input (request) data
 	 *
 	 * @return  boolean  True if the callback was handled, false otherwise
 	 */
@@ -220,8 +223,8 @@ abstract class AkpaymentBase extends JPlugin
 	 * lose those 4 days without this trick. Or, worse, if it was a one-day pass
 	 * the user would have paid us and we'd never given him a subscription!
 	 *
-	 * @param   Subscriptions  $subscription  The subscription record
-	 * @param   array          $updates       By reference (output) array to the updates being applied to $subscription
+	 * @param   Subscriptions $subscription The subscription record
+	 * @param   array         $updates      By reference (output) array to the updates being applied to $subscription
 	 *
 	 * @return  void
 	 */
@@ -237,20 +240,20 @@ abstract class AkpaymentBase extends JPlugin
 		}
 		elseif (is_object($subcustom))
 		{
-			$subcustom = (array)$subcustom;
+			$subcustom = (array) $subcustom;
 		}
 
-		$oldsub = null;
+		$oldsub     = null;
 		$expiration = 'overlap';
-		$allsubs = array();
-		$noContact = array();
+		$allsubs    = array();
+		$noContact  = array();
 
 		if (isset($subcustom['fixdates']))
 		{
-			$oldsub = isset($subcustom['fixdates']['oldsub']) ? $subcustom['fixdates']['oldsub'] : null;
+			$oldsub     = isset($subcustom['fixdates']['oldsub']) ? $subcustom['fixdates']['oldsub'] : null;
 			$expiration = isset($subcustom['fixdates']['expiration']) ? $subcustom['fixdates']['expiration'] : 'overlap';
-			$allsubs = isset($subcustom['fixdates']['allsubs']) ? $subcustom['fixdates']['allsubs'] : array();
-			$noContact = isset($subcustom['fixdates']['nocontact']) ? $subcustom['fixdates']['nocontact'] : array();
+			$allsubs    = isset($subcustom['fixdates']['allsubs']) ? $subcustom['fixdates']['allsubs'] : array();
+			$noContact  = isset($subcustom['fixdates']['nocontact']) ? $subcustom['fixdates']['nocontact'] : array();
 
 			unset($subcustom['fixdates']);
 		}
@@ -285,13 +288,13 @@ abstract class AkpaymentBase extends JPlugin
 			}
 			else
 			{
-				$oldsub = null;
+				$oldsub     = null;
 				$expiration = 'overlap';
 			}
 		}
 		else
 		{
-			$oldsub = null;
+			$oldsub     = null;
 			$expiration = 'overlap';
 		}
 
@@ -311,12 +314,12 @@ abstract class AkpaymentBase extends JPlugin
 			$subscription->publish_down = '2038-01-01';
 		}
 
-		$jNow = new JDate();
+		$jNow   = new JDate();
 		$jStart = new JDate($subscription->publish_up);
-		$jEnd = new JDate($subscription->publish_down);
-		$now = $jNow->toUnix();
-		$start = $jStart->toUnix();
-		$end = $jEnd->toUnix();
+		$jEnd   = new JDate($subscription->publish_down);
+		$now    = $jNow->toUnix();
+		$start  = $jStart->toUnix();
+		$end    = $jEnd->toUnix();
 
 		/** @var Subscriptions $oldsub */
 
@@ -332,7 +335,7 @@ abstract class AkpaymentBase extends JPlugin
 			}
 			else
 			{
-				$jOldSubExpiration = new JDate($oldsub->publish_down);
+				$jOldSubExpiration         = new JDate($oldsub->publish_down);
 				$oldSubExpirationTimestamp = $jOldSubExpiration->toUnix();
 			}
 		}
@@ -377,7 +380,7 @@ abstract class AkpaymentBase extends JPlugin
 					if (!empty($fixed_date))
 					{
 						$start = $now;
-						$end = $jFixedDate->toUnix();
+						$end   = $jFixedDate->toUnix();
 					}
 				}
 
@@ -401,7 +404,7 @@ abstract class AkpaymentBase extends JPlugin
 			}
 
 			$jStart = new JDate($start);
-			$jEnd = new JDate($end);
+			$jEnd   = new JDate($end);
 		}
 
 		// Expiration = replace => expire old subscription
@@ -446,10 +449,10 @@ abstract class AkpaymentBase extends JPlugin
 			}
 		}
 
-		$updates['publish_up'] = $jStart->toSql();
+		$updates['publish_up']   = $jStart->toSql();
 		$updates['publish_down'] = $jEnd->toSql();
-		$updates['enabled'] = 1;
-		$updates['params'] = $subcustom;
+		$updates['enabled']      = 1;
+		$updates['params']       = $subcustom;
 	}
 
 	/**
@@ -462,7 +465,7 @@ abstract class AkpaymentBase extends JPlugin
 	 */
 	protected function logIPN($data, $isValid)
 	{
-		$config = JFactory::getConfig();
+		$config  = JFactory::getConfig();
 		$logpath = $config->get('log_path');
 
 		$logFilenameBase = $logpath . '/akpayment_' . strtolower($this->ppName) . '_ipn';
@@ -528,54 +531,246 @@ abstract class AkpaymentBase extends JPlugin
 	protected function translateCountry($country)
 	{
 		$countryMap = array(
-			'AX' => 'ALA', 'AF' => 'AFG', 'AL' => 'ALB', 'DZ' => 'DZA', 'AS' => 'ASM',
-			'AD' => 'AND', 'AO' => 'AGO', 'AI' => 'AIA', 'AQ' => 'ATA', 'AG' => 'ATG',
-			'AR' => 'ARG', 'AM' => 'ARM', 'AW' => 'ABW', 'AU' => 'AUS', 'AT' => 'AUT',
-			'AZ' => 'AZE', 'BS' => 'BHS', 'BH' => 'BHR', 'BD' => 'BGD', 'BB' => 'BRB',
-			'BY' => 'BLR', 'BE' => 'BEL', 'BZ' => 'BLZ', 'BJ' => 'BEN', 'BM' => 'BMU',
-			'BT' => 'BTN', 'BO' => 'BOL', 'BA' => 'BIH', 'BW' => 'BWA', 'BV' => 'BVT',
-			'BR' => 'BRA', 'IO' => 'IOT', 'BN' => 'BRN', 'BG' => 'BGR', 'BF' => 'BFA',
-			'BI' => 'BDI', 'KH' => 'KHM', 'CM' => 'CMR', 'CA' => 'CAN', 'CV' => 'CPV',
-			'KY' => 'CYM', 'CF' => 'CAF', 'TD' => 'TCD', 'CL' => 'CHL', 'CN' => 'CHN',
-			'CX' => 'CXR', 'CC' => 'CCK', 'CO' => 'COL', 'KM' => 'COM', 'CD' => 'COD',
-			'CG' => 'COG', 'CK' => 'COK', 'CR' => 'CRI', 'CI' => 'CIV', 'HR' => 'HRV',
-			'CU' => 'CUB', 'CY' => 'CYP', 'CZ' => 'CZE', 'DK' => 'DNK', 'DJ' => 'DJI',
-			'DM' => 'DMA', 'DO' => 'DOM', 'EC' => 'ECU', 'EG' => 'EGY', 'SV' => 'SLV',
-			'GQ' => 'GNQ', 'ER' => 'ERI', 'EE' => 'EST', 'ET' => 'ETH', 'FK' => 'FLK',
-			'FO' => 'FRO', 'FJ' => 'FJI', 'FI' => 'FIN', 'FR' => 'FRA', 'GF' => 'GUF',
-			'PF' => 'PYF', 'TF' => 'ATF', 'GA' => 'GAB', 'GM' => 'GMB', 'GE' => 'GEO',
-			'DE' => 'DEU', 'GH' => 'GHA', 'GI' => 'GIB', 'GR' => 'GRC', 'GL' => 'GRL',
-			'GD' => 'GRD', 'GP' => 'GLP', 'GU' => 'GUM', 'GT' => 'GTM', 'GN' => 'GIN',
-			'GW' => 'GNB', 'GY' => 'GUY', 'HT' => 'HTI', 'HM' => 'HMD', 'HN' => 'HND',
-			'HK' => 'HKG', 'HU' => 'HUN', 'IS' => 'ISL', 'IN' => 'IND', 'ID' => 'IDN',
-			'IR' => 'IRN', 'IQ' => 'IRQ', 'IE' => 'IRL', 'IL' => 'ISR', 'IT' => 'ITA',
-			'JM' => 'JAM', 'JP' => 'JPN', 'JO' => 'JOR', 'KZ' => 'KAZ', 'KE' => 'KEN',
-			'KI' => 'KIR', 'KP' => 'PRK', 'KR' => 'KOR', 'KW' => 'KWT', 'KG' => 'KGZ',
-			'LA' => 'LAO', 'LV' => 'LVA', 'LB' => 'LBN', 'LS' => 'LSO', 'LR' => 'LBR',
-			'LY' => 'LBY', 'LI' => 'LIE', 'LT' => 'LTU', 'LU' => 'LUX', 'MO' => 'MAC',
-			'MK' => 'MKD', 'MG' => 'MDG', 'MW' => 'MWI', 'MY' => 'MYS', 'MV' => 'MDV',
-			'ML' => 'MLI', 'MT' => 'MLT', 'MH' => 'MHL', 'MQ' => 'MTQ', 'MR' => 'MRT',
-			'MU' => 'MUS', 'YT' => 'MYT', 'MX' => 'MEX', 'FM' => 'FSM', 'MD' => 'MDA',
-			'MC' => 'MCO', 'MN' => 'MNG', 'MS' => 'MSR', 'MA' => 'MAR', 'MZ' => 'MOZ',
-			'MM' => 'MMR', 'NA' => 'NAM', 'NR' => 'NRU', 'NP' => 'NPL', 'NL' => 'NLD',
-			'AN' => 'ANT', 'NC' => 'NCL', 'NZ' => 'NZL', 'NI' => 'NIC', 'NE' => 'NER',
-			'NG' => 'NGA', 'NU' => 'NIU', 'NF' => 'NFK', 'MP' => 'MNP', 'NO' => 'NOR',
-			'OM' => 'OMN', 'PK' => 'PAK', 'PW' => 'PLW', 'PS' => 'PSE', 'PA' => 'PAN',
-			'PG' => 'PNG', 'PY' => 'PRY', 'PE' => 'PER', 'PH' => 'PHL', 'PN' => 'PCN',
-			'PL' => 'POL', 'PT' => 'PRT', 'PR' => 'PRI', 'QA' => 'QAT', 'RE' => 'REU',
-			'RO' => 'ROU', 'RU' => 'RUS', 'RW' => 'RWA', 'SH' => 'SHN', 'KN' => 'KNA',
-			'LC' => 'LCA', 'PM' => 'SPM', 'VC' => 'VCT', 'WS' => 'WSM', 'SM' => 'SMR',
-			'ST' => 'STP', 'SA' => 'SAU', 'SN' => 'SEN', 'CS' => 'SCG', 'SC' => 'SYC',
-			'SL' => 'SLE', 'SG' => 'SGP', 'SK' => 'SVK', 'SI' => 'SVN', 'SB' => 'SLB',
-			'SO' => 'SOM', 'ZA' => 'ZAF', 'GS' => 'SGS', 'ES' => 'ESP', 'LK' => 'LKA',
-			'SD' => 'SDN', 'SR' => 'SUR', 'SJ' => 'SJM', 'SZ' => 'SWZ', 'SE' => 'SWE',
-			'CH' => 'CHE', 'SY' => 'SYR', 'TW' => 'TWN', 'TJ' => 'TJK', 'TZ' => 'TZA',
-			'TH' => 'THA', 'TL' => 'TLS', 'TG' => 'TGO', 'TK' => 'TKL', 'TO' => 'TON',
-			'TT' => 'TTO', 'TN' => 'TUN', 'TR' => 'TUR', 'TM' => 'TKM', 'TC' => 'TCA',
-			'TV' => 'TUV', 'UG' => 'UGA', 'UA' => 'UKR', 'AE' => 'ARE', 'GB' => 'GBR',
-			'US' => 'USA', 'UM' => 'UMI', 'UY' => 'URY', 'UZ' => 'UZB', 'VU' => 'VUT',
-			'VA' => 'VAT', 'VE' => 'VEN', 'VN' => 'VNM', 'VG' => 'VGB', 'VI' => 'VIR',
-			'WF' => 'WLF', 'EH' => 'ESH', 'YE' => 'YEM', 'ZM' => 'ZMB', 'ZW' => 'ZWE'
+			'AX' => 'ALA',
+			'AF' => 'AFG',
+			'AL' => 'ALB',
+			'DZ' => 'DZA',
+			'AS' => 'ASM',
+			'AD' => 'AND',
+			'AO' => 'AGO',
+			'AI' => 'AIA',
+			'AQ' => 'ATA',
+			'AG' => 'ATG',
+			'AR' => 'ARG',
+			'AM' => 'ARM',
+			'AW' => 'ABW',
+			'AU' => 'AUS',
+			'AT' => 'AUT',
+			'AZ' => 'AZE',
+			'BS' => 'BHS',
+			'BH' => 'BHR',
+			'BD' => 'BGD',
+			'BB' => 'BRB',
+			'BY' => 'BLR',
+			'BE' => 'BEL',
+			'BZ' => 'BLZ',
+			'BJ' => 'BEN',
+			'BM' => 'BMU',
+			'BT' => 'BTN',
+			'BO' => 'BOL',
+			'BA' => 'BIH',
+			'BW' => 'BWA',
+			'BV' => 'BVT',
+			'BR' => 'BRA',
+			'IO' => 'IOT',
+			'BN' => 'BRN',
+			'BG' => 'BGR',
+			'BF' => 'BFA',
+			'BI' => 'BDI',
+			'KH' => 'KHM',
+			'CM' => 'CMR',
+			'CA' => 'CAN',
+			'CV' => 'CPV',
+			'KY' => 'CYM',
+			'CF' => 'CAF',
+			'TD' => 'TCD',
+			'CL' => 'CHL',
+			'CN' => 'CHN',
+			'CX' => 'CXR',
+			'CC' => 'CCK',
+			'CO' => 'COL',
+			'KM' => 'COM',
+			'CD' => 'COD',
+			'CG' => 'COG',
+			'CK' => 'COK',
+			'CR' => 'CRI',
+			'CI' => 'CIV',
+			'HR' => 'HRV',
+			'CU' => 'CUB',
+			'CY' => 'CYP',
+			'CZ' => 'CZE',
+			'DK' => 'DNK',
+			'DJ' => 'DJI',
+			'DM' => 'DMA',
+			'DO' => 'DOM',
+			'EC' => 'ECU',
+			'EG' => 'EGY',
+			'SV' => 'SLV',
+			'GQ' => 'GNQ',
+			'ER' => 'ERI',
+			'EE' => 'EST',
+			'ET' => 'ETH',
+			'FK' => 'FLK',
+			'FO' => 'FRO',
+			'FJ' => 'FJI',
+			'FI' => 'FIN',
+			'FR' => 'FRA',
+			'GF' => 'GUF',
+			'PF' => 'PYF',
+			'TF' => 'ATF',
+			'GA' => 'GAB',
+			'GM' => 'GMB',
+			'GE' => 'GEO',
+			'DE' => 'DEU',
+			'GH' => 'GHA',
+			'GI' => 'GIB',
+			'GR' => 'GRC',
+			'GL' => 'GRL',
+			'GD' => 'GRD',
+			'GP' => 'GLP',
+			'GU' => 'GUM',
+			'GT' => 'GTM',
+			'GN' => 'GIN',
+			'GW' => 'GNB',
+			'GY' => 'GUY',
+			'HT' => 'HTI',
+			'HM' => 'HMD',
+			'HN' => 'HND',
+			'HK' => 'HKG',
+			'HU' => 'HUN',
+			'IS' => 'ISL',
+			'IN' => 'IND',
+			'ID' => 'IDN',
+			'IR' => 'IRN',
+			'IQ' => 'IRQ',
+			'IE' => 'IRL',
+			'IL' => 'ISR',
+			'IT' => 'ITA',
+			'JM' => 'JAM',
+			'JP' => 'JPN',
+			'JO' => 'JOR',
+			'KZ' => 'KAZ',
+			'KE' => 'KEN',
+			'KI' => 'KIR',
+			'KP' => 'PRK',
+			'KR' => 'KOR',
+			'KW' => 'KWT',
+			'KG' => 'KGZ',
+			'LA' => 'LAO',
+			'LV' => 'LVA',
+			'LB' => 'LBN',
+			'LS' => 'LSO',
+			'LR' => 'LBR',
+			'LY' => 'LBY',
+			'LI' => 'LIE',
+			'LT' => 'LTU',
+			'LU' => 'LUX',
+			'MO' => 'MAC',
+			'MK' => 'MKD',
+			'MG' => 'MDG',
+			'MW' => 'MWI',
+			'MY' => 'MYS',
+			'MV' => 'MDV',
+			'ML' => 'MLI',
+			'MT' => 'MLT',
+			'MH' => 'MHL',
+			'MQ' => 'MTQ',
+			'MR' => 'MRT',
+			'MU' => 'MUS',
+			'YT' => 'MYT',
+			'MX' => 'MEX',
+			'FM' => 'FSM',
+			'MD' => 'MDA',
+			'MC' => 'MCO',
+			'MN' => 'MNG',
+			'MS' => 'MSR',
+			'MA' => 'MAR',
+			'MZ' => 'MOZ',
+			'MM' => 'MMR',
+			'NA' => 'NAM',
+			'NR' => 'NRU',
+			'NP' => 'NPL',
+			'NL' => 'NLD',
+			'AN' => 'ANT',
+			'NC' => 'NCL',
+			'NZ' => 'NZL',
+			'NI' => 'NIC',
+			'NE' => 'NER',
+			'NG' => 'NGA',
+			'NU' => 'NIU',
+			'NF' => 'NFK',
+			'MP' => 'MNP',
+			'NO' => 'NOR',
+			'OM' => 'OMN',
+			'PK' => 'PAK',
+			'PW' => 'PLW',
+			'PS' => 'PSE',
+			'PA' => 'PAN',
+			'PG' => 'PNG',
+			'PY' => 'PRY',
+			'PE' => 'PER',
+			'PH' => 'PHL',
+			'PN' => 'PCN',
+			'PL' => 'POL',
+			'PT' => 'PRT',
+			'PR' => 'PRI',
+			'QA' => 'QAT',
+			'RE' => 'REU',
+			'RO' => 'ROU',
+			'RU' => 'RUS',
+			'RW' => 'RWA',
+			'SH' => 'SHN',
+			'KN' => 'KNA',
+			'LC' => 'LCA',
+			'PM' => 'SPM',
+			'VC' => 'VCT',
+			'WS' => 'WSM',
+			'SM' => 'SMR',
+			'ST' => 'STP',
+			'SA' => 'SAU',
+			'SN' => 'SEN',
+			'CS' => 'SCG',
+			'SC' => 'SYC',
+			'SL' => 'SLE',
+			'SG' => 'SGP',
+			'SK' => 'SVK',
+			'SI' => 'SVN',
+			'SB' => 'SLB',
+			'SO' => 'SOM',
+			'ZA' => 'ZAF',
+			'GS' => 'SGS',
+			'ES' => 'ESP',
+			'LK' => 'LKA',
+			'SD' => 'SDN',
+			'SR' => 'SUR',
+			'SJ' => 'SJM',
+			'SZ' => 'SWZ',
+			'SE' => 'SWE',
+			'CH' => 'CHE',
+			'SY' => 'SYR',
+			'TW' => 'TWN',
+			'TJ' => 'TJK',
+			'TZ' => 'TZA',
+			'TH' => 'THA',
+			'TL' => 'TLS',
+			'TG' => 'TGO',
+			'TK' => 'TKL',
+			'TO' => 'TON',
+			'TT' => 'TTO',
+			'TN' => 'TUN',
+			'TR' => 'TUR',
+			'TM' => 'TKM',
+			'TC' => 'TCA',
+			'TV' => 'TUV',
+			'UG' => 'UGA',
+			'UA' => 'UKR',
+			'AE' => 'ARE',
+			'GB' => 'GBR',
+			'US' => 'USA',
+			'UM' => 'UMI',
+			'UY' => 'URY',
+			'UZ' => 'UZB',
+			'VU' => 'VUT',
+			'VA' => 'VAT',
+			'VE' => 'VEN',
+			'VN' => 'VNM',
+			'VG' => 'VGB',
+			'VI' => 'VIR',
+			'WF' => 'WLF',
+			'EH' => 'ESH',
+			'YE' => 'YEM',
+			'ZM' => 'ZMB',
+			'ZW' => 'ZWE'
 		);
 
 		if (array_key_exists($country, $countryMap))
@@ -603,4 +798,72 @@ abstract class AkpaymentBase extends JPlugin
 		fwrite($handle, date('Y-m-d H:i:s') . ' --- ' . $string . PHP_EOL);
 		fclose($handle);
 	}
+
+	/**
+	 * Handles a recurring subscription's payment
+	 *
+	 * @param   Subscriptions $subscription The currently active subscription
+	 * @param   array         $updates      Updates to the currently active subscription
+	 *
+	 *
+	 * @since version
+	 */
+	protected function handleRecurringSubscription($subscription, &$updates)
+	{
+		$jNow = new JDate();
+
+		// Create a new record for the old subscription
+		$oldData                               = $subscription->getData();
+		$oldData['akeebasubs_subscription_id'] = 0;
+		$oldData['publish_down']               = $jNow->toSql();
+		$oldData['enabled']                    = 0;
+		$oldData['contact_flag']               = 3;
+		$oldData['notes']                      = "Automatically renewed subscription on " . $jNow->toSql();
+
+		// Save the record for the old subscription
+		$oldSubscription = $subscription->tmpInstance();
+		$oldSubscription->reset()->bind($oldData)->save();
+
+		/**
+		 * If there's an invoice for the currently active (old) subscription we need to reassign it to the new ID of the
+		 * old subscription (since the existing subscription ID is actually reused for the recurring installment). This
+		 * will allow a new invoice to be issued for the new installment despite it having an old ID.
+		 */
+		$updates['akeebasubs_invoice_id'] = 0;
+
+		$db    = $subscription->getDbo();
+		$query = $db->getQuery(true)
+		            ->update($db->qn('#__akeebasubs_invoices'))
+		            ->set($db->qn('akeebasubs_subscription_id') . '=' . $db->q($oldSubscription->getId()))
+		            ->where($db->qn('akeebasubs_subscription_id') . '=' . $db->q($subscription->getId()));
+		$db->setQuery($query);
+		$db->execute();
+
+		// On recurring subscriptions recalculate the net, tax and gross price by removing the signup fee
+		if ($subscription->recurring_amount >= 0.01)
+		{
+			$updates['tax_percent'] = $subscription->tax_percent;
+
+			// Recalculate the tax rate in case it has changed since the last recurring payment (e.g. Brexit)
+			$container = Container::getInstance('com_akeeasubs');
+			/** @var TaxHelper $taxHelper */
+			$taxHelper = $container->factory->model('TaxHelper')->tmpInstance();
+			$taxInfo = $taxHelper->getTaxRule($subscription->akeebasubs_level_id, $subscription->user->country,
+				$subscription->user->getFieldValue('state'), $subscription->user->city,
+				$subscription->user->viesregistered);
+			$updates['tax_percent'] = $taxInfo->taxrate;
+
+			// Gross amount is what the client paid. This is either the recurring_amount (if it's non zero) or the gross_amount
+			$updates['gross_amount']       = ($subscription->recurring_amount > 0.01) ? $subscription->recurring_amount : $subscription->gross_amount;
+			// We reverse engineer the tax amount from the gross amount since the tax_percent may have changed since the last payment (e.g. a country has increased the tax rate; UK left the EU and so on)
+			$updates['tax_amount']         = ($subscription->tax_percent < 0.01) ? 0 : 0.01 * $updates['gross_amount'] / (100 + $updates['tax_percent']);
+			// The net_amount is calculated by subtraction to make sure we don't suffer any rounding errors which would throw us off by a penny.
+			$updates['net_amount']         = $updates['gross_amount'] - $updates['tax_amount'];
+			// There is no discount in recurring subscriptions...
+			$updates['discount_amount']    = 0;
+			// ...therefore the prediscount_amount is the same as the full price paid.
+			$updates['prediscount_amount'] = $updates['gross_amount'];
+		}
+	}
+
 }

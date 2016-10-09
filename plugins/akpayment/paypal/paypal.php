@@ -25,6 +25,7 @@ class plgAkpaymentPaypal extends AkpaymentBase
 	 * recommendations...
 	 */
 	const IPNPostbackDomain = 'www.paypal.com';
+
 	// const IPNPostbackDomain = 'ipnpb.paypal.com';
 
 	public function __construct(&$subject, $config = array())
@@ -69,15 +70,15 @@ class plgAkpaymentPaypal extends AkpaymentBase
 
 		$slug = $level->slug;
 
-		$rootURL = rtrim(JURI::base(), '/');
+		$rootURL    = rtrim(JURI::base(), '/');
 		$subpathURL = JURI::base(true);
 
 		if (!empty($subpathURL) && ($subpathURL != '/'))
 		{
-			$rootURL = substr($rootURL, 0, -1 * strlen($subpathURL));
+			$rootURL = substr($rootURL, 0, - 1 * strlen($subpathURL));
 		}
 
-		$data = (object)array(
+		$data = (object) array(
 			'url'       => $this->getPaymentURL(),
 			'merchant'  => $this->getMerchantID(),
 			'postback'  => $this->getPostbackURL(),
@@ -96,8 +97,8 @@ class plgAkpaymentPaypal extends AkpaymentBase
 			// calculate duration based on publish date 
 			// because it might have been changed by plugins event onValidateSubscriptionLength
 			$jStartDate = new JDate($subscription->publish_up);
-			$jEndDate = new JDate($subscription->publish_down);
-			$duration = floor(($jEndDate->toUnix() - $jStartDate->toUnix()) / 3600 / 24);
+			$jEndDate   = new JDate($subscription->publish_down);
+			$duration   = floor(($jEndDate->toUnix() - $jStartDate->toUnix()) / 3600 / 24);
 			$ppDuration = $this->_toPPDuration($duration);
 
 			if ($data->recurring == 1)
@@ -121,7 +122,7 @@ class plgAkpaymentPaypal extends AkpaymentBase
 		{
 			/** @var \Akeeba\Subscriptions\Site\Model\Users $userModel */
 			$userModel = $this->container->factory->model('Users')->tmpInstance();
-			$kuser = $userModel->user_id($subscription->user_id)->firstOrNew();
+			$kuser     = $userModel->user_id($subscription->user_id)->firstOrNew();
 		}
 
 		@ob_start();
@@ -168,8 +169,14 @@ class plgAkpaymentPaypal extends AkpaymentBase
 				$data['txn_type'] = 'workaround_to_missing_txn_type';
 			}
 
-			$validTypes = array('workaround_to_missing_txn_type', 'web_accept', 'subscr_payment', 'recurring_payment', 'recurring_payment_outstanding_payment');
-			$isValid = in_array($data['txn_type'], $validTypes);
+			$validTypes = array(
+				'workaround_to_missing_txn_type',
+				'web_accept',
+				'subscr_payment',
+				'recurring_payment',
+				'recurring_payment_outstanding_payment'
+			);
+			$isValid    = in_array($data['txn_type'], $validTypes);
 
 			if (!$isValid)
 			{
@@ -184,7 +191,7 @@ class plgAkpaymentPaypal extends AkpaymentBase
 		// Load the relevant subscription row
 		if ($isValid)
 		{
-			$id = array_key_exists('custom', $data) ? (int)$data['custom'] : -1;
+			$id           = array_key_exists('custom', $data) ? (int) $data['custom'] : - 1;
 			$subscription = null;
 
 			if ($id > 0)
@@ -196,7 +203,7 @@ class plgAkpaymentPaypal extends AkpaymentBase
 				if (($subscription->akeebasubs_subscription_id <= 0) || ($subscription->akeebasubs_subscription_id != $id))
 				{
 					$subscription = null;
-					$isValid = false;
+					$isValid      = false;
 				}
 			}
 			else
@@ -218,9 +225,9 @@ class plgAkpaymentPaypal extends AkpaymentBase
 		if ($isValid)
 		{
 			$receiver_email = $data['receiver_email'];
-			$receiver_id = $data['receiver_id'];
-			$valid_id = $this->getMerchantID();
-			$isValid =
+			$receiver_id    = $data['receiver_id'];
+			$valid_id       = $this->getMerchantID();
+			$isValid        =
 				($receiver_email == $valid_id)
 				|| (strtolower($receiver_email) == strtolower($receiver_email))
 				|| ($receiver_id == $valid_id)
@@ -239,7 +246,6 @@ class plgAkpaymentPaypal extends AkpaymentBase
 		{
 			$mc_gross = floatval($data['mc_gross']);
 
-			// @todo On recurring subscriptions recalculate the net, tax and gross price by removing the signup fee
 			if ($recurring && ($subscription->recurring_amount >= 0.01) && $subscription->state != 'N')
 			{
 				$gross = $subscription->recurring_amount;
@@ -254,16 +260,16 @@ class plgAkpaymentPaypal extends AkpaymentBase
 				// A positive value means "payment". The prices MUST match!
 				// Important: NEVER, EVER compare two floating point values for equality.
 				$isValid = ($gross - $mc_gross) < 0.01;
+
 				if (!$isValid)
-		                {
-		                    $mc_fee = floatval($data['mc_fee']);
-		                    $isValid = ($gross - $mc_gross - $mc_fee) < 0.01;
-		                }
+				{
+					$mc_fee  = floatval($data['mc_fee']);
+					$isValid = ($gross - $mc_gross - $mc_fee) < 0.01;
+				}
 			}
 			else
 			{
-				$isPartialRefund = false;
-				$temp_mc_gross = -1 * $mc_gross;
+				$temp_mc_gross   = - 1 * $mc_gross;
 				$isPartialRefund = ($gross - $temp_mc_gross) > 0.01;
 			}
 
@@ -280,17 +286,22 @@ class plgAkpaymentPaypal extends AkpaymentBase
 			{
 				if ($subscription->state == 'C')
 				{
-					if (!in_array(strtolower($data['payment_status']), array('refunded', 'reversed', 'canceled_reversal')))
+					if (!in_array(strtolower($data['payment_status']), array(
+						'refunded',
+						'reversed',
+						'canceled_reversal'
+					))
+					)
 					{
-						$isValid = false;
+						$isValid                           = false;
 						$data['akeebasubs_failure_reason'] = "I will not process the same txn_id twice";
 					}
 				}
-                		elseif ($subscription->state == 'X')
-                		{
+				elseif ($subscription->state == 'X')
+				{
 					if (strtolower($data['payment_status']) != 'canceled_reversal')
 					{
-						$isValid = false;
+						$isValid                           = false;
 						$data['akeebasubs_failure_reason'] = "I will not process the same txn_id twice";
 					}
 				}
@@ -301,11 +312,11 @@ class plgAkpaymentPaypal extends AkpaymentBase
 		if ($isValid && !is_null($subscription))
 		{
 			$mc_currency = strtoupper($data['mc_currency']);
-			$currency = strtoupper($this->container->params->get('currency', 'EUR'));
+			$currency    = strtoupper($this->container->params->get('currency', 'EUR'));
 
 			if ($mc_currency != $currency)
 			{
-				$isValid = false;
+				$isValid                           = false;
 				$data['akeebasubs_failure_reason'] = "Invalid currency; expected $currency, got $mc_currency";
 			}
 		}
@@ -365,10 +376,10 @@ class plgAkpaymentPaypal extends AkpaymentBase
 		// On recurring payments also store the subscription ID
 		if (array_key_exists('subscr_id', $data))
 		{
-			$subscr_id = $data['subscr_id'];
-			$params = $subscription->params;
+			$subscr_id              = $data['subscr_id'];
+			$params                 = $subscription->params;
 			$params['recurring_id'] = $subscr_id;
-			$updates['params'] = $params;
+			$updates['params']      = $params;
 		}
 
 		JLoader::import('joomla.utilities.date');
@@ -381,108 +392,7 @@ class plgAkpaymentPaypal extends AkpaymentBase
 		// In the case of a successful recurring payment, fetch the old subscription's data
 		if ($recurring && ($newStatus == 'C') && ($subscription->state == 'C'))
 		{
-			// Fix the starting date if the payment was accepted after the subscription's start date. This
-			// works around the case where someone pays by e-Check on January 1st and the check is cleared
-			// on January 5th. He'd lose those 4 days without this trick. Or, worse, if it was a one-day pass
-			// the user would have paid us and we'd never given him a subscription!
-			$regex = '/^\d{1,4}(\/|-)\d{1,2}(\/|-)\d{2,4}[[:space:]]{0,}(\d{1,2}:\d{1,2}(:\d{1,2}){0,1}){0,1}$/';
-
-			if (!preg_match($regex, $subscription->publish_up))
-			{
-				$subscription->publish_up = '2001-01-01';
-			}
-
-			if (!preg_match($regex, $subscription->publish_down))
-			{
-				$subscription->publish_down = '2038-01-01';
-			}
-
-			$jNow = new JDate();
-			$jStart = new JDate($subscription->publish_up);
-			$jEnd = new JDate($subscription->publish_down);
-			$now = $jNow->toUnix();
-			$start = $jStart->toUnix();
-			$end = $jEnd->toUnix();
-
-			// Create a new record for the old subscription
-			$oldData = $subscription->getData();
-			$oldData['akeebasubs_subscription_id'] = 0;
-			$oldData['publish_down'] = $jNow->toSql();
-			$oldData['enabled'] = 0;
-			$oldData['contact_flag'] = 3;
-			$oldData['notes'] = "Automatically renewed subscription on " . $jNow->toSql();
-
-			// Calculate new start/end time for the subscription
-			$allSubs = $subscription->tmpInstance()
-				->paystate('C')
-				->level($subscription->akeebasubs_level_id)
-				->user_id($subscription->user_id)
-				->get(true);
-
-			$max_expire = 0;
-
-			if ($allSubs->count())
-			{
-				foreach ($allSubs as $aSub)
-				{
-					$jExpire = new JDate($aSub->publish_down);
-					$expire = $jExpire->toUnix();
-
-					if ($expire > $max_expire)
-					{
-						$max_expire = $expire;
-					}
-				}
-			}
-
-			$duration = $end - $start;
-			$start = max($now, $max_expire);
-			$end = $start + $duration;
-			$jStart = new JDate($start);
-			$jEnd = new JDate($end);
-
-			$updates['created_on'] = $jNow->toSql();
-			$updates['publish_up'] = $jStart->toSql();
-			$updates['publish_down'] = $jEnd->toSql();
-
-			// Save the record for the old subscription
-			$table = $subscription->tmpInstance();
-			$table->save($oldData);
-			$oldData['akeebasubs_subscription_id'] = $table->getId();
-
-			// On recurring subscriptions recalculate the net, tax and gross price by removing the signup fee
-			if ($subscription->recurring_amount >= 0.01)
-			{
-				// Calculate amounts minimising rounding errors
-				$updates['gross_amount'] = $subscription->recurring_amount;
-				$updates['recurring_amount'] = 0;
-				$updates['prediscount_amount'] = $updates['gross_amount'];
-				$updates['discount_amount'] = 0;
-				if ($subscription->tax_percent > 0)
-				{
-					$updates['net_amount'] = ($updates['gross_amount'] * 100) / ($subscription->tax_percent + 100);
-					$updates['tax_amount'] = 0.01 * (100 * $updates['gross_amount'] - 100 * $updates['net_amount']);
-				}
-				else
-				{
-					$updates['net_amount'] = $updates['gross_amount'];
-				}
-			}
-
-			// Fix an invoice if there was any for the old subscription 
-			// and allow to create a new one for the new subscription
-			if ($oldData['akeebasubs_invoice_id'])
-			{
-				$updates['akeebasubs_invoice_id'] = 0;
-
-				$db = $subscription->getDbo();
-				$query = $db->getQuery(true)
-					->update($db->qn('#__akeebasubs_invoices'))
-					->set($db->qn('akeebasubs_subscription_id') . '=' . $db->q($oldData['akeebasubs_subscription_id']))
-					->where($db->qn('akeebasubs_invoice_id') . '=' . $db->q($oldData['akeebasubs_invoice_id']));
-				$db->setQuery($query);
-				$db->execute();
-			}
+			$this->handleRecurringSubscription($subscription, $updates);
 		}
 		elseif ($recurring && ($newStatus != 'C'))
 		{
@@ -548,7 +458,7 @@ class plgAkpaymentPaypal extends AkpaymentBase
 		$url = JURI::base() . 'index.php?option=com_akeebasubs&view=Callback&paymentmethod=paypal';
 
 		$configurationValue = $this->params->get('protocol', 'keep');
-		$pattern = '/https?:\/\//';
+		$pattern            = '/https?:\/\//';
 
 		if ($configurationValue == 'secure')
 		{
@@ -569,13 +479,13 @@ class plgAkpaymentPaypal extends AkpaymentBase
 	 */
 	private function isValidIPN(&$data)
 	{
-		$sandbox = $this->params->get('sandbox', 0);
+		$sandbox  = $this->params->get('sandbox', 0);
 		$hostname = $sandbox ? 'ipnpb.sandbox.paypal.com' : self::IPNPostbackDomain;
 
 		$url = 'https://' . $hostname;
 
 		$newData = array(
-			'cmd'	=> '_notify-validate'
+			'cmd' => '_notify-validate'
 		);
 		$newData = array_merge($newData, $data);
 
@@ -605,17 +515,17 @@ class plgAkpaymentPaypal extends AkpaymentBase
 		// OpenSSL version typically reported as "OpenSSL/1.0.1e", I need to convert it to 1.0.1.5
 		$parts             = explode('/', $openSSLVersionRaw, 2);
 		$openSSLVersionRaw = (count($parts) > 1) ? $parts[1] : $openSSLVersionRaw;
-		$openSSLVersion    = substr($openSSLVersionRaw, 0, -1) . '.' . (ord(substr($openSSLVersionRaw, -1)) - 96);
+		$openSSLVersion    = substr($openSSLVersionRaw, 0, - 1) . '.' . (ord(substr($openSSLVersionRaw, - 1)) - 96);
 		// PHP version required for TLS 1.2 is 5.5.19+ or 5.6.3+
 		$minPHPVersion = version_compare(PHP_VERSION, '5.6.0', 'ge') ? '5.6.3' : '5.5.19';
 
 		if (
 			!version_compare($curlVersion, '7.34.0', 'ge') ||
-			! version_compare($openSSLVersion, '1.0.1.3', 'ge') ||
-			! version_compare(PHP_VERSION, $minPHPVersion, 'ge')
+			!version_compare($openSSLVersion, '1.0.1.3', 'ge') ||
+			!version_compare(PHP_VERSION, $minPHPVersion, 'ge')
 		)
 		{
-			$phpVersion = PHP_VERSION;
+			$phpVersion                          = PHP_VERSION;
 			$data['akeebasubs_ipncheck_warning'] =
 				"WARNING! PayPal demands that connections be made with TLS 1.2. This requires PHP $minPHPVersion+ (you have $phpVersion), libcurl 7.34.0+ (you have $curlVersion) and OpenSSL 1.0.1c+ (you have $openSSLVersionRaw) on your server's PHP. Please upgrade these requirements to meet the stated minimum or the PayPal integration will cease working.";
 		}
@@ -624,9 +534,9 @@ class plgAkpaymentPaypal extends AkpaymentBase
 		curl_setopt_array($ch, $options);
 		@curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 
-		$response = curl_exec($ch);
-		$errNo = curl_errno($ch);
-		$error = curl_error($ch);
+		$response     = curl_exec($ch);
+		$errNo        = curl_errno($ch);
+		$error        = curl_error($ch);
 		$lastHttpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
 		curl_close($ch);
@@ -655,12 +565,11 @@ class plgAkpaymentPaypal extends AkpaymentBase
 
 			return false;
 		}
-
 	}
 
 	private function _toPPDuration($days)
 	{
-		$ret = (object)array(
+		$ret = (object) array(
 			'unit'  => 'D',
 			'value' => $days
 		);
@@ -672,20 +581,20 @@ class plgAkpaymentPaypal extends AkpaymentBase
 		}
 
 		// Translate to weeks, months and years
-		$weeks = (int)($days / 7);
-		$months = (int)($days / 30);
-		$years = (int)($days / 365);
+		$weeks  = (int) ($days / 7);
+		$months = (int) ($days / 30);
+		$years  = (int) ($days / 365);
 
 		// Find which one is the closest match
-		$deltaW = abs($days - $weeks * 7);
-		$deltaM = abs($days - $months * 30);
-		$deltaY = abs($days - $years * 365);
+		$deltaW   = abs($days - $weeks * 7);
+		$deltaM   = abs($days - $months * 30);
+		$deltaY   = abs($days - $years * 365);
 		$minDelta = min($deltaW, $deltaM, $deltaY);
 
 		// Counting weeks gives a better approximation
 		if ($minDelta == $deltaW)
 		{
-			$ret->unit = 'W';
+			$ret->unit  = 'W';
 			$ret->value = $weeks;
 
 			// Make sure we have 1-52 weeks, otherwise go for a months or years
@@ -702,7 +611,7 @@ class plgAkpaymentPaypal extends AkpaymentBase
 		// Counting months gives a better approximation
 		if ($minDelta == $deltaM)
 		{
-			$ret->unit = 'M';
+			$ret->unit  = 'M';
 			$ret->value = $months;
 
 			// Make sure we have 1-24 month, otherwise go for years
@@ -717,7 +626,7 @@ class plgAkpaymentPaypal extends AkpaymentBase
 		}
 
 		// If we're here, we're better off translating to years
-		$ret->unit = 'Y';
+		$ret->unit  = 'Y';
 		$ret->value = $years;
 
 		if ($ret->value < 0)
@@ -736,35 +645,49 @@ class plgAkpaymentPaypal extends AkpaymentBase
 
 	public function onAKPaymentCancelRecurring($paymentmethod, $data)
 	{
-		if ($paymentmethod != $this->ppName) return false;
-
-		$app          = JFactory::getApplication();
-		$merchant     = $this->getMerchantID();
-		$sandbox      = $this->params->get('sandbox');
-		$subscription = F0FModel::getAnInstance('Subscriptions', 'AkeebasubsModel')
-			->getItem((int) $data['sid']);
-
-		if (!empty($subscription->params['recurring_id']))
+		if ($paymentmethod != $this->ppName)
 		{
-			$url = 'https://www.'.($sandbox ? 'sandbox.' : '').'paypal.com/cgi-bin/webscr?cmd=_profile-recurring-payments'
-				. '&encrypted_profile_id=' . $subscription->params['recurring_id'];
+			return false;
+		}
 
-			$url = 'https://www.'.($sandbox ? 'sandbox.' : '').'paypal.com/signin/?returnUri=' . urlencode($url);
+		$app      = JFactory::getApplication();
+		$merchant = $this->getMerchantID();
+		$sandbox  = $this->params->get('sandbox');
+		/** @var Subscriptions $subscription */
+		$subscription = $this->container->factory->model('Subscriptions');
+		$noLoad       = false;
+
+		try
+		{
+			$subscription->findOrFail((int) $data['sid']);
+		}
+		catch (\Exception $e)
+		{
+			$noLoad = true;
+		}
+
+		if (!$noLoad && !empty($subscription->params['recurring_id']))
+		{
+			$url = 'https://www.' . ($sandbox ? 'sandbox.' : '') . 'paypal.com/cgi-bin/webscr?cmd=_profile-recurring-payments'
+			       . '&encrypted_profile_id=' . $subscription->params['recurring_id'];
+
+			$url = 'https://www.' . ($sandbox ? 'sandbox.' : '') . 'paypal.com/signin/?returnUri=' . urlencode($url);
 			$app->redirect($url);
 		}
 		elseif ($merchant)
 		{
-			$url = 'https://www.'.($sandbox ? 'sandbox.' : '').'paypal.com/cgi-bin/webscr?cmd=_subscr-find'
-				. '&alias=' . $merchant;
+			$url = 'https://www.' . ($sandbox ? 'sandbox.' : '') . 'paypal.com/cgi-bin/webscr?cmd=_subscr-find'
+			       . '&alias=' . $merchant;
 			$app->redirect($url);
 		}
 		else
 		{
 			$app->enqueueMessage('Read PayPal FAQ '
-				.'<a href="https://www.paypal.com/us/webapps/helpcenter/helphub/article/?articleID=FAQ2327" target="_blank" rel="nofollow">'
-				.'how to cancel a recurring payment profile'
-				.'</a>');
+			                     . '<a href="https://www.paypal.com/us/webapps/helpcenter/helphub/article/?articleID=FAQ2327" target="_blank" rel="nofollow">'
+			                     . 'how to cancel a recurring payment profile'
+			                     . '</a>');
 		}
+
 		return true;
 	}
 }

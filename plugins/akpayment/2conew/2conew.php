@@ -172,8 +172,6 @@ class plgAkpayment2conew extends AkpaymentBase
 		}
 
 		// Check that total is correct
-		$isPartialRefund = false;
-
 		if ($isValid && !is_null($subscription))
 		{
 			$mc_gross = floatval($data['invoice_list_amount']);
@@ -206,16 +204,6 @@ class plgAkpayment2conew extends AkpaymentBase
 		}
 
 		// Load the subscription level and get its slug
-		$slug = $subscription->level->slug;
-
-		$rootURL = rtrim(JURI::base(), '/');
-		$subpathURL = JURI::base(true);
-
-		if (!empty($subpathURL) && ($subpathURL != '/'))
-		{
-			$rootURL = substr($rootURL, 0, -1 * strlen($subpathURL));
-		}
-
 		$recurring_installment = false;
 
 		switch ($message_type)
@@ -300,68 +288,7 @@ class plgAkpayment2conew extends AkpaymentBase
 		// In the case of a successful recurring payment, fetch the old subscription's data
 		if ($recurring_installment && ($newStatus == 'C') && ($subscription->state == 'C'))
 		{
-			// Fix the starting date if the payment was accepted after the subscription's start date. This
-			// works around the case where someone pays by e-Check on January 1st and the check is cleared
-			// on January 5th. He'd lose those 4 days without this trick. Or, worse, if it was a one-day pass
-			// the user would have paid us and we'd never given him a subscription!
-			$regex = '/^\d{1,4}(\/|-)\d{1,2}(\/|-)\d{2,4}[[:space:]]{0,}(\d{1,2}:\d{1,2}(:\d{1,2}){0,1}){0,1}$/';
-			if (!preg_match($regex, $subscription->publish_up))
-			{
-				$subscription->publish_up = '2001-01-01';
-			}
-			if (!preg_match($regex, $subscription->publish_down))
-			{
-				$subscription->publish_down = '2038-01-01';
-			}
-			$jNow = new JDate();
-			$jStart = new JDate($subscription->publish_up);
-			$jEnd = new JDate($subscription->publish_down);
-			$now = $jNow->toUnix();
-			$start = $jStart->toUnix();
-			$end = $jEnd->toUnix();
-
-			// Create a new record for the old subscription
-			$oldData = $subscription->getData();
-			$oldData['akeebasubs_subscription_id'] = 0;
-			$oldData['publish_down'] = $jNow->toSql();
-			$oldData['enabled'] = 0;
-			$oldData['contact_flag'] = 3;
-			$oldData['notes'] = "Automatically renewed subscription on " . $jNow->toSql();
-
-			// Calculate new start/end time for the subscription
-			$allSubs = $subscription->tmpInstance()
-				->paystate('C')
-				->level($subscription->akeebasubs_level_id)
-				->user_id($subscription->user_id)
-				->get(true);
-
-			$max_expire = 0;
-
-			if ($allSubs->count())
-			{
-				foreach ($allSubs as $aSub)
-				{
-					$jExpire = new JDate($aSub->publish_down);
-					$expire = $jExpire->toUnix();
-
-					if ($expire > $max_expire)
-					{
-						$max_expire = $expire;
-					}
-				}
-			}
-
-			$duration = $end - $start;
-			$start = max($now, $max_expire);
-			$end = $start + $duration;
-			$jStart = new JDate($start);
-			$jEnd = new JDate($end);
-
-			$updates['publish_up'] = $jStart->toSql();
-			$updates['publish_down'] = $jEnd->toSql();
-
-			// Save the record for the old subscription
-			$subscription->tmpInstance()->save($oldData);
+			$this->handleRecurringSubscription($subscription, $updates);
 		}
 		elseif ($recurring_installment && ($newStatus != 'C'))
 		{
