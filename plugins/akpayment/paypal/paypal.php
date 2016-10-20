@@ -15,14 +15,10 @@ class plgAkpaymentPaypal extends AkpaymentBase
 {
 	/**
 	 * According to https://www.paypal-knowledge.com/infocenter/index?page=content&id=FAQ1914&expand=true&locale=en_US
-	 * we are supposed to use www.paypal.com before June 17th and ipnpb.paypal.com after June 17th. However, they don't
-	 * clarify:
-	 * * WHICH June 17th? June 17th will occur in Australia 18 hours before it is June 17th in San Jose!
-	 * * WHAT happens if you use the wrong one in the wrong date block? You lose sales?
-	 * * HOW am I supposed to code what is not my decision to make?
+	 * we are supposed to use www.paypal.com before June 30th, 2017.
 	 *
-	 * So, if you use PayPal like me you are most likely gonna be FUCKED around June 17th. Email me with anal lube
-	 * recommendations...
+	 * As of October 20th, 2016 PayPal recommends using the ipnpb.paypal.com domain name. See
+	 * https://www.paypal.com/au/webapps/mpp/ipn-verification-https
 	 */
 	const IPNPostbackDomain = 'www.paypal.com';
 
@@ -70,8 +66,8 @@ class plgAkpaymentPaypal extends AkpaymentBase
 
 		$slug = $level->slug;
 
-		$rootURL    = rtrim(JURI::base(), '/');
-		$subpathURL = JURI::base(true);
+		$rootURL    = rtrim(JUri::base(), '/');
+		$subpathURL = JUri::base(true);
 
 		if (!empty($subpathURL) && ($subpathURL != '/'))
 		{
@@ -94,8 +90,7 @@ class plgAkpaymentPaypal extends AkpaymentBase
 
 		if ($data->recurring > 0)
 		{
-			// calculate duration based on publish date 
-			// because it might have been changed by plugins event onValidateSubscriptionLength
+			// Recalculate duration from publish date because it might have been changed by onValidateSubscriptionLength
 			$jStartDate = new JDate($subscription->publish_up);
 			$jEndDate   = new JDate($subscription->publish_down);
 			$duration   = floor(($jEndDate->toUnix() - $jStartDate->toUnix()) / 3600 / 24);
@@ -186,18 +181,14 @@ class plgAkpaymentPaypal extends AkpaymentBase
 				$data['txn_type'] = 'workaround_to_missing_txn_type';
 			}
 
-			$validTypes = array(
-				'workaround_to_missing_txn_type',
-				'web_accept',
-				'subscr_payment',
-				'recurring_payment',
-				'recurring_payment_outstanding_payment'
-			);
+			$validTypes = array('workaround_to_missing_txn_type', 'web_accept', 'subscr_payment', 'recurring_payment',
+				'recurring_payment_outstanding_payment');
 			$isValid    = in_array($data['txn_type'], $validTypes);
 
 			if (!$isValid)
 			{
-				$data['akeebasubs_failure_reason'] = "Transaction type " . $data['txn_type'] . " can't be processed by this payment plugin.";
+				$data['akeebasubs_failure_reason'] =
+					"Transaction type " . $data['txn_type'] . " can't be processed by this payment plugin.";
 			}
 			else
 			{
@@ -303,11 +294,8 @@ class plgAkpaymentPaypal extends AkpaymentBase
 			{
 				if ($subscription->state == 'C')
 				{
-					if (!in_array(strtolower($data['payment_status']), array(
-						'refunded',
-						'reversed',
-						'canceled_reversal'
-					))
+					if (!in_array(strtolower($data['payment_status']), array('refunded', 'reversed',
+						'canceled_reversal'))
 					)
 					{
 						$isValid                           = false;
@@ -433,40 +421,6 @@ class plgAkpaymentPaypal extends AkpaymentBase
 	}
 
 	/**
-	 * Checks if the server meets the minimum PayPal IPN postback requirements. If not a RuntimeException is thrown.
-	 *
-	 * @return  void
-	 *
-	 * @throws  RuntimeException
-	 */
-	protected function checkIPNPostbackRequirements()
-	{
-		// TLS 1.2 is only supported in OpenSSL 1.0.1c and later AND cURL 7.34.0 and later running on PHP 5.5.19+ or
-		// PHP 5.6.3+. If these conditions are met we can use PayPal's minimum requirement of TLS 1.2 which is mandatory
-		// since June 2016.
-		$curlVersionInfo   = curl_version();
-		$curlVersion       = $curlVersionInfo['version'];
-		$openSSLVersionRaw = $curlVersionInfo['ssl_version'];
-		// OpenSSL version typically reported as "OpenSSL/1.0.1e", I need to convert it to 1.0.1.5
-		$parts             = explode('/', $openSSLVersionRaw, 2);
-		$openSSLVersionRaw = (count($parts) > 1) ? $parts[1] : $openSSLVersionRaw;
-		$openSSLVersion    = substr($openSSLVersionRaw, 0, -1) . '.' . (ord(substr($openSSLVersionRaw, -1)) - 96);
-		// PHP version required for TLS 1.2 is 5.5.19+ or 5.6.3+
-		$minPHPVersion = version_compare(PHP_VERSION, '5.6.0', 'ge') ? '5.6.3' : '5.5.19';
-
-		if (
-			!version_compare($curlVersion, '7.34.0', 'ge') ||
-			!version_compare($openSSLVersion, '1.0.1.3', 'ge') ||
-			!version_compare(PHP_VERSION, $minPHPVersion, 'ge')
-		)
-		{
-			$phpVersion                          = PHP_VERSION;
-
-			throw new RuntimeException("WARNING! PayPal demands that connections be made with TLS 1.2. This requires PHP $minPHPVersion+ (you have $phpVersion), libcurl 7.34.0+ (you have $curlVersion) and OpenSSL 1.0.1c+ (you have $openSSLVersionRaw) on your server's PHP. Please upgrade these requirements to meet the stated minimum or the PayPal integration will cease working.");
-		}
-	}
-
-	/**
 	 * Gets the form action URL for the payment
 	 */
 	private function getPaymentURL()
@@ -525,8 +479,7 @@ class plgAkpaymentPaypal extends AkpaymentBase
 	}
 
 	/**
-	 * Validates the incoming data against PayPal's IPN to make sure this is not a
-	 * fraudelent request.
+	 * Validates the incoming data against PayPal's IPN to make sure this is not a fraudulent request.
 	 */
 	private function isValidIPN(&$data)
 	{
@@ -534,6 +487,12 @@ class plgAkpaymentPaypal extends AkpaymentBase
 		$hostname = $sandbox ? 'ipnpb.sandbox.paypal.com' : self::IPNPostbackDomain;
 
 		$url = 'https://' . $hostname;
+
+		/**
+		 * In some PayPal documentation I've seen that they append /cgi-bin/webscr but I've been simply posting to the
+		 * root domain for years without a problem. WTF?
+		 */
+		// $url = 'https://' . $hostname . '/cgi-bin/webscr';
 
 		$newData = array(
 			'cmd' => '_notify-validate'
@@ -549,11 +508,13 @@ class plgAkpaymentPaypal extends AkpaymentBase
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_CAINFO         => JPATH_LIBRARIES . '/fof30/Download/Adapter/cacert.pem',
 			CURLOPT_HTTPHEADER     => [
-				'User-Agent: AkeebaSubscriptions'
+				'User-Agent: AkeebaSubscriptions',
+				'Connection: Close'
 			],
 			CURLOPT_POST           => true,
 			CURLOPT_POSTFIELDS     => $newData,
 			CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+			CURLOPT_FORBID_REUSE   => true
 
 		);
 
@@ -570,7 +531,7 @@ class plgAkpaymentPaypal extends AkpaymentBase
 
 		if (($errNo > 0) && !empty($error))
 		{
-			throw new RuntimeException("Could not open SSL connection to $hostname:443, cURL error $errNo: $error");
+			throw new RuntimeException("Could not open connection to $url, cURL error $errNo: $error");
 		}
 
 		if ($lastHttpCode >= 400)
@@ -590,6 +551,41 @@ class plgAkpaymentPaypal extends AkpaymentBase
 
 		throw new RuntimeException("Unknown PayPal response. HTTP $lastHttpCode. Message: $response");
 	}
+
+	/**
+	 * Checks if the server meets the minimum PayPal IPN postback requirements. If not a RuntimeException is thrown.
+	 *
+	 * @return  void
+	 *
+	 * @throws  RuntimeException
+	 */
+	protected function checkIPNPostbackRequirements()
+	{
+		// TLS 1.2 is only supported in OpenSSL 1.0.1c and later AND cURL 7.34.0 and later running on PHP 5.5.19+ or
+		// PHP 5.6.3+. If these conditions are met we can use PayPal's minimum requirement of TLS 1.2 which is mandatory
+		// since June 2016.
+		$curlVersionInfo   = curl_version();
+		$curlVersion       = $curlVersionInfo['version'];
+		$openSSLVersionRaw = $curlVersionInfo['ssl_version'];
+		// OpenSSL version typically reported as "OpenSSL/1.0.1e", I need to convert it to 1.0.1.5
+		$parts             = explode('/', $openSSLVersionRaw, 2);
+		$openSSLVersionRaw = (count($parts) > 1) ? $parts[1] : $openSSLVersionRaw;
+		$openSSLVersion    = substr($openSSLVersionRaw, 0, -1) . '.' . (ord(substr($openSSLVersionRaw, -1)) - 96);
+		// PHP version required for TLS 1.2 is 5.5.19+ or 5.6.3+
+		$minPHPVersion = version_compare(PHP_VERSION, '5.6.0', 'ge') ? '5.6.3' : '5.5.19';
+
+		if (
+			!version_compare($curlVersion, '7.34.0', 'ge') ||
+			!version_compare($openSSLVersion, '1.0.1.3', 'ge') ||
+			!version_compare(PHP_VERSION, $minPHPVersion, 'ge')
+		)
+		{
+			$phpVersion = PHP_VERSION;
+
+			throw new RuntimeException("WARNING! PayPal demands that connections be made with TLS 1.2. This requires PHP $minPHPVersion+ (you have $phpVersion), libcurl 7.34.0+ (you have $curlVersion) and OpenSSL 1.0.1c+ (you have $openSSLVersionRaw) on your server's PHP. Please upgrade these requirements to meet the stated minimum or the PayPal integration will cease working.");
+		}
+	}
+
 
 	private function _toPPDuration($days)
 	{
