@@ -151,7 +151,15 @@ class plgAkpaymentPaypal extends AkpaymentBase
 		}
 
 		// Check IPN data for validity (i.e. protect against fraud attempt)
-		$isValid = $this->isValidIPN($data);
+		try
+		{
+			$isValid = $this->isValidIPN($data);
+		}
+		catch (RuntimeException $e)
+		{
+			$isValid = false;
+			$data['akeebasubs_ipn_failure_reason'] = $e->getMessage();
+		}
 
 		if (!$isValid)
 		{
@@ -543,28 +551,25 @@ class plgAkpaymentPaypal extends AkpaymentBase
 
 		if (($errNo > 0) && !empty($error))
 		{
-			$data['akeebasubs_ipncheck_failure'] = "Could not open SSL connection to $hostname:443, cURL error $errNo: $error";
-
-			return false;
+			throw new RuntimeException("Could not open SSL connection to $hostname:443, cURL error $errNo: $error");
 		}
 
 		if ($lastHttpCode >= 400)
 		{
-			$data['akeebasubs_ipncheck_failure'] = "Invalid HTTP status $lastHttpCode verifying PayPal's IPN";
+			throw new RuntimeException("Invalid HTTP status $lastHttpCode verifying PayPal's IPN");
+		}
 
-			return false;
+		if (stristr($response, "INVALID"))
+		{
+			throw new RuntimeException('PayPal claims the IPN data is INVALID – Possible fraud!');
 		}
 
 		if (stristr($response, "VERIFIED"))
 		{
 			return true;
 		}
-		else if (stristr($response, "INVALID"))
-		{
-			$data['akeebasubs_ipncheck_failure'] = 'PayPal claims the IPN data is INVALID – Possible fraud!';
 
-			return false;
-		}
+		throw new RuntimeException("Unknown PayPal response. HTTP $lastHttpCode. Message: $response");
 	}
 
 	private function _toPPDuration($days)
