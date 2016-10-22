@@ -514,8 +514,11 @@ class plgAkpaymentPaypal extends AkpaymentBase
 			CURLOPT_POST           => true,
 			CURLOPT_POSTFIELDS     => $newData,
 			CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
-			CURLOPT_FORBID_REUSE   => true
-
+			CURLOPT_FORBID_REUSE   => true,
+			// Force the use of TLS (therefore SSLv3 is not used, mitigating POODLE; see https://github.com/paypal/merchant-sdk-php)
+			CURLOPT_SSL_CIPHER_LIST => 'TLSv1',
+			// This forces the use of TLS 1.x
+			CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1,
 		);
 
 		$ch = curl_init($url);
