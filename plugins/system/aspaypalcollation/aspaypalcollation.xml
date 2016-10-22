@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.3.0" type="plugin" group="system" method="upgrade">
+	<name>PLG_SYSTEM_ASPAYPALCOLLATION</name>
+	<author>Nicholas K. Dionysopoulos</author>
+	<authorEmail>nicholas@dionysopoulos.me</authorEmail>
+	<authorUrl>http://www.akeebabackup.com</authorUrl>
+	<copyright>Copyright (c)2011-2016 Nicholas K. Dionysopoulos</copyright>
+	<license>GNU General Public License version 3, or later</license>
+	<creationDate>November 2016</creationDate>
+	<version>5.0</version>
+	<description>PLG_SYSTEM_ASPAYPALCOLLATION_XMLDESC</description>
+	<files>
+		<filename plugin="aspaypalcollation">aspaypalcollation.php</filename>
+	</files>
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_system_aspaypalcollation.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_system_aspaypalcollation.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="username" type="text" size="40"
+                       default=""
+                       label="PLG_SYSTEM_ASPAYPALCOLLATION_USERNAME_LABEL"
+                       description="PLG_SYSTEM_ASPAYPALCOLLATION_USERNAME_DESC"
+                        />
+                <field name="password" type="password" size="40"
+                       default=""
+                       label="PLG_SYSTEM_ASPAYPALCOLLATION_PASSWORD_LABEL"
+                       description="PLG_SYSTEM_ASPAYPALCOLLATION_PASSWORD_DESC"
+                        />
+                <field name="signature" type="password" size="40"
+                       default=""
+                       label="PLG_SYSTEM_ASPAYPALCOLLATION_SIGNATURE_LABEL"
+                       description="PLG_SYSTEM_ASPAYPALCOLLATION_SIGNATURE_DESC"
+                        />
+            </fieldset>
+        </fields>
+    </config>
+</extension>
