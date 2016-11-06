@@ -707,7 +707,7 @@ function applyValidation(response, callback)
 
 					$('#username_invalid').hide();
 
-					if ($('#username').val() != '')
+					if (true || ($('#username').val() != ''))
 					{
 						$('#username').parents('div.form-group').addClass('error has-error');
 						$('#username_invalid').show();

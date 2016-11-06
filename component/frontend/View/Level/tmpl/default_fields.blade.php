@@ -47,8 +47,7 @@ $group_classes                 = [
 
 if (JFactory::getUser()->guest)
 {
-	$group_classes['username']  = ($this->cache['username']) ?
-		(($this->validation->validation->username) ? 'has-success' : 'has-error') : '';
+	$group_classes['username']  = (!$apply_validation || $this->validation->validation->username) ? 'has-success' : 'has-error';
 	$group_classes['password']  = !$this->cache['password'] ? 'has-error' : '';
 	$group_classes['password2'] =
 		(!$this->cache['password2'] || ($this->cache['password2'] != $this->cache['password'])) ? 'has-error' :

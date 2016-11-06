@@ -23,6 +23,7 @@ Akeeba Subscriptions 5.2.0
 - Removed obsolete languages
 - Removing CLI scripts, they can't work reliably
 - No more PostgreSQL support
+~ Show a validation error if a user doesn't enter a username when submitting the form
 + Edit the pre-discount amount in the back-end subscription edit form
 + My Subscriptions module
 + Credit notes (inverse of invoices), created against already issued invoices
