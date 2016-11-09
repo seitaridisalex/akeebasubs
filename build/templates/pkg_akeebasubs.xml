@@ -21,6 +21,7 @@
         <!-- <file type="file" id="file_akeebasubs">file_akeebasubs.zip</file> -->
 
         <!-- Modules -->
+        <file type="module" client="site" id="mod_akmysubs">mod_akmysubs.zip</file>
         <file type="module" client="site" id="mod_aksexpires">mod_aksexpires.zip</file>
         <file type="module" client="site" id="mod_akslevels">mod_akslevels.zip</file>
         <file type="module" client="site" id="mod_aksubslist">mod_aksubslist.zip</file>
@@ -63,6 +64,7 @@
         <file type="plugin" group="system" id="asexpirationcontrol">plg_system_asexpirationcontrol.zip</file>
         <file type="plugin" group="system" id="asexpirationnotify">plg_system_asexpirationnotify.zip</file>
         <file type="plugin" group="system" id="aslogoutuser">plg_system_aslogoutuser.zip</file>
+        <file type="plugin" group="system" id="aspaypalcollation">plg_system_aspaypalcollation.zip</file>
         <file type="plugin" group="system" id="asuserregredir">plg_system_asuserregredir.zip</file>
 
         <!-- Plugins: user -->
