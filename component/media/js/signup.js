@@ -910,7 +910,7 @@ function applyPrice(response)
 
 		if ($sumTotalField.length > 0)
 		{
-			var vatContainer = $('#akeebasubs-sum-vat-container');
+			var vatContainer = $('#akeebasubs-vat-container');
 			vatContainer.hide();
 
 			$sumTotalField.text(response.gross);
