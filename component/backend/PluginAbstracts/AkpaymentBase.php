@@ -9,8 +9,6 @@ namespace Akeeba\Subscriptions\Admin\PluginAbstracts;
 
 use Akeeba\Subscriptions\Admin\Model\Levels;
 use Akeeba\Subscriptions\Admin\Model\Subscriptions;
-use Akeeba\Subscriptions\Site\Model\Subscribe\StateData;
-use Akeeba\Subscriptions\Site\Model\Subscribe\ValidatorFactory;
 use Akeeba\Subscriptions\Site\Model\TaxHelper;
 use FOF30\Container\Container;
 use JDate;
@@ -808,7 +806,7 @@ abstract class AkpaymentBase extends JPlugin
 	 *
 	 * @since version
 	 */
-	protected function handleRecurringSubscription($subscription, &$updates)
+	protected function handleRecurringSubscription(Subscriptions $subscription, &$updates)
 	{
 		$jNow = new JDate();
 
@@ -820,9 +818,22 @@ abstract class AkpaymentBase extends JPlugin
 		$oldData['contact_flag']               = 3;
 		$oldData['notes']                      = "Automatically renewed subscription on " . $jNow->toSql();
 
+		/**
+		 * Update the existing subscription with a fake processor key, appending "_TEMP" to the existing one. This will
+		 * eliminate any interference from saving a new record below.
+		 */
+		$subscription->_dontNotify(true);
+		$subscription->bind([
+			'processor_key' => $subscription->processor_key . '_TEMP'
+		]);
+		$subscription->_dontNotify(false);
+
 		// Save the record for the old subscription
 		$oldSubscription = $subscription->tmpInstance();
-		$oldSubscription->reset()->bind($oldData)->save();
+		$oldSubscription->reset();
+		$oldSubscription->_dontNotify(true);
+		$oldSubscription->bind($oldData)->save();
+		$oldSubscription->_dontNotify(false);
 
 		/**
 		 * If there's an invoice for the currently active (old) subscription we need to reassign it to the new ID of the
