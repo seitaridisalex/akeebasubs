@@ -1,0 +1,1 @@
+Sometimes I need to run quick tests for debugging purposes. On one hand it would be too slow to implement as proper Unit Tests. On the other hand it doesn't make sense to delete them after use as I might need them again, or want to turn them into Unit Tests in the future. This folder contains this kind of code. Usually it's in the form of a front-end controller. 
