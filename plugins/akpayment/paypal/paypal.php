@@ -145,10 +145,20 @@ class plgAkpaymentPaypal extends AkpaymentBase
 			return false;
 		}
 
+		$isValid = false;
+
+		if ($this->params->get('debug', 0))
+		{
+			$isValid = true;
+		}
+
 		// Check IPN data for validity (i.e. protect against fraud attempt)
 		try
 		{
-			$isValid = $this->isValidIPN($data);
+			if (!$isValid)
+			{
+				$isValid = $this->isValidIPN($data);
+			}
 		}
 		catch (RuntimeException $e)
 		{

@@ -48,11 +48,16 @@
 
 				<field name="merchant" type="text" size="50" default="" label="PLG_AKPAYMENT_PAYPAL_MERCHANT_LABEL" description="PLG_AKPAYMENT_PAYPAL_MERCHANT_DESC"/>
 				<field type="spacer" />
-				<field name="sandbox" type="radio" default="0" label="PLG_AKPAYMENT_PAYPAL_SANDBOX_LABEL" description="PLG_AKPAYMENT_PAYPAL_SANDBOX_DESC">
+				<field name="sandbox" type="radio" default="0" label="PLG_AKPAYMENT_PAYPAL_SANDBOX_LABEL" description="PLG_AKPAYMENT_PAYPAL_SANDBOX_DESC" class="btn-group">
 				  <option value="0">JNo</option>
 				  <option value="1">JYes</option>
 				</field>
 				<field name="sandbox_merchant" type="text" size="50" default="" label="PLG_AKPAYMENT_PAYPAL_SANDBOX_MERCHANT_LABEL" description="PLG_AKPAYMENT_PAYPAL_SANDBOX_MERCHANT_LABEL"/>
+				<field type="spacer" />
+				<field name="debug" type="radio" default="0" label="PLG_AKPAYMENT_PAYPAL_DEBUG_LABEL" description="PLG_AKPAYMENT_PAYPAL_DEBUG_DESC" class="btn-group">
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
 				<field type="spacer" />
 				<field name="cbt" type="text" size="50" default="" label="PLG_AKPAYMENT_PAYPAL_CBT_LABEL" description="PLG_AKPAYMENT_PAYPAL_CBT_DESC" />
 				<field name="cpp_header_image" type="text" size="50" default="" label="PLG_AKPAYMENT_PAYPAL_HEADER_LABEL" description="PLG_AKPAYMENT_PAYPAL_HEADER_DESC" />
