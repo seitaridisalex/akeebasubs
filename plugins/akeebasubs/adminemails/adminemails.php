@@ -2,7 +2,7 @@
 /**
  * @package        akeebasubs
  * @subpackage     plugins.akeebasubs.adminemails
- * @copyright      Copyright (c)2011-2013 ZOOlanders.com, (c)2013-2016 Nicholas K. Dionysopoulos
+ * @copyright      Copyright (c)2010-2017 ZOOlanders.com, (c)2010-2017 Nicholas K. Dionysopoulos
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
 

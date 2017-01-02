@@ -2,7 +2,7 @@
 
 /**
  * @package        akeebasubs
- * @copyright      Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @copyright      Copyright (c)2010-2017 Nicholas K. Dionysopoulos / AkeebaBackup.com
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
 defined('_JEXEC') or die();
