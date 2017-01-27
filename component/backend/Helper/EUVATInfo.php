@@ -53,7 +53,7 @@ abstract class EUVATInfo
 		'AT' => array('Austria', 'AT', 20),
 		'PL' => array('Poland', 'PL', 23),
 		'PT' => array('Portugal', 'PT', 23),
-		'RO' => array('Romania', 'RO', 20),
+		'RO' => array('Romania', 'RO', 19),
 		'SI' => array('Slovenia', 'SI', 22),
 		'SK' => array('Slovakia', 'SK', 20),
 		'FI' => array('Finland', 'FI', 24),

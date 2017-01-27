@@ -39,7 +39,7 @@ var akeebasubs_eu_configuration = {
 	"AT": ["Austria", "AT", 20],
 	"PL": ["Poland", "PL", 23],
 	"PT": ["Portugal", "PT", 23],
-	"RO": ["Romania", "RO", 20],
+	"RO": ["Romania", "RO", 19],
 	"SI": ["Slovenia", "SI", 22],
 	"SK": ["Slovakia", "SK", 20],
 	"FI": ["Finland", "FI", 24],
