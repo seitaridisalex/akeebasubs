@@ -53,6 +53,9 @@ class Debug extends Controller
 		// Make sure this only runs from localhost
 		$this->onlyRunLocally();
 
+		// Should I run the renewal after expiring the subscription first?
+		$expired = $this->input->getBool('expired', false);
+
 		// Make sure the invoicing and PayPal plugins are enabled or throw exception
 		$this->checkIfPluginsEnabled();
 
@@ -93,9 +96,25 @@ class Debug extends Controller
 		$initialSubscription = $this->checkInitialSubscription($subId);
 
 		// Check that the invoice is created
-		$initialInvoice = $this->checkInitialInvoice($subId);
+		$initialInvoice = $this->getInvoice($subId);
 
-		// TODO Fire the recurring postback
+		// Should I try to expire the subscritpion before recurring it?
+		if ($expired)
+		{
+			$interval = new \DateInterval('P30DT30M');
+
+			$jDate = new \JDate($initialSubscription->publish_down);
+			$jDate = $jDate->sub($interval);
+			$initialSubscription->publish_down = $jDate->toSql();
+
+			$jDate = new \JDate($initialSubscription->publish_up);
+			$jDate = $jDate->sub($interval);
+			$initialSubscription->publish_up = $jDate->toSql();
+
+			$initialSubscription->save();
+		}
+
+		// Fire the recurring postback
 		$postBackData = [
 			"txn_type"       => "subscr_payment",
 			"custom"         => $subId,
@@ -121,16 +140,21 @@ class Debug extends Controller
 			return;
 		}
 
-		// TODO Check the existing subscription (must be updated)
+		// Get the ID of the new subscriptions
+		$newSubId = $this->getLatestSubId();
+
+		// Check new sub ID (must be the same as the old sub)
+		$updatedSubscription = $this->checkUpdatedInitialSubscription($newSubId);
+		$this->assertSubscriptionsSame($updatedSubscription, $initialSubscription);
+
+		// TODO Check the existing subscription ID (must be updated with new data)
 
 		// TODO Check the old invoice (must have different sub id)
-
-		// TODO Check new sub ID (must be the same as the old sub)
 
 		// TODO Check the invoice for the new sub (must have the sub ID of the old sub)
 
 		// Clean up existing data after the conclusion of the test
-		$this->cleanUpExistingSubsAndInvoices();
+		// $this->cleanUpExistingSubsAndInvoices();
 
 	}
 
@@ -145,23 +169,50 @@ class Debug extends Controller
 
 	private function cleanUpExistingSubsAndInvoices()
 	{
+		$level_id = $this->createOrGetSubscriptionLevelId();
+
 		$db     = $this->container->db;
 		$query  = $db->getQuery(true)
-					 ->select($db->qn('akeebasubs_subscription_id'))
-					 ->from('#__akeebasubs_subscriptions')
-					 ->where($db->qn('processor_key') . ' LIKE ' . $db->q('TEST_201612_%'));
+		             ->select($db->qn('akeebasubs_subscription_id'))
+		             ->from('#__akeebasubs_subscriptions')
+		             ->where($db->qn('akeebasubs_level_id') . ' = ' . $db->q($level_id));
 		$subIds = $db->setQuery($query)->loadColumn();
+
+		foreach ($subIds as $id)
+		{
+			/** @var Invoices $invModel */
+			$invModel = $this->container->factory->model('Invoices')->tmpInstance();
+
+			try
+			{
+				$invModel->delete($id);
+			}
+			catch (\Exception $e)
+			{
+			}
+
+			/** @var Subscriptions $subModel */
+			$subModel = $this->container->factory->model('Subscriptions')->tmpInstance();
+
+			try
+			{
+				$subModel->delete($id);
+			}
+			catch (\Exception $e)
+			{
+			}
+		}
 	}
 
 	private function checkIfPluginsEnabled()
 	{
 		$db    = $this->container->db;
 		$query = $db->getQuery(true)
-					->select('COUNT(*)')
-					->from($db->qn('#__extensions'))
-					->where($db->qn('type') . ' = ' . $db->q('plugin'))
-					->where($db->qn('element') . ' IN(' . $db->q('paypal') . ', ' . $db->q('invoices') . ')')
-					->where($db->qn('enabled') . ' = ' . $db->q('1'));
+		            ->select('COUNT(*)')
+		            ->from($db->qn('#__extensions'))
+		            ->where($db->qn('type') . ' = ' . $db->q('plugin'))
+		            ->where($db->qn('element') . ' IN(' . $db->q('paypal') . ', ' . $db->q('invoices') . ')')
+		            ->where($db->qn('enabled') . ' = ' . $db->q('1'));
 		$count = $db->setQuery($query)->loadResult();
 
 		if ($count != 2)
@@ -191,10 +242,10 @@ class Debug extends Controller
 	{
 		$db     = $this->container->db;
 		$query  = $db->getQuery(true)
-					 ->select($db->qn('params'))
-					 ->from($db->qn('#__extensions'))
-					 ->where($db->qn('element') . ' = ' . $db->q('paypal'))
-					 ->where($db->qn('folder') . ' = ' . $db->q('akpayment'));
+		             ->select($db->qn('params'))
+		             ->from($db->qn('#__extensions'))
+		             ->where($db->qn('element') . ' = ' . $db->q('paypal'))
+		             ->where($db->qn('folder') . ' = ' . $db->q('akpayment'));
 		$data   = $db->setQuery($query)->loadResult();
 		$params = new Registry($data);
 		$params->set('debug', 1);
@@ -202,10 +253,10 @@ class Debug extends Controller
 		$merchant = $params->get(($sandbox ? 'sandbox_' : '') . 'merchant', '');
 
 		$query = $db->getQuery(true)
-					->update($db->qn('#__extensions'))
-					->set($db->qn('params') . ' = ' . $db->q($params->toString('JSON')))
-					->where($db->qn('element') . ' = ' . $db->q('paypal'))
-					->where($db->qn('folder') . ' = ' . $db->q('akpayment'));
+		            ->update($db->qn('#__extensions'))
+		            ->set($db->qn('params') . ' = ' . $db->q($params->toString('JSON')))
+		            ->where($db->qn('element') . ' = ' . $db->q('paypal'))
+		            ->where($db->qn('folder') . ' = ' . $db->q('akpayment'));
 		$db->setQuery($query)->execute();
 
 		return $merchant;
@@ -219,19 +270,19 @@ class Debug extends Controller
 	{
 		$db     = $this->container->db;
 		$query  = $db->getQuery(true)
-					 ->select($db->qn('params'))
-					 ->from($db->qn('#__extensions'))
-					 ->where($db->qn('element') . ' = ' . $db->q('paypal'))
-					 ->where($db->qn('folder') . ' = ' . $db->q('akpayment'));
+		             ->select($db->qn('params'))
+		             ->from($db->qn('#__extensions'))
+		             ->where($db->qn('element') . ' = ' . $db->q('paypal'))
+		             ->where($db->qn('folder') . ' = ' . $db->q('akpayment'));
 		$data   = $db->setQuery($query)->loadResult();
 		$params = new Registry($data);
 		$params->set('debug', 0);
 
 		$query = $db->getQuery(true)
-					->update($db->qn('#__extensions'))
-					->set($db->qn('params') . ' = ' . $db->q($params->toString('JSON')))
-					->where($db->qn('element') . ' = ' . $db->q('paypal'))
-					->where($db->qn('folder') . ' = ' . $db->q('akpayment'));
+		            ->update($db->qn('#__extensions'))
+		            ->set($db->qn('params') . ' = ' . $db->q($params->toString('JSON')))
+		            ->where($db->qn('element') . ' = ' . $db->q('paypal'))
+		            ->where($db->qn('folder') . ' = ' . $db->q('akpayment'));
 		$db->setQuery($query)->execute();
 	}
 
@@ -271,9 +322,9 @@ class Debug extends Controller
 			'notifyafter'              => '30',
 		];
 		$query   = $db->getQuery(true)
-					  ->select($db->qn('akeebasubs_level_id'))
-					  ->from($db->qn('#__akeebasubs_levels'))
-					  ->where($db->qn('slug') . ' = ' . $db->q($data['slug']));
+		              ->select($db->qn('akeebasubs_level_id'))
+		              ->from($db->qn('#__akeebasubs_levels'))
+		              ->where($db->qn('slug') . ' = ' . $db->q($data['slug']));
 		$levelId = $db->setQuery($query)->loadResult();
 
 		if (!$levelId)
@@ -299,9 +350,9 @@ class Debug extends Controller
 
 		// Get all admin users (by definition the have sendEmail set to 1)
 		$query = $db->getQuery(true)
-					->select($db->qn(array('name', 'email', 'sendEmail', 'id')))
-					->from($db->qn('#__users'))
-					->where($db->qn('sendEmail') . ' = ' . 1);
+		            ->select($db->qn(array('name', 'email', 'sendEmail', 'id')))
+		            ->from($db->qn('#__users'))
+		            ->where($db->qn('sendEmail') . ' = ' . 1);
 
 		$rows = $db->setQuery($query)->loadObjectList();
 
@@ -327,14 +378,22 @@ class Debug extends Controller
 	 */
 	private function createNewSubAndGetId()
 	{
-		$publishUp   = time() - 2548800;
-		$publishDown = time() + 43200;
+		// Start subscription: 29.5 days ago
+		$publishUp   = time() - (3600 * 24 * 29.5);
+		$publishUpToSql = (new \JDate($publishUp))->toSql();
 
-		$data = [
+		// End subscription: 0.5 days from now
+		$publishDown = time() + (3600 * 24 * 0.5);
+		$publishDownToSql = (new \JDate($publishDown))->toSql();
+
+		// Created on: a day before it was published up
+		$createdOn = $publishUpToSql - 86400;
+
+		$data             = [
 			'user_id'                 => $this->getSuperUserId(),
 			'akeebasubs_level_id'     => $this->createOrGetSubscriptionLevelId(),
-			'publish_up'              => (new \JDate($publishUp))->toSql(),
-			'publish_down'            => (new \JDate($publishDown))->toSql(),
+			'publish_up'              => $publishUpToSql,
+			'publish_down'            => $publishDownToSql,
 			'notes'                   => 'Auto-generated debug subscription',
 			'enabled'                 => 0,
 			'processor'               => 'paypal',
@@ -345,7 +404,7 @@ class Debug extends Controller
 			'gross_amount'            => 10,
 			'recurring_amount'        => 10,
 			'tax_percent'             => 0,
-			'created_on'              => (new \JDate())->toSql(),
+			'created_on'              => $createdOn,
 			'params'                  => [],
 			'ip'                      => Ip::getIp(),
 			'ip_country'              => 'LOL!',
@@ -419,12 +478,76 @@ class Debug extends Controller
 	 *
 	 * @since version
 	 */
-	private function checkInitialInvoice($subId)
+	private function getInvoice($subId)
 	{
 		/** @var Invoices $initialInvoice */
 		$initialInvoice = $this->container->factory->model('Invoices')->tmpInstance();
 		$initialInvoice->findOrFail($subId);
 
 		return $initialInvoice;
+	}
+
+	private function getLatestSubId()
+	{
+		$level_id = $this->createOrGetSubscriptionLevelId();
+
+		$db     = $this->container->db;
+		$query  = $db->getQuery(true)
+		             ->select($db->qn('akeebasubs_subscription_id'))
+		             ->from('#__akeebasubs_subscriptions')
+		             ->where($db->qn('akeebasubs_level_id') . ' = ' . $db->q($level_id))
+		             ->order($db->qn('akeebasubs_subscription_id') . ' DESC');
+		return $db->setQuery($query, 0, 1)->loadResult();
+	}
+
+	/**
+	 * @param $subId
+	 *
+	 * @return Subscriptions
+	 *
+	 * @since version
+	 */
+	private function checkUpdatedInitialSubscription($subId)
+	{
+		/** @var Subscriptions $initialSub */
+		$initialSub = $this->container->factory->model('Subscriptions')->tmpInstance();
+		$initialSub->load($subId);
+
+		if ($initialSub->enabled)
+		{
+			throw new \RuntimeException("The copy of the old subscription, $subId, is enabled after postback");
+		}
+
+		if ($initialSub->processor_key != 'TEST_201612_INITIAL')
+		{
+			throw new \RuntimeException("The copy of the old subscription, $subId, $subId does not have the correct processor key after initial postback");
+		}
+
+		return $initialSub;
+	}
+
+	private function assertSubscriptionsSame(Subscriptions $sub1, Subscriptions $sub2)
+	{
+		$data1 = $sub1->getData();
+		$data2 = $sub2->getData();
+
+		$skipKeys = array('akeebasubs_subscription_id', 'publish_down', 'notes', 'enabled', 'created_on', 'params',
+		                  'akeebasubs_invoice_id', 'contact_flag', 'first_contact', 'second_contact', 'after_contact',
+		                  '_noemail');
+
+		foreach ($data1 as $k => $v1)
+		{
+			if (in_array($k, $skipKeys))
+			{
+				continue;
+			}
+
+			$v2 = $data2[$k];
+
+			if ($v2 != $v1)
+			{
+				throw new \RuntimeException("Key $k value discrepancy: $v2 instead of $v1");
+			}
+		}
 	}
 }
