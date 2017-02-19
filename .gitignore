@@ -29,13 +29,6 @@ vendor
 /component/cli/*akeebasubs.xml
 /component/backend/version.php
 
-# Language files (symlinked)
-/component/language/backend
-/component/language/frontend
-/modules/admin/akeebasubs/language/en-GB
-/modules/site/*/language/en-GB
-/plugins/*/*/language/en-GB
-
 # Documentation backups
 /documentation/*.xml~
 
