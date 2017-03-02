@@ -20,6 +20,7 @@
 		<exclude name="LICENSE.txt" />
 		<exclude name="script.akeebasubs.php" />
 		<exclude name="backend/invoices/*.pdf" />
+		<exclude name="backend/invoices/20*-*/**" />
 		<exclude name="backend/creditnotes/*.pdf" />
 		<exclude name="backend/assets/tcpdf/certificates/*.cer" />
 	</fileset>
