@@ -1,3 +1,15 @@
+Akeeba Subscriptions 5.2.1
+================================================================================
+- Removed translations
++ akeeba/internal#6 Added "Missing Invoice" report
++ gh-276 Added method getFieldValue() to UserInfo\Html
+~ Added local debugging option for the PayPal plugin
+~ Updated VAT rates
+# gh-275 VAT rate does not show on subscribe page
+# Recurring subscriptions would result in a PHP exception
+# Wrong VAT calculation in recurring subscriptions
+# No invoice generated when a subscription is upgraded using a subscription relation rule
+
 Akeeba Subscriptions 5.2.0
 ================================================================================
 ! NO SUPPORT – INTERNAL PROJECT ONLY
