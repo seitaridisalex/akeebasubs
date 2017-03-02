@@ -17,6 +17,11 @@ defined('_JEXEC') or die;
 		<br/>
 		<span><?php echo JText::_('COM_AKEEBASUBS_REPORTS_USER_RENEWAL');?></span>
 	</a>
+    <a href="index.php?option=com_akeebasubs&view=Reports&task=missinginvoice" class="btn cpanel-icon">
+        <span class="icon icon-warning ak-icon"></span>
+        <br/>
+        <span><?php echo JText::_('COM_AKEEBASUBS_REPORTS_MISSINGINVOICE');?></span>
+    </a>
 </div>
 <p></p>
 <div>

@@ -16,4 +16,9 @@ class Form extends \FOF30\View\DataView\Form
 	{
 		$this->onBeforeBrowse();
 	}
+
+	public function onBeforeMissinginvoice()
+	{
+		$this->onBeforeBrowse();
+	}
 }
