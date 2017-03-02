@@ -1,18 +1,16 @@
-# Akeeba Subscriptions
+# Akeeba Subscriptions 5
 
-This branch contains the current, in-development version of Akeeba Subscriptions based on FOF 3. Requires PHP 5.4+ (developed on 7.0) and the latest Joomla! release. 
+**This version of Akeeba Subscriptions is written on FOF 3. It requires Joomla! 3.4 or later and PHP 5.4.0 or later.**
 
-## NO SUPPORT
+This branch contains the current, actively developed version of Akeeba Subscriptions based on FOF 3. You can study this code as a good example of a real world application utilising the full power of FOF 3. There are things in here you won't find in the FOF 3 documentation.
 
-This software is provided **WITHOUT ANY KIND OF SUPPORT WHATSOEVER**. We have disabled Issues on this repository to stress this. Kindly note that any requests sent to us about this software will not be replied.
- 
-## THIS REPOSITORY IS FOR DEVELOPERS ONLY
+## Internal project - No support
 
-No installable ZIP packages will be provided for this software since March 2016. You can build one from the source following the developer instructions in this README.
+Akeeba Subscriptions is a project internal to Akeeba Ltd. We use it as own site's subscriptions system. We make it available free of charge to everyone in hope that it will be useful. However, we will not accept any feature requests, feature patches or support requests. Emails (including through our business site's or personal sites' contact forms), GitHub Issues and Pull Requests containing any of these will be deleted / closed without reply. Thank you for your understanding.
 
-## INTERNAL PROJECT
+## Downloads
 
-This is meant to be an internal software development project for use with our site, akeebabackup.com. As such, future versions of this software will drop any features we do not wish to maintain because we do not intend or anticipate to use on our site.
+We provide _infrequent_ builds available for download from [this repository's Releases section](https://github.com/akeeba/akeebasubs/releases). Please note that these are not released or maintained regularly. We urge developers to build their own packages using the instructions provided below.
 
 ## Build instructions
 
@@ -97,3 +95,7 @@ Please note that it's necessary to do a package build for FOF and Strapper with 
 This builds the documentation in PDF format using the DocBook XML sources found in the documentation directory.
 
 	phing documentation
+	
+## Collaboration
+
+If you have found a bug you can submit your patch by doing a Pull Request on GitHub. Please do respect the rules set forth earlier in this document. Thank you! 
