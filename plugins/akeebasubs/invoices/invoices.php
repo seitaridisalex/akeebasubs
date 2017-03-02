@@ -14,8 +14,16 @@ use Akeeba\Subscriptions\Admin\Model\Invoices;
 class plgAkeebasubsInvoices extends JPlugin
 {
 	/**
-	 * Called whenever a subscription is modified. Namely, when its enabled status,
-	 * payment status or valid from/to dates are changed.
+	 * Which subscriptions did we generate an invoice for with this plugin during this page load? This helps us prevent
+	 * double invoices under some circumstances.
+	 *
+	 * @var   array
+	 */
+	protected static $generatedInvoicesFor = array();
+
+	/**
+	 * Called whenever a subscription is modified. Namely, when its enabled status, payment status or valid from/to
+	 * dates are changed.
 	 *
 	 * @param   Subscriptions  $row   The subscriptions row
 	 * @param   array          $info  The row modification information
@@ -73,9 +81,8 @@ class plgAkeebasubsInvoices extends JPlugin
 		}
 
 		// Only handle not expired subscriptions
-		if ($generateAnInvoice && !defined('AKEEBA_INVOICE_GENERATED'))
+		if ($generateAnInvoice && !in_array($row->akeebasubs_subscription_id, self::$generatedInvoicesFor))
 		{
-			define('AKEEBA_INVOICE_GENERATED', 1);
 			$db = JFactory::getDbo();
 
 			// Check if there is an invoice for this subscription already
@@ -96,6 +103,8 @@ class plgAkeebasubsInvoices extends JPlugin
 			$invoicesModel = Container::getInstance('com_akeebasubs')->factory->model('Invoices')->tmpInstance();
 
 			$invoicesModel->createInvoice($row);
+
+			self::$generatedInvoicesFor[] = $row->akeebasubs_subscription_id;
 		}
 	}
 
