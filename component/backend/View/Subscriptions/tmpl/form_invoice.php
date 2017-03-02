@@ -27,7 +27,7 @@ if ($needsInvoice): ?>
 	<a
 		class="btn btn-large btn-primary"
 		href="index.php?option=com_akeebasubs&view=Invoices&task=generateForSubscription&id=<?php echo $model->akeebasubs_subscription_id ?>&returnurl=<?php echo base64_encode($returnURL) ?>">
-		<span class="icon icon-white icon-retweet"></span>
+		<span class="icon icon-white icon-refresh"></span>
 		<?php echo JText::_('COM_AKEEBASUBS_INVOICES_ACTION_REGENERATE') ?>
 	</a>
 <?php else: ?>

@@ -19,96 +19,41 @@
                 buttons="false" filterclass="input-small"
                 />
 
-        <header name="akeebasubs_level_id" type="Model" sortable="true"
+        <header name="akeebasubs_level_id" type="Header" sortable="true"
                 label="COM_AKEEBASUBS_SUBSCRIPTIONS_LEVEL"
-                model="Levels"
-                key_field="akeebasubs_level_id"
-                value_field="title"
-                translate="false"
-                apply_access="false"
                 tdwidth="15%"
                 />
 
-        <header name="search" type="Searchable"
+        <header name="user_id" type="Header" sortable="true" tdwidth="10%"
                 label="COM_AKEEBASUBS_SUBSCRIPTIONS_USER"
-                buttons="false"
-                onlyFilter="1" />
-
-        <header name="user_id" type="User" sortable="true" tdwidth="10%"
-                label="COM_AKEEBASUBS_SUBSCRIPTIONS_USER"
-                filterclass="input-small"
                 />
 
-        <header name="state" type="Selectable" sortable="true" tdwidth="30px"
-                searchfieldname="paystate"
-                label="COM_AKEEBASUBS_SUBSCRIPTIONS_STATE">
-            <option value="N">COM_AKEEBASUBS_SUBSCRIPTION_STATE_N</option>
-            <option value="P">COM_AKEEBASUBS_SUBSCRIPTION_STATE_P</option>
-            <option value="C">COM_AKEEBASUBS_SUBSCRIPTION_STATE_C</option>
-            <option value="X">COM_AKEEBASUBS_SUBSCRIPTION_STATE_X</option>
-        </header>
+        <header name="state" type="Header" sortable="true" tdwidth="30px"
+                label="COM_AKEEBASUBS_SUBSCRIPTIONS_STATE" />
 
-        <header
-                name="processor"
-                type="Selectable"
-                source_class="Akeeba\Subscriptions\Admin\Helper\Select"
-                source_method="getAllPaymentMethods"
-                onlyFilter="1"
-                />
-
-        <header
-                name="paykey"
-                type="Searchable"
-                label="COM_AKEEBASUBS_SUBSCRIPTION_PROCESSOR_KEY"
-                buttons="false"
-                onlyFilter="1"
-                />
-
-        <header name="filter_discountmode"
-                type="Selectable"
-                label="COM_AKEEBASUBS_SUBSCRIPTIONS_DISCOUNT"
-                onlyFilter="1">
-            <option value="none">COM_AKEEBASUBS_SUBSCRIPTIONS_DISCOUNT_NONE</option>
-            <option value="coupon">COM_AKEEBASUBS_SUBSCRIPTIONS_DISCOUNT_COUPON</option>
-            <option value="upgrade">COM_AKEEBASUBS_SUBSCRIPTIONS_DISCOUNT_UPGRADE</option>
-        </header>
-
-        <header
-                name="filter_discountcode"
-                type="Searchable"
-                label="COM_AKEEBASUBS_SUBSCRIPTION_DISCOUNTCODE"
-                buttons="false"
-                onlyFilter="1"
-                />
-
-        <header name="discount" type="Field" sortable="false"
+        <header name="discount" type="Header" sortable="false"
                 label="COM_AKEEBASUBS_SUBSCRIPTIONS_DISCOUNT"
                 tdwidth="60px"
                 />
 
-        <header name="gross_amount" type="Field" sortable="true" tdwidth="8%"
+        <header name="gross_amount" type="Header" sortable="true" tdwidth="8%"
                 label="COM_AKEEBASUBS_SUBSCRIPTIONS_AMOUNT"
                 />
 
-        <header name="publish_up" type="Date" sortable="true" tdwidth="14%"
+        <header name="publish_up" type="Header" sortable="true" tdwidth="14%"
                 label="COM_AKEEBASUBS_SUBSCRIPTIONS_PUBLISH_UP"
                 placeholder="COM_AKEEBASUBS_SUBSCRIPTIONS_PUBLISH_UP"
                 />
 
-        <header name="publish_down" type="Date"
-                label="COM_AKEEBASUBS_SUBSCRIPTIONS_PUBLISH_DOWN"
-                placeholder="COM_AKEEBASUBS_SUBSCRIPTIONS_PUBLISH_DOWN"
-                onlyFilter="true"
-                />
-
-        <header name="created_on" type="Date" sortable="true" tdwidth="10%"
+        <header name="created_on" type="Header" sortable="true" tdwidth="10%"
                 label="COM_AKEEBASUBS_SUBSCRIPTION_CREATED_ON"
                 placeholder="COM_AKEEBASUBS_SUBSCRIPTION_CREATED_ON"
                 />
 
-        <header name="enabled" type="Published" sortable="true" tdwidth="30px"
-                label="JPUBLISHED"
-                />
+        <header name="actions" type="Field"
+                label="COM_AKEEBASUBS_INVOICES_LBL_ACTIONS"
+                sortable="false" />
+
     </headerset>
 
     <fieldset name="items">
@@ -144,6 +89,6 @@
                format_source_method="date"
         />
 
-        <field name="enabled" type="Published"/>
+        <field name="actions" type="MissingInvoiceActions"/>
     </fieldset>
 </form>
