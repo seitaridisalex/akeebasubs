@@ -3,6 +3,7 @@ Akeeba Subscriptions 5.2.1
 - Removed translations
 + akeeba/internal#6 Added "Missing Invoice" report
 + gh-276 Added method getFieldValue() to UserInfo\Html
++ New update server
 ~ Added local debugging option for the PayPal plugin
 ~ Updated VAT rates
 # gh-275 VAT rate does not show on subscribe page

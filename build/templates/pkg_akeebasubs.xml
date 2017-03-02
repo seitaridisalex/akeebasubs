@@ -76,6 +76,6 @@
 
     <!-- Update servers -->
     <updateservers>
-        <server type="extension" priority="1" name="Akeeba Subscriptions">http://cdn.akeebabackup.com/updates/akeebasubs.xml</server>
+        <server type="extension" priority="1" name="Akeeba Subscriptions">https://raw.githubusercontent.com/akeeba/akeebasubs/master/update/pkg_akeebasubs_updates.xml</server>
     </updateservers>
 </extension>

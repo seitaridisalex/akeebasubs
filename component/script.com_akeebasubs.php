@@ -221,10 +221,6 @@ class Com_AkeebasubsInstallerScript extends \FOF30\Utils\InstallScript
 		<h2 style="font-size: 14pt; font-weight: bold; padding: 0; margin: 0 0 0.5em;">Welcome to Akeeba Subscriptions!</h2>
 		<span>The easiest way to sell subscriptions on your Joomla! site</span>
 
-		<div style="margin: 1em; font-size: 14pt; background-color: #fffff9; color: black">
-			You can download translation files <a href="http://cdn.akeebabackup.com/language/akeebasubs/index.html">directly from our CDN page</a>.
-		</div>
-
 		<?php
 	}
 

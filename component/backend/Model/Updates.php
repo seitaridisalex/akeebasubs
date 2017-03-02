@@ -31,7 +31,7 @@ class Updates extends Update
 	{
 		$config['update_component'] = 'pkg_akeebasubs';
 		$config['update_sitename']  = 'Akeeba Subscriptions';
-		$config['update_site']      = 'http://cdn.akeebabackup.com/updates/akeebasubs.xml';
+		$config['update_site']      = 'https://raw.githubusercontent.com/akeeba/akeebasubs/master/update/pkg_akeebasubs_updates.xml';
 
 		parent::__construct($config);
 	}
