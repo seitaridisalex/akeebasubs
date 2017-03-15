@@ -1,4 +1,4 @@
-# 5.2.1
+# 5.2.2
 
 **Removed features**
 
@@ -22,6 +22,10 @@
 * Wrong VAT calculation in recurring subscriptions
 * No invoice generated when a subscription is upgraded using a subscription relation rule
 * gh-280 Expiration notification and expiration control plugins don't respect the scheduling option
+
+# 5.2.1
+
+(Ignore that version)
 
 # 5.2.0
 
