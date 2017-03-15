@@ -21,6 +21,7 @@
 * Recurring subscriptions would result in a PHP exception
 * Wrong VAT calculation in recurring subscriptions
 * No invoice generated when a subscription is upgraded using a subscription relation rule
+* gh-280 Expiration notification and expiration control plugins don't respect the scheduling option
 
 # 5.2.0
 

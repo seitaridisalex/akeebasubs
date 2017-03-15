@@ -158,10 +158,11 @@ class plgSystemAsexpirationcontrol extends JPlugin
 	private function doIHaveToRun()
 	{
 		// Get the component parameters
-		$params      = $this->getComponentParameters();
+		$componentParameters      = $this->getComponentParameters();
 
 		// Is scheduling enabled?
-		$scheduling  = $params->get('scheduling', 1);
+		// WARNING: DO NOT USE $componentParameters HERE! THIS IS A PLUGIN PARAMETER NOT A COMPONENT PARAMETER
+		$scheduling  = $this->params->get('scheduling', 1);
 
 		if (!$scheduling)
 		{
@@ -169,7 +170,7 @@ class plgSystemAsexpirationcontrol extends JPlugin
 		}
 
 		// Find the next execution time (midnight GMT of the next day after the last time we ran the scheduling)
-		$lastRunUnix = $params->get('plg_akeebasubs_asexpirationcontrol_timestamp', 0);
+		$lastRunUnix = $componentParameters->get('plg_akeebasubs_asexpirationcontrol_timestamp', 0);
 		$dateInfo    = getdate($lastRunUnix);
 		$nextRunUnix = mktime(0, 0, 0, $dateInfo['mon'], $dateInfo['mday'], $dateInfo['year']);
 		$nextRunUnix += 24 * 3600;
