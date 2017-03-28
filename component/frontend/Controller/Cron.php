@@ -37,6 +37,11 @@ class Cron extends Controller
 
 	public function cron()
 	{
+		// Register a new generic Akeeba Subs CRON logger
+		\JLog::addLogger(['text_file' => 'akeebasubs_cron.php'], \JLog::ALL, ['akeebasubs.cron']);
+
+		\JLog::add("Starting CRON job", \JLog::DEBUG, "akeebasubs.cron");
+
 		// Makes sure SiteGround's SuperCache doesn't cache the CRON view
 		$app = \JFactory::getApplication();
 		$app->setHeader('X-Cache-Control', 'False', true);
@@ -45,6 +50,7 @@ class Cron extends Controller
 
 		if (empty($configuredSecret))
 		{
+			\JLog::add("No secret key provided in URL", \JLog::ERROR, "akeebasubs.cron");
 			header('HTTP/1.1 503 Service unavailable due to configuration');
 
 			$this->container->platform->closeApplication();
@@ -54,20 +60,27 @@ class Cron extends Controller
 
 		if ($secret != $configuredSecret)
 		{
+			\JLog::add("Wrong secret key provided in URL", \JLog::ERROR, "akeebasubs.cron");
 			header('HTTP/1.1 403 Forbidden');
 
 			$this->container->platform->closeApplication();
 		}
 
-		$command = $this->input->get('command', null, 'raw');
-		$command = trim(strtolower($command));
+		$command        = $this->input->get('command', null, 'raw');
+		$command        = trim(strtolower($command));
+		$commandEscaped = \JFilterInput::getInstance()->clean($command, 'cmd');
 
 		if (empty($command))
 		{
+			\JLog::add("No command provided in URL", \JLog::ERROR, "akeebasubs.cron");
 			header('HTTP/1.1 501 Not implemented');
 
 			$this->container->platform->closeApplication();
 		}
+
+		// Register a new task-specific Akeeba Subs CRON logger
+		\JLog::addLogger(['text_file' => "akeebasubs_cron_$commandEscaped.php"], \JLog::ALL, ['akeebasubs.cron.' . $command]);
+		\JLog::add("Starting execution of command $commandEscaped", \JLog::DEBUG, "akeebasubs.cron");
 
 		$this->container->platform->importPlugin('system');
 		$this->container->platform->importPlugin('akeebasubs');
@@ -78,6 +91,7 @@ class Cron extends Controller
 			)
 		));
 
+		\JLog::add("Finished running command $commandEscaped", \JLog::DEBUG, "akeebasubs.cron");
 		echo "$command OK";
 
 		$this->container->platform->closeApplication();
