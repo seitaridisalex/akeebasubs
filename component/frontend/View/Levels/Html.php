@@ -165,6 +165,6 @@ class Html extends \FOF30\View\DataView\Html
 	 */
 	public function toLocalCurrency($rawPrice)
 	{
-		return Price::toCurrency($rawPrice);
+		return Price::toLocalCurrency($rawPrice);
 	}
 }

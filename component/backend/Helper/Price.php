@@ -41,11 +41,11 @@ abstract class Price
 	 *
 	 * @return  Container
 	 */
-	protected static function getContainer()
+	public static function getContainer()
 	{
 		if (is_null(self::$container))
 		{
-			self::$container = Container::getInstance('com_akeebasubs');
+			self::$container = Container::getInstance('com_akeebasubs', [], 'site');
 		}
 
 		return self::$container;
@@ -147,6 +147,8 @@ abstract class Price
 				'localCurrency'    => $localCurrency,
 				'localSymbol'      => $localSymbol,
 				'currencyPosition' => $container->params->get('currencypos', 'before'),
+				'currency'         => $container->params->get('currency', 'EUR'),
+				'currencySymbol'   => $container->params->get('currencysymbol', '€'),
 			];
 		}
 
@@ -284,13 +286,14 @@ abstract class Price
 	}
 
 	/**
-	 * Format the price with the currency symbol
+	 * Convert the price to the local currency, using the currency exchange rate, and return it formatted with the
+	 * local currency symbol.
 	 *
 	 * @param   float  $rawPrice  The raw price
 	 *
 	 * @return  string
 	 */
-	public static function toCurrency($rawPrice)
+	public static function toLocalCurrency($rawPrice)
 	{
 		$params = self::getPricingParameters();
 		$currencyPosition = $params->currencyPosition;
