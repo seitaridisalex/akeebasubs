@@ -1,3 +1,10 @@
+# 5.2.3
+
+**Added features**
+
+* More price formatting options in the asprice content plugin
+
+
 # 5.2.2
 
 **Removed features**
