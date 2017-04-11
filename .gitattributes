@@ -28,3 +28,5 @@ RELEASENOTES text eol=lf
 *.acorn binary
 *.png binary
 *.jpg binary
+*.z binary
+*.gif binary
