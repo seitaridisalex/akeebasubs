@@ -86,8 +86,26 @@ class plgContentAsprice extends JPlugin
 			return true;
 		}
 
-		// Check whether the plugin should process or not
-		if (StringHelper::strpos($article->text, 'asprice') === false)
+		$accceptableActions = [
+			'ifashasdiscount', 'ifashassignupfee',
+			'asprice', 'asfancyprice', 'asfancydiscount', 'asfancysignup',
+		    'asforexnotice', 'asdiscountnotice'
+		];
+
+		$mustProcess = false;
+
+		foreach ($accceptableActions as $action)
+		{
+			// Check whether the plugin should process or not
+			if (StringHelper::strpos($article->text, $action) !== false)
+			{
+				$mustProcess = true;
+
+				break;
+			}
+		}
+
+		if (!$mustProcess)
 		{
 			return true;
 		}
