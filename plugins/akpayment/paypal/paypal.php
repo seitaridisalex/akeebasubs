@@ -13,17 +13,6 @@ use Akeeba\Subscriptions\Admin\PluginAbstracts\AkpaymentBase;
 
 class plgAkpaymentPaypal extends AkpaymentBase
 {
-	/**
-	 * According to https://www.paypal-knowledge.com/infocenter/index?page=content&id=FAQ1914&expand=true&locale=en_US
-	 * we are supposed to use www.paypal.com before June 30th, 2017.
-	 *
-	 * As of October 20th, 2016 PayPal recommends using the ipnpb.paypal.com domain name. See
-	 * https://www.paypal.com/au/webapps/mpp/ipn-verification-https
-	 */
-	const IPNPostbackDomain = 'www.paypal.com';
-
-	// const IPNPostbackDomain = 'ipnpb.paypal.com';
-
 	public function __construct(&$subject, $config = array())
 	{
 		$config = array_merge($config, array(
@@ -490,46 +479,47 @@ class plgAkpaymentPaypal extends AkpaymentBase
 
 	/**
 	 * Validates the incoming data against PayPal's IPN to make sure this is not a fraudulent request.
+	 *
+	 * @see  https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNImplementation/#specs
+	 * @see  https://github.com/paypal/ipn-code-samples/blob/master/php/PaypalIPN.php
 	 */
 	private function isValidIPN(&$data)
 	{
-		$sandbox  = $this->params->get('sandbox', 0);
-		$hostname = $sandbox ? 'ipnpb.sandbox.paypal.com' : self::IPNPostbackDomain;
+		$url = 'https://ipnpb.paypal.com/cgi-bin/webscr';
 
-		$url = 'https://' . $hostname;
-
-		/**
-		 * In some PayPal documentation I've seen that they append /cgi-bin/webscr but I've been simply posting to the
-		 * root domain for years without a problem. WTF?
-		 */
-		// $url = 'https://' . $hostname . '/cgi-bin/webscr';
+		if ($this->params->get('sandbox', 0))
+		{
+			$url = 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr';
+		}
 
 		$newData = array(
 			'cmd' => '_notify-validate'
 		);
 		$newData = array_merge($newData, $data);
 
-		$options = array(
-			CURLOPT_SSL_VERIFYPEER => true,
-			CURLOPT_SSL_VERIFYHOST => 2,
-			CURLOPT_VERBOSE        => false,
-			CURLOPT_HEADER         => false,
-			CURLINFO_HEADER_OUT    => false,
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_CAINFO         => JPATH_LIBRARIES . '/fof30/Download/Adapter/cacert.pem',
-			CURLOPT_HTTPHEADER     => [
+		$options = [
+			CURLOPT_SSLVERSION      => 6,
+			CURLOPT_SSL_VERIFYPEER  => true,
+			CURLOPT_SSL_VERIFYHOST  => 2,
+			CURLOPT_VERBOSE         => false,
+			CURLOPT_HEADER          => false,
+			CURLINFO_HEADER_OUT     => false,
+			CURLOPT_RETURNTRANSFER  => true,
+			CURLOPT_CAINFO          => JPATH_LIBRARIES . '/fof30/Download/Adapter/cacert.pem',
+			CURLOPT_HTTPHEADER      => [
 				'User-Agent: AkeebaSubscriptions',
 				'Connection: Close'
 			],
-			CURLOPT_POST           => true,
-			CURLOPT_POSTFIELDS     => $newData,
-			CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
-			CURLOPT_FORBID_REUSE   => true,
+			CURLOPT_POST            => true,
+			CURLOPT_POSTFIELDS      => $newData,
+			CURLOPT_HTTP_VERSION    => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CONNECTTIMEOUT  => 30,
+			CURLOPT_FORBID_REUSE    => true,
 			// Force the use of TLS (therefore SSLv3 is not used, mitigating POODLE; see https://github.com/paypal/merchant-sdk-php)
 			CURLOPT_SSL_CIPHER_LIST => 'TLSv1',
 			// This forces the use of TLS 1.x
-			CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1,
-		);
+			CURLOPT_SSLVERSION      => CURL_SSLVERSION_TLSv1,
+		];
 
 		$ch = curl_init($url);
 		curl_setopt_array($ch, $options);

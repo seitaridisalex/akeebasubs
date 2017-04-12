@@ -4,6 +4,9 @@
 
 * More price formatting options in the asprice content plugin
 
+**Bug fixes**
+
+* gh-281 Paypal IPN issues
 
 # 5.2.2
 
