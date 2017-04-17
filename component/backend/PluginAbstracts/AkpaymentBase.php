@@ -889,7 +889,7 @@ abstract class AkpaymentBase extends JPlugin
 				// Gross amount is what the client paid. This is either the recurring_amount (if it's non zero) or the gross_amount
 				$updates['gross_amount']       = ($subscription->recurring_amount > 0.01) ? $subscription->recurring_amount : $subscription->gross_amount;
 				// We reverse engineer the tax amount from the gross amount since the tax_percent may have changed since the last payment (e.g. a country has increased the tax rate; UK left the EU and so on)
-				$updates['tax_amount']         = ($subscription->tax_percent < 0.01) ? 0 : ($updates['gross_amount'] / (0.01 * (100 + $updates['tax_percent'])));
+				$updates['tax_amount']         = ($subscription->tax_percent < 0.01) ? 0 : $updates['gross_amount'] - 100 * $updates['gross_amount'] / (100 + $updates['tax_percent']);
 				// The net_amount is calculated by subtraction to make sure we don't suffer any rounding errors which would throw us off by a penny.
 				$updates['net_amount']         = $updates['gross_amount'] - $updates['tax_amount'];
 				// There is no discount in recurring subscriptions...
