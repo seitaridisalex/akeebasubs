@@ -895,7 +895,7 @@ abstract class AkpaymentBase extends JPlugin
 				// There is no discount in recurring subscriptions...
 				$updates['discount_amount']    = 0;
 				// ...therefore the prediscount_amount is the same as the full price paid.
-				$updates['prediscount_amount'] = $updates['gross_amount'];
+				$updates['prediscount_amount'] = $updates['net_amount'];
 			}
 		}
 	}
