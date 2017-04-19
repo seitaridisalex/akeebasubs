@@ -1016,7 +1016,7 @@ abstract class Select
 					$plugin->image = rtrim(\JURI::base(), '/') . '/media/com_akeebasubs/images/frontend/credit_card_logos.gif';
 				}
 
-				$innerHTML = '<img border="0" src="' . $plugin->image . '" /> ';
+				$innerHTML = '<img border="0" src="' . $plugin->image . '" alt="' . $plugin->title . '" /> ';
 
 				if (self::getContainer()->params->get('useppimages', 1) == 2)
 				{
