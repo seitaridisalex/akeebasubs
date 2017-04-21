@@ -54,7 +54,8 @@ class Reports extends Model
 			)
 			->where('YEAR(' . $db->qn('akinv') . '.' . $db->qn('invoice_date') . ') =' . $db->q($params['year']))
 			->where('MONTH(' . $db->qn('akinv') . '.' . $db->qn('invoice_date') . ') =' . $db->q($params['month']))
-			->where($db->qn('akinv') . '.' . $db->qn('extension') . ' = ' . $db->q($params['extension']));
+			->where($db->qn('akinv') . '.' . $db->qn('extension') . ' = ' . $db->q($params['extension']))
+			->order($db->qn('akinv') . '.' . $db->qn('invoice_date'));
 
 		// VIES report: when the viesregistered flag is set
 		if ($params['vies'])
