@@ -7,6 +7,7 @@
 **Bug fixes**
 
 * gh-281 Paypal IPN issues
+* Joomla! 3.7 added a fixed width to specific button classes in the toolbar, breaking the page layout
 
 # 5.2.2
 
