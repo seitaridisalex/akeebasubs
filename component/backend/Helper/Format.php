@@ -8,8 +8,8 @@
 namespace Akeeba\Subscriptions\Admin\Helper;
 
 use FOF30\Container\Container;
+use FOF30\Date\Date;
 use FOF30\Model\DataModel;
-use JDate;
 use JLoader;
 use JText;
 
@@ -32,7 +32,7 @@ abstract class Format
 	{
 		JLoader::import('joomla.utilities.date');
 
-		$jDate = new JDate($date);
+		$jDate = new Date($date);
 
 		if (empty($format))
 		{
@@ -48,7 +48,7 @@ abstract class Format
 	 *
 	 * @param   string  $date  Date as string
 	 *
-	 * @return  bool|JDate  False on failure, JDate if successful
+	 * @return  bool|Date  False on failure, JDate if successful
 	 */
 	public static function checkDateFormat($date)
 	{
@@ -60,7 +60,7 @@ abstract class Format
 			return false;
 		}
 
-		return new JDate($date);
+		return new Date($date);
 	}
 
 	/**

@@ -10,6 +10,7 @@ defined('_JEXEC') or die();
 /** @var \Akeeba\Subscriptions\Site\View\Subscriptions\Html $this */
 
 use Akeeba\Subscriptions\Admin\Helper\Format;
+use FOF30\Date\Date;
 
 JLoader::import('joomla.utilities.date');
 
@@ -113,7 +114,7 @@ if (!empty($this->returnURL))
 					$canRenew = false;
 				}
 
-				$jPublishUp = new JDate($subscription->publish_up);
+				$jPublishUp = new Date($subscription->publish_up);
 			?>
 			<tr class="row<?php echo $m?> <?php echo $rowClass?>">
 				<td align="left">

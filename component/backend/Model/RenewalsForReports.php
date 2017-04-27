@@ -10,6 +10,7 @@ namespace Akeeba\Subscriptions\Admin\Model;
 defined('_JEXEC') or die;
 
 use FOF30\Container\Container;
+use FOF30\Date\Date;
 use FOF30\Model\DataModel;
 
 class RenewalsForReports extends DataModel
@@ -191,7 +192,7 @@ class RenewalsForReports extends DataModel
 		static $return = array();
 
 		$db = $this->getDbo();
-		$jDate = new \JDate();
+		$date = new Date();
 		$state = $this->getFilterValues();
 
 		if (!in_array($type, array(1, -1)))
@@ -207,7 +208,7 @@ class RenewalsForReports extends DataModel
 		$subquery = $db->getQuery(true)
 			->select('DISTINCT user_id')
 			->from('#__akeebasubs_subscriptions')
-			->where('publish_down < ' . $db->q($jDate->toSql()));
+			->where('publish_down < ' . $db->q($date->toSql()));
 
 		if ($state->levelid)
 		{
@@ -224,7 +225,7 @@ class RenewalsForReports extends DataModel
 				$subquery = $db->getQuery(true)
 					->select('user_id')
 					->from('#__akeebasubs_subscriptions')
-					->where('publish_down > ' . $db->q($jDate->toSql()))
+					->where('publish_down > ' . $db->q($date->toSql()))
 					->where('user_id IN(' . implode(',', $expired) . ')');
 
 				if (empty($expired))
@@ -242,7 +243,7 @@ class RenewalsForReports extends DataModel
 				$subquery = $db->getQuery(true)
 					->select('user_id')
 					->from('#__akeebasubs_subscriptions')
-					->where('publish_down > ' . $db->q($jDate->toSql()))
+					->where('publish_down > ' . $db->q($date->toSql()))
 					->where('user_id IN(' . implode(',', $expired) . ')');
 
 				if (empty($expired))
@@ -259,7 +260,7 @@ class RenewalsForReports extends DataModel
 					$subquery = $db->getQuery(true)
 						->select('user_id')
 						->from('#__akeebasubs_subscriptions')
-						->where('publish_down < ' . $db->q($jDate->toSql()))
+						->where('publish_down < ' . $db->q($date->toSql()))
 						->where('user_id NOT IN(' . implode(',', $renewed) . ')');
 					$return[$type] = $db->setQuery($subquery)->loadColumn();
 				}

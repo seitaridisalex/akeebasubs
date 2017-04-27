@@ -20,6 +20,8 @@
  */
 
 // no direct access
+use FOF30\Date\Date;
+
 defined('_JEXEC') or die;
 
 if (!defined('FOF30_INCLUDED') && !@include_once(JPATH_LIBRARIES . '/fof30/include.php'))
@@ -70,7 +72,7 @@ else
 			$s->publish_down = '2037-01-01';
 		}
 
-		$ed = new JDate($s->publish_down);
+		$ed = new Date($s->publish_down);
 		$ex = $ed->toUnix();
 
 		if ($ex > $expires)
@@ -79,6 +81,6 @@ else
 		}
 	}
 
-	$ed = new JDate($expires);
+	$ed = new Date($expires);
 	echo JText::sprintf('MOD_AKSEXPIRES_EXPIRESON', $ed->format(JText::_('DATE_FORMAT_LC1'), true));
 }

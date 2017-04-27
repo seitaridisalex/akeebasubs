@@ -12,7 +12,7 @@ use Akeeba\Subscriptions\Admin\Model\Subscriptions;
 use Akeeba\Subscriptions\Site\Model\TaxHelper;
 use Akeeba\Subscriptions\Site\Model\Users;
 use FOF30\Container\Container;
-use JDate;
+use FOF30\Date\Date;
 use JFactory;
 use JFile;
 use JLoader;
@@ -313,9 +313,9 @@ abstract class AkpaymentBase extends JPlugin
 			$subscription->publish_down = '2038-01-01';
 		}
 
-		$jNow   = new JDate();
-		$jStart = new JDate($subscription->publish_up);
-		$jEnd   = new JDate($subscription->publish_down);
+		$jNow   = new Date();
+		$jStart = new Date($subscription->publish_up);
+		$jEnd   = new Date($subscription->publish_down);
 		$now    = $jNow->toUnix();
 		$start  = $jStart->toUnix();
 		$end    = $jEnd->toUnix();
@@ -334,7 +334,7 @@ abstract class AkpaymentBase extends JPlugin
 			}
 			else
 			{
-				$jOldSubExpiration         = new JDate($oldsub->publish_down);
+				$jOldSubExpiration         = new Date($oldsub->publish_down);
 				$oldSubExpirationTimestamp = $jOldSubExpiration->toUnix();
 			}
 		}
@@ -402,8 +402,8 @@ abstract class AkpaymentBase extends JPlugin
 				}
 			}
 
-			$jStart = new JDate($start);
-			$jEnd   = new JDate($end);
+			$jStart = new Date($start);
+			$jEnd   = new Date($end);
 		}
 
 		// Expiration = replace => expire old subscription
@@ -809,7 +809,7 @@ abstract class AkpaymentBase extends JPlugin
 	 */
 	protected function handleRecurringSubscription(Subscriptions $subscription, &$updates)
 	{
-		$jNow = new JDate();
+		$jNow = new Date();
 
 		// Create a new record for the old subscription
 		$oldData                               = $subscription->getData();

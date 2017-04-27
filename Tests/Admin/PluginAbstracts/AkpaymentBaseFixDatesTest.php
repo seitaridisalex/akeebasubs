@@ -11,6 +11,7 @@ use Akeeba\Subscriptions\Admin\PluginAbstracts\AkpaymentBase;
 use Akeeba\Subscriptions\Site\Model\Subscriptions;
 use Akeeba\Subscriptions\Tests\Stubs\ValidatorWithSubsTestCase;
 use FOF30\Container\Container;
+use FOF30\Date\Date;
 
 class AkpaymentBaseFixDatesTest extends \PHPUnit_Framework_TestCase
 {
@@ -596,7 +597,7 @@ class AkpaymentBaseFixDatesTest extends \PHPUnit_Framework_TestCase
 		$sub->akeebasubs_level_id = $level;
 		$sub->getRelations()->rebase($sub);
 
-		$jPublishUp = new \JDate();
+		$jPublishUp = new Date();
 
 		switch ($subMods2000['publish_up'])
 		{
@@ -633,7 +634,7 @@ class AkpaymentBaseFixDatesTest extends \PHPUnit_Framework_TestCase
 		// Post-process the $expected array for the dates
 		if ($expected['publish_up'] == 'Now')
 		{
-			$expected['publish_up'] = (new \JDate())->toUnix();
+			$expected['publish_up'] = (new Date())->toUnix();
 		}
 		elseif ($expected['publish_up'] == 'Same')
 		{
@@ -643,21 +644,21 @@ class AkpaymentBaseFixDatesTest extends \PHPUnit_Framework_TestCase
 		{
 			list ($upDown, $subId) = explode('@', $expected['publish_up']);
 
-			$expected['publish_up'] = (new \JDate($subDates[ $subId ][ $upDown ]))->toUnix();
+			$expected['publish_up'] = (new Date($subDates[ $subId ][ $upDown ]))->toUnix();
 		}
 
 		if (is_null($expected['publish_down']))
 		{
-			$expected['publish_down'] = (new \JDate($expected['publish_up']))->add(new \DateInterval('P365D'))
+			$expected['publish_down'] = (new Date($expected['publish_up']))->add(new \DateInterval('P365D'))
 			                                                                 ->toUnix();
 		}
 		else
 		{
-			$expected['publish_down'] = (new \JDate($expected['publish_down']))->toUnix();
+			$expected['publish_down'] = (new Date($expected['publish_down']))->toUnix();
 		}
 
-		$actual['publish_up']   = (new \JDate($actual['publish_up']))->toUnix();
-		$actual['publish_down'] = (new \JDate($actual['publish_down']))->toUnix();
+		$actual['publish_up']   = (new Date($actual['publish_up']))->toUnix();
+		$actual['publish_down'] = (new Date($actual['publish_down']))->toUnix();
 
 		// Perform assertions. Date matches with up to 2 hours difference to cater for GMT discrepancies in our test system.
 		$this->assertEquals($expected['publish_up'], $actual['publish_up'], $message . ' –– publish_up', 7200);
@@ -700,14 +701,14 @@ class AkpaymentBaseFixDatesTest extends \PHPUnit_Framework_TestCase
 	 */
 	public static function changeSubscriptionDates()
 	{
-		$yearAgo                 = (new \JDate())->sub(new \DateInterval('P1Y1D'))->toSQL();
-		$yesterday               = (new \JDate())->sub(new \DateInterval('P1D'))->toSQL();
-		$halfYearAgo             = (new \JDate())->sub(new \DateInterval('P180D'))->toSQL();
-		$afterAYearFromYesterday = (new \JDate())->add(new \DateInterval('P1Y'))
+		$yearAgo                 = (new Date())->sub(new \DateInterval('P1Y1D'))->toSQL();
+		$yesterday               = (new Date())->sub(new \DateInterval('P1D'))->toSQL();
+		$halfYearAgo             = (new Date())->sub(new \DateInterval('P180D'))->toSQL();
+		$afterAYearFromYesterday = (new Date())->add(new \DateInterval('P1Y'))
 		                                         ->sub(new \DateInterval('P1D'))
 		                                         ->toSQL();
-		$afterHalfYear           = (new \JDate())->add(new \DateInterval('P180D'))->toSQL();
-		$after18Months           = (new \JDate())->add(new \DateInterval('P1Y180D'))->toSQL();
+		$afterHalfYear           = (new Date())->add(new \DateInterval('P180D'))->toSQL();
+		$after18Months           = (new Date())->add(new \DateInterval('P1Y180D'))->toSQL();
 
 		$mods = [
 			[2000, $yesterday, $afterAYearFromYesterday, 0],

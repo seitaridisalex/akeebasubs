@@ -11,6 +11,7 @@ JLoader::import('joomla.plugin.plugin');
 
 use FOF30\Container\Container;
 use Akeeba\Subscriptions\Admin\Model\Subscriptions;
+use FOF30\Date\Date;
 
 /**
  * plgSystemAs2cocollation plugin. Collates 2Checkout sales with the information in Akeeba Subscriptions. Useful if you
@@ -236,11 +237,11 @@ class plgSystemAs2cocollation extends JPlugin
 
 		$tz = new DateTimeZone('America/Chicago');
 		JLoader::import('joomla.utilities.date');
-		$now = new JDate();
+		$now = new Date();
 		$now->setTimezone($tz);
 
-		$prevDay = new JDate($now->toUnix() - 86400, $tz);
-		$nextDay = new JDate($now->toUnix() + 86400, $tz);
+		$prevDay = new Date($now->toUnix() - 86400, $tz);
+		$nextDay = new Date($now->toUnix() + 86400, $tz);
 
 		$ch = curl_init("https://www.2checkout.com/api/sales/list_sales?sale_date_begin=" . $prevDay->format('Y-m-d') . '&sale_date_end=' . $nextDay->format('Y-m-d') . '&pagesize=100');
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Accept: application/json"));

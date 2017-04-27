@@ -15,6 +15,7 @@ use Akeeba\Subscriptions\Site\Model\Levels;
 use Akeeba\Subscriptions\Site\Model\Subscriptions;
 use FOF30\Container\Container;
 use FOF30\Controller\Controller;
+use FOF30\Date\Date;
 use FOF30\Download\Download;
 use FOF30\Utils\Ip;
 use Joomla\Registry\Registry;
@@ -103,13 +104,13 @@ class Debug extends Controller
 		{
 			$interval = new \DateInterval('P30DT30M');
 
-			$jDate = new \JDate($initialSubscription->publish_down);
-			$jDate = $jDate->sub($interval);
-			$initialSubscription->publish_down = $jDate->toSql();
+			$date = new Date($initialSubscription->publish_down);
+			$date = $date->sub($interval);
+			$initialSubscription->publish_down = $date->toSql();
 
-			$jDate = new \JDate($initialSubscription->publish_up);
-			$jDate = $jDate->sub($interval);
-			$initialSubscription->publish_up = $jDate->toSql();
+			$date = new \JDate($initialSubscription->publish_up);
+			$date = $date->sub($interval);
+			$initialSubscription->publish_up = $date->toSql();
 
 			$initialSubscription->save();
 		}
@@ -380,11 +381,11 @@ class Debug extends Controller
 	{
 		// Start subscription: 29.5 days ago
 		$publishUp   = time() - (3600 * 24 * 29.5);
-		$publishUpToSql = (new \JDate($publishUp))->toSql();
+		$publishUpToSql = (new Date($publishUp))->toSql();
 
 		// End subscription: 0.5 days from now
 		$publishDown = time() + (3600 * 24 * 0.5);
-		$publishDownToSql = (new \JDate($publishDown))->toSql();
+		$publishDownToSql = (new Date($publishDown))->toSql();
 
 		// Created on: a day before it was published up
 		$createdOn = $publishUpToSql - 86400;

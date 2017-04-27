@@ -11,6 +11,7 @@ JLoader::import('joomla.plugin.plugin');
 
 use FOF30\Container\Container;
 use Akeeba\Subscriptions\Admin\Model\Subscriptions;
+use FOF30\Date\Date;
 
 class plgSystemAsexpirationcontrol extends JPlugin
 {
@@ -110,7 +111,7 @@ class plgSystemAsexpirationcontrol extends JPlugin
 
 		// Get today's date
 		JLoader::import('joomla.utilities.date');
-		$jNow = new JDate();
+		$jNow = new Date();
 
 		// Load a list of subscriptions which have to expire -- FOF does the rest magically!
 		/** @var Subscriptions $subsModel */

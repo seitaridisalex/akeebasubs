@@ -5,6 +5,8 @@
  * @license   GNU General Public License version 3, or later
  */
 
+use FOF30\Date\Date;
+
 defined('_JEXEC') or die;
 
 /** @var \FOF30\View\View $this */
@@ -18,12 +20,12 @@ else
 	$this->addJavascriptInline("\n\nwindow.print();");
 }
 
-$jDate = new JDate($this->params['year'] . '-' . $this->params['month'] . '-01');
+$date = new Date($this->params['year'] . '-' . $this->params['month'] . '-01');
 
 ?>
 
 <h1>
-	<?php echo JText::sprintf('COM_AKEEBASUBS_REPORTS_INVOICES_TITLE', $jDate->format('F Y')); ?>
+	<?php echo JText::sprintf('COM_AKEEBASUBS_REPORTS_INVOICES_TITLE', $date->format('F Y')); ?>
 </h1>
 
 <table width="100%" cellspacing="0" cellpadding="0" style="border-top: thin solid #c0c0c0">

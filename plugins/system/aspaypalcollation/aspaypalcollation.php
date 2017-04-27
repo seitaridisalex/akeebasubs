@@ -11,6 +11,7 @@ JLoader::import('joomla.plugin.plugin');
 
 use Akeeba\Subscriptions\Admin\Model\Subscriptions;
 use FOF30\Container\Container;
+use FOF30\Date\Date;
 
 /**
  * plgSystemAspaypalcollation plugin. Collates PayPal sales with the information in Akeeba Subscriptions. Useful if you
@@ -270,9 +271,9 @@ class plgSystemAspaypalcollation extends JPlugin
 		}
 
 		JLoader::import('joomla.utilities.date');
-		$now = new JDate();
+		$now = new Date();
 
-		$fromDate = new JDate($now->toUnix() - $timePeriod);
+		$fromDate = new Date($now->toUnix() - $timePeriod);
 
 		$targetURL = new JUri('https://api-3t.paypal.com/nvp');
 		$targetURL->setVar('USER', self::$username);

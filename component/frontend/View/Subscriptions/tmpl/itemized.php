@@ -5,12 +5,14 @@
  * @license   GNU General Public License version 3, or later
  */
 
+use FOF30\Date\Date;
+
 defined('_JEXEC') or die();
 
 $subs = array();
 $expired = array();
 JLoader::import('joomla.utilities.date');
-$jNow = new JDate();
+$jNow = new Date();
 
 if ($this->items->count())
 {
@@ -35,7 +37,7 @@ if ($this->items->count())
 		}
 		else
 		{
-			$jUp = new JDate($subscription->publish_up);
+			$jUp = new Date($subscription->publish_up);
 
 			if ($jUp->toUnix() > $jNow->toUnix())
 			{

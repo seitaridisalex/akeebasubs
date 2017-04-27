@@ -10,6 +10,7 @@ defined('_JEXEC') or die();
 use Akeeba\Subscriptions\Admin\Model\Levels;
 use Akeeba\Subscriptions\Admin\Model\Subscriptions;
 use Akeeba\Subscriptions\Admin\PluginAbstracts\AkpaymentBase;
+use FOF30\Date\Date;
 
 class plgAkpaymentPaypalproexpress extends AkpaymentBase
 {
@@ -234,7 +235,7 @@ class plgAkpaymentPaypalproexpress extends AkpaymentBase
 			if ($level->recurring)
 			{
 				// Create recurring payment profile
-				$nextPayment = new JDate("+$level->duration day");
+				$nextPayment = new Date("+$level->duration day");
 
 				$callbackUrl = JURI::base() . 'index.php?option=com_akeebasubs&view=Callback&paymentmethod=paypalproexpress&sid=' . $subscription->akeebasubs_subscription_id;
 
@@ -654,9 +655,9 @@ class plgAkpaymentPaypalproexpress extends AkpaymentBase
 		// In the case of a successful recurring payment, fetch the old subscription's data
 		if ($recurring && ($newStatus == 'C') && ($subscription->state == 'C'))
 		{
-			$jNow = new JDate();
-			$jStart = new JDate($subscription->publish_up);
-			$jEnd = new JDate($subscription->publish_down);
+			$jNow = new Date();
+			$jStart = new Date($subscription->publish_up);
+			$jEnd = new Date($subscription->publish_down);
 			$now = $jNow->toUnix();
 			$start = $jStart->toUnix();
 			$end = $jEnd->toUnix();
@@ -681,7 +682,7 @@ class plgAkpaymentPaypalproexpress extends AkpaymentBase
 			{
 				foreach ($allSubs as $aSub)
 				{
-					$jExpire = new JDate($aSub->publish_down);
+					$jExpire = new Date($aSub->publish_down);
 					$expire = $jExpire->toUnix();
 
 					if ($expire > $max_expire)
@@ -694,8 +695,8 @@ class plgAkpaymentPaypalproexpress extends AkpaymentBase
 			$duration = $end - $start;
 			$start = max($now, $max_expire);
 			$end = $start + $duration;
-			$jStart = new JDate($start);
-			$jEnd = new JDate($end);
+			$jStart = new Date($start);
+			$jEnd = new Date($end);
 
 			$updates['publish_up'] = $jStart->toSql();
 			$updates['publish_down'] = $jEnd->toSql();

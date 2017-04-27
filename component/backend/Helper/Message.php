@@ -11,6 +11,7 @@ use Akeeba\Subscriptions\Admin\Model\Levels;
 use Akeeba\Subscriptions\Admin\Model\Subscriptions;
 use Akeeba\Subscriptions\Admin\Model\Users;
 use FOF30\Container\Container;
+use FOF30\Date\Date;
 use FOF30\Model\DataModel;
 use JFactory;
 use JLoader;
@@ -425,8 +426,8 @@ abstract class Message
 
 		// Dates
 		JLoader::import('joomla.utilities.date');
-		$jFrom = new \JDate($sub->publish_up);
-		$jTo   = new \JDate($sub->publish_down);
+		$jFrom = new Date($sub->publish_up);
+		$jTo   = new Date($sub->publish_down);
 
 		// Download ID
 

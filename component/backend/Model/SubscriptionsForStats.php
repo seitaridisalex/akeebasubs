@@ -10,8 +10,6 @@ namespace Akeeba\Subscriptions\Admin\Model;
 defined('_JEXEC') or die;
 
 use FOF30\Container\Container;
-use FOF30\Model\DataModel;
-use JDate;
 
 /**
  * A very complicated model to query subscription information, primarily used for generating statistics and reports.

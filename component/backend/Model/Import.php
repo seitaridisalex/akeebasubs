@@ -10,10 +10,10 @@ namespace Akeeba\Subscriptions\Admin\Model;
 defined('_JEXEC') or die;
 
 use Akeeba\Subscriptions\Admin\Helper\Format;
+use FOF30\Date\Date;
 use FOF30\Model\DataModel;
 use FOF30\Model\Model;
 use JApplicationHelper;
-use JDate;
 use JFactory;
 use JLoader;
 use JText;
@@ -374,7 +374,7 @@ class Import extends Model
 		else
 		{
 			$temp = strtotime('+' . $level->duration . ' days', $publish_up->toUnix());
-			$publish_down = new JDate($temp);
+			$publish_down = new Date($temp);
 		}
 
 		// Created on

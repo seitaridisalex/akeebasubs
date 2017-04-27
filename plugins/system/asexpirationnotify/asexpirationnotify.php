@@ -12,6 +12,7 @@ JLoader::import('joomla.plugin.plugin');
 use FOF30\Container\Container;
 use Akeeba\Subscriptions\Admin\Model\Levels;
 use Akeeba\Subscriptions\Admin\Model\Subscriptions;
+use FOF30\Date\Date;
 
 class plgSystemAsexpirationnotify extends JPlugin
 {
@@ -114,7 +115,7 @@ class plgSystemAsexpirationnotify extends JPlugin
 
 		// Get today's date
 		JLoader::import('joomla.utilities.date');
-		$jNow = new JDate();
+		$jNow = new Date();
 		$now  = $jNow->toUnix();
 
 		// Start the clock!
@@ -155,8 +156,8 @@ class plgSystemAsexpirationnotify extends JPlugin
 
 			// Get the subscriptions expiring within the next $notify1 days for
 			// users which we have not contacted yet.
-			$jFrom = new JDate($now + 1);
-			$jTo   = new JDate($now + $notify1 * 24 * 3600);
+			$jFrom = new Date($now + 1);
+			$jTo   = new Date($now + $notify1 * 24 * 3600);
 
 			/** @var Subscriptions $subsModel */
 			$subsModel = Container::getInstance('com_akeebasubs')->factory->model('Subscriptions')->tmpInstance();
@@ -177,8 +178,8 @@ class plgSystemAsexpirationnotify extends JPlugin
 
 			if ($notify2 > 0)
 			{
-				$jFrom = new JDate($now + 1);
-				$jTo   = new JDate($now + $notify2 * 24 * 3600);
+				$jFrom = new Date($now + 1);
+				$jTo   = new Date($now + $notify2 * 24 * 3600);
 
 				$subs2 = $subsModel->getClone()
 					->contact_flag(1)
@@ -201,8 +202,8 @@ class plgSystemAsexpirationnotify extends JPlugin
 				// is triggered at least once every two days. Any site with less traffic than that required for the
 				// plugin to be triggered every 48 hours doesn't need our software, it needs better marketing to get
 				// some users!
-				$jFrom = new JDate($now - ($notifyAfter + 2) * 24 * 3600);
-				$jTo   = new JDate($now - $notifyAfter * 24 * 3600);
+				$jFrom = new Date($now - ($notifyAfter + 2) * 24 * 3600);
+				$jTo   = new Date($now - $notifyAfter * 24 * 3600);
 
 				$subs3 = $subsModel->getClone()
 					->level($level->akeebasubs_level_id)
@@ -283,7 +284,7 @@ class plgSystemAsexpirationnotify extends JPlugin
 			}
 
 			// Loop through subscriptions and send out emails, checking for timeout
-			$jNow           = new JDate();
+			$jNow           = new Date();
 			$mNow           = $jNow->toSql();
 			$processedCount = 0;
 

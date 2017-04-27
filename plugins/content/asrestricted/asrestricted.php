@@ -10,6 +10,7 @@ JLoader::import('joomla.plugin.plugin');
 use FOF30\Container\Container;
 use Akeeba\Subscriptions\Admin\Model\Levels;
 use Akeeba\Subscriptions\Admin\Model\Subscriptions;
+use FOF30\Date\Date;
 
 class plgContentAsrestricted extends JPlugin
 {
@@ -214,7 +215,7 @@ class plgContentAsrestricted extends JPlugin
 		{
 			$subscriptions = array();
 			JLoader::import('joomla.utilities.date');
-			$jNow = new JDate();
+			$jNow = new Date();
 
 			/** @var Subscriptions $subsModel */
 			$subsModel = Container::getInstance('com_akeebasubs', [], 'site')->factory->model('Subscriptions')->tmpInstance();

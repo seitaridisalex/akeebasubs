@@ -14,6 +14,7 @@ use Akeeba\Subscriptions\Admin\Helper\EUVATInfo;
 use Akeeba\Subscriptions\Admin\Helper\Format;
 use Akeeba\Subscriptions\Admin\Helper\Message;
 use FOF30\Container\Container;
+use FOF30\Date\Date;
 use FOF30\Model\DataModel;
 
 /**
@@ -267,13 +268,13 @@ class CreditNotes extends DataModel
 		{
 			if (!empty($invoice_date_before) && preg_match($dateRegEx, $invoice_date_before))
 			{
-				$jDate = \JFactory::getDate($invoice_date_before);
-				$query->where($db->qn('creditnote_date') . ' <= ' . $db->q($jDate->toSql()));
+				$date = $this->container->platform->getDate($invoice_date_before);
+				$query->where($db->qn('creditnote_date') . ' <= ' . $db->q($date->toSql()));
 			}
 			if (!empty($invoice_date_after) && preg_match($dateRegEx, $invoice_date_after))
 			{
-				$jDate = \JFactory::getDate($invoice_date_after);
-				$query->where($db->qn('creditnote_date') . ' >= ' . $db->q($jDate->toSql()));
+				$date = $this->container->platform->getDate($invoice_date_after);
+				$query->where($db->qn('creditnote_date') . ' >= ' . $db->q($date->toSql()));
 			}
 		}
 
@@ -298,13 +299,13 @@ class CreditNotes extends DataModel
 		{
 			if (!empty($sent_on_before) && preg_match($dateRegEx, $sent_on_before))
 			{
-				$jDate = \JFactory::getDate($sent_on_before);
-				$query->where($db->qn('sent_on') . ' <= ' . $db->q($jDate->toSql()));
+				$date = $this->container->platform->getDate($sent_on_before);
+				$query->where($db->qn('sent_on') . ' <= ' . $db->q($date->toSql()));
 			}
 			if (!empty($sent_on_after) && preg_match($dateRegEx, $sent_on_after))
 			{
-				$jDate = \JFactory::getDate($sent_on_after);
-				$query->where($db->qn('sent_on') . ' >= ' . $db->q($jDate->toSql()));
+				$date = $this->container->platform->getDate($sent_on_after);
+				$query->where($db->qn('sent_on') . ' >= ' . $db->q($date->toSql()));
 			}
 		}
 	}
@@ -497,7 +498,7 @@ class CreditNotes extends DataModel
 				$this->container->params->get('invoice_vatnote', 'VAT liability is transferred to the recipient, pursuant EU Directive nr 2006/112/EC and local tax laws implementing this directive.');
 		}
 
-		$jInvoiceDate = \JDate::getInstance($invoice->invoice_date);
+		$jInvoiceDate = Date::getInstance($invoice->invoice_date);
 
 		$extras = array(
 			'[CN:ID]'                  => $creditNoteNumber,
@@ -959,7 +960,7 @@ class CreditNotes extends DataModel
 
 	public function getCreditNotePath()
 	{
-		$date     = new \JDate($this->creditnote_date);
+		$date     = new Date($this->creditnote_date);
 		$timezone = \JFactory::getConfig()->get('offset', null);
 
 		if ($timezone && $timezone != 'UTC')

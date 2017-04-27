@@ -12,6 +12,7 @@ JLoader::import('joomla.plugin.plugin');
 use FOF30\Container\Container;
 use Akeeba\Subscriptions\Site\Model\Levels;
 use Akeeba\Subscriptions\Site\Model\Subscriptions;
+use FOF30\Date\Date;
 
 class plgContentAstimedrelease extends JPlugin
 {
@@ -165,15 +166,15 @@ class plgContentAstimedrelease extends JPlugin
 
 		$levelElapsed  = array();
 		$levelDuration = array();
-		$now           = new JDate();
+		$now           = new Date();
 		$now           = $now->toUnix();
 
 		/** @var Subscriptions $sub */
 		foreach ($subs as $sub)
 		{
-			$up   = new JDate($sub->publish_up);
+			$up   = new Date($sub->publish_up);
 			$up   = $up->toUnix();
-			$down = new JDate($sub->publish_down);
+			$down = new Date($sub->publish_down);
 			$down = $down->toUnix();
 
 			$duration = $down - $up;

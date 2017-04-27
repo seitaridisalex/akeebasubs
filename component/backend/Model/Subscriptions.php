@@ -10,8 +10,8 @@ namespace Akeeba\Subscriptions\Admin\Model;
 defined('_JEXEC') or die;
 
 use FOF30\Container\Container;
+use FOF30\Date\Date;
 use FOF30\Model\DataModel;
-use JDate;
 use JLoader;
 
 /**
@@ -505,7 +505,7 @@ class Subscriptions extends DataModel
 				$from = '2001-01-01';
 			}
 
-			$jFrom = new JDate($from);
+			$jFrom = new Date($from);
 			$from  = $jFrom->toUnix();
 
 			if ($from == 0)
@@ -531,7 +531,7 @@ class Subscriptions extends DataModel
 				$to = '2037-01-01';
 			}
 
-			$jTo = new JDate($to);
+			$jTo = new Date($to);
 			$to  = $jTo->toUnix();
 
 			if ($to == 0)
@@ -604,7 +604,7 @@ class Subscriptions extends DataModel
 				$since = '2001-01-01';
 			}
 
-			$jFrom = new JDate($since);
+			$jFrom = new Date($since);
 			$since = $jFrom->toUnix();
 
 			if ($since == 0)
@@ -636,7 +636,7 @@ class Subscriptions extends DataModel
 				$until = '2037-01-01';
 			}
 
-			$jFrom = new JDate($until);
+			$jFrom = new Date($until);
 			$until = $jFrom->toUnix();
 
 			if ($until == 0)
@@ -687,7 +687,7 @@ class Subscriptions extends DataModel
 				$from = '2001-01-01';
 			}
 
-			$jFrom = new JDate($from);
+			$jFrom = new Date($from);
 			$from  = $jFrom->toUnix();
 
 			if ($from == 0)
@@ -713,7 +713,7 @@ class Subscriptions extends DataModel
 				$to = '2037-01-01';
 			}
 
-			$jTo = new JDate($to);
+			$jTo = new Date($to);
 			$to  = $jTo->toUnix();
 
 			if ($to == 0)
@@ -802,7 +802,7 @@ class Subscriptions extends DataModel
 		}
 
 		JLoader::import('joomla.utilities.date');
-		$jNow = new JDate();
+		$jNow = new Date();
 		$uNow = $jNow->toUnix();
 
 		$alreadyRunning = true;
@@ -845,8 +845,8 @@ class Subscriptions extends DataModel
 					$row->publish_up = '2001-01-01';
 				}
 
-				$jDown = new JDate($row->publish_down);
-				$jUp   = new JDate($row->publish_up);
+				$jDown = new Date($row->publish_down);
+				$jUp   = new Date($row->publish_up);
 
 				if (($uNow >= $jDown->toUnix()) && $row->enabled)
 				{
@@ -998,10 +998,10 @@ class Subscriptions extends DataModel
 	protected function normaliseEnabled()
 	{
 		JLoader::import('joomla.utilities.date');
-		$jNow  = new JDate();
+		$jNow  = new Date();
 		$uNow  = $jNow->toUnix();
-		$jDown = new JDate($this->publish_down);
-		$jUp   = new JDate($this->publish_up);
+		$jDown = new Date($this->publish_down);
+		$jUp   = new Date($this->publish_up);
 
 		if (($uNow >= $jDown->toUnix()))
 		{

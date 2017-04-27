@@ -9,8 +9,8 @@ namespace Akeeba\Subscriptions\Admin\Model;
 
 defined('_JEXEC') or die;
 
+use FOF30\Date\Date;
 use FOF30\Model\Model;
-use JDate;
 use JFactory;
 use JLoader;
 
@@ -100,7 +100,7 @@ class Reports extends Model
 	public function getInvoiceListParameters()
 	{
 		JLoader::import('joomla.utilities.date');
-		$jNow = new JDate();
+		$jNow = new Date();
 
 		$month = $this->input->getInt('month', 0);
 

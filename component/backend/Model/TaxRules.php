@@ -11,9 +11,6 @@ defined('_JEXEC') or die;
 
 use FOF30\Container\Container;
 use FOF30\Model\DataModel;
-use JDate;
-use JLoader;
-use JText;
 
 /**
  * Model for taxation rules

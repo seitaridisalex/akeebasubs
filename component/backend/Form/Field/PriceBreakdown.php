@@ -8,6 +8,7 @@
 namespace Akeeba\Subscriptions\Admin\Form\Field;
 
 use Akeeba\Subscriptions\Admin\Model\Subscriptions;
+use FOF30\Date\Date;
 use FOF30\Form\Field\Text;
 use JText;
 
@@ -52,7 +53,7 @@ class PriceBreakdown extends Text
 		if (!$subscription->enabled)
 		{
 			$rowClass = 'expired';
-			$publishDown = new \JDate($subscription->publish_down);
+			$publishDown = new Date($subscription->publish_down);
 			$expires_timestamp = $publishDown->toUnix();
 
 			// Note: You can't use $subscription->state. Instead of the field it get the model state.

@@ -10,6 +10,7 @@ defined('_JEXEC') or die();
 use Akeeba\Subscriptions\Admin\Model\Levels;
 use Akeeba\Subscriptions\Admin\Model\Subscriptions;
 use Akeeba\Subscriptions\Admin\PluginAbstracts\AkpaymentBase;
+use FOF30\Date\Date;
 
 class plgAkpaymentPaypal extends AkpaymentBase
 {
@@ -80,8 +81,8 @@ class plgAkpaymentPaypal extends AkpaymentBase
 		if ($data->recurring > 0)
 		{
 			// Recalculate duration from publish date because it might have been changed by onValidateSubscriptionLength
-			$jStartDate = new JDate($subscription->publish_up);
-			$jEndDate   = new JDate($subscription->publish_down);
+			$jStartDate = new Date($subscription->publish_up);
+			$jEndDate   = new Date($subscription->publish_down);
 			$duration   = floor(($jEndDate->toUnix() - $jStartDate->toUnix()) / 3600 / 24);
 			$ppDuration = $this->_toPPDuration($duration);
 
