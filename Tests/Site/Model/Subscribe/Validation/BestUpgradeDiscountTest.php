@@ -8,6 +8,7 @@
 namespace Akeeba\Subscriptions\Tests\Site\Model\Subscribe\Validation;
 
 use Akeeba\Subscriptions\Tests\Stubs\ValidatorWithSubsTestCase;
+use FOF30\Date\Date;
 
 /**
  * Test the BestUpgradeDiscount validator
@@ -27,7 +28,7 @@ class BestUpgradeDiscountTest extends ValidatorWithSubsTestCase
 
 	public function getTestData()
 	{
-		$jNow = \JFactory::getDate();
+		$jNow = new Date();
 
 		$jLastYear = clone $jNow;
 		$jLastYear->sub(new \DateInterval('P1Y1D'));

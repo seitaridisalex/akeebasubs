@@ -254,7 +254,7 @@ class CreditNotes extends DataModel
 
 		if (!empty($invoice_date) && preg_match($dateRegEx, $invoice_date))
 		{
-			$jFrom = \JFactory::getDate($invoice_date);
+			$jFrom = $this->container->platform->getDate($invoice_date);
 			$jFrom->setTime(0, 0, 0);
 			$jTo = clone $jFrom;
 			$jTo->setTime(23, 59, 59);
@@ -285,7 +285,7 @@ class CreditNotes extends DataModel
 
 		if (!empty($sent_on) && preg_match($dateRegEx, $sent_on))
 		{
-			$jFrom = \JFactory::getDate($sent_on);
+			$jFrom = $this->container->platform->getDate($sent_on);
 			$jFrom->setTime(0, 0, 0);
 			$jTo = clone $jFrom;
 			$jTo->setTime(23, 59, 59);
@@ -362,7 +362,7 @@ class CreditNotes extends DataModel
 		// Get the configuration variables
 		if (!$existingRecord)
 		{
-			$jCreditNoteDate = \JFactory::getDate();
+			$jCreditNoteDate = $this->container->platform->getDate();
 			$creditNoteData  = array(
 				'akeebasubs_invoice_id' => $invoice->akeebasubs_subscription_id,
 				'creditnote_date'       => $jCreditNoteDate->toSql(),
@@ -463,7 +463,7 @@ class CreditNotes extends DataModel
 				$formattedCreditNoteNumber = $creditNoteNumber;
 			}
 
-			$jCreditNoteDate = \JFactory::getDate($creditNoteRecord->creditnote_date);
+			$jCreditNoteDate = $this->container->platform->getDate($creditNoteRecord->creditnote_date);
 
 			$creditNoteData = $creditNoteRecord->toArray();
 		}
@@ -769,7 +769,7 @@ class CreditNotes extends DataModel
 
 		if ($result == true)
 		{
-			$this->sent_on = \JFactory::getDate()->toSql();
+			$this->sent_on = $this->container->platform->getDate()->toSql();
 			$this->save();
 		}
 

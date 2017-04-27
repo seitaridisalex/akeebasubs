@@ -7,6 +7,8 @@
 
 namespace Akeeba\Subscriptions\Tests\Stubs;
 
+use FOF30\Date\Date;
+
 abstract class ValidatorWithSubsTestCase extends ValidatorTestCase
 {
 	protected static $subscriptions = [];
@@ -130,7 +132,7 @@ abstract class ValidatorWithSubsTestCase extends ValidatorTestCase
 	{
 		$db = \JFactory::getDbo();
 
-		$jNow = \JFactory::getDate();
+		$jNow = new Date();
 
 		$defaultParams = [
 			'user_id'               => 1020,
@@ -170,7 +172,7 @@ abstract class ValidatorWithSubsTestCase extends ValidatorTestCase
 		if (empty($params['publish_down']))
 		{
 			$oneYear                = new \DateInterval('P1Y');
-			$jTo                    = \JFactory::getDate($params['publish_up'])->add($oneYear);
+			$jTo                    = Date::getInstance($params['publish_up'])->add($oneYear);
 			$params['publish_down'] = $jTo->toSql();
 		}
 

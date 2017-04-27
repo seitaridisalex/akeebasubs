@@ -283,7 +283,7 @@ class Levels extends DataModel
 
 			if ($count != 0)
 			{
-				$this->title .= ' ' . JFactory::getDate()->format(\JText::_('DATE_FORMAT_LC4'));
+				$this->title .= ' ' . $this->container->platform->getDate()->format(\JText::_('DATE_FORMAT_LC4'));
 			}
 
 			//$this->assert($count == 0, 'COM_AKEEBASUBS_LEVEL_ERR_TITLEUNIQUE');
@@ -324,7 +324,7 @@ class Levels extends DataModel
 
 			if ($count != 0)
 			{
-				$this->slug .= ' ' . JFactory::getDate()->toUnix();
+				$this->slug .= ' ' . $this->container->platform->getDate()->toUnix();
 			}
 
 			//$this->assert($count == 0, 'COM_AKEEBASUBS_LEVEL_ERR_SLUGUNIQUE');
@@ -338,8 +338,8 @@ class Levels extends DataModel
 
 		if (!empty($this->fixed_date) && $this->fixed_date != $nullDate)
 		{
-			$jNow   = JFactory::getDate();
-			$jFixed = JFactory::getDate($this->fixed_date);
+			$jNow   = $this->container->platform->getDate();
+			$jFixed = $this->container->platform->getDate($this->fixed_date);
 
 			if ($jNow->toUnix() > $jFixed->toUnix())
 			{

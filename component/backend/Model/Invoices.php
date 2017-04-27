@@ -276,7 +276,7 @@ class Invoices extends DataModel
 
 		if ( !empty($invoice_date) && preg_match($dateRegEx, $invoice_date))
 		{
-			$jFrom = \JFactory::getDate($invoice_date);
+			$jFrom = $this->container->platform->getDate($invoice_date);
 			$jFrom->setTime(0, 0, 0);
 			$jTo = clone $jFrom;
 			$jTo->setTime(23, 59, 59);
@@ -307,7 +307,7 @@ class Invoices extends DataModel
 
 		if ( !empty($sent_on) && preg_match($dateRegEx, $sent_on))
 		{
-			$jFrom = \JFactory::getDate($sent_on);
+			$jFrom = $this->container->platform->getDate($sent_on);
 			$jFrom->setTime(0, 0, 0);
 			$jTo = clone $jFrom;
 			$jTo->setTime(23, 59, 59);
@@ -421,7 +421,7 @@ class Invoices extends DataModel
 		// Get the configuration variables
 		if ( !$existingRecord)
 		{
-			$jInvoiceDate = \JFactory::getDate();
+			$jInvoiceDate = $this->container->platform->getDate();
 			$invoiceData  = array(
 				'akeebasubs_subscription_id' => $sub->akeebasubs_subscription_id,
 				'extension'                  => 'akeebasubs',
@@ -530,7 +530,7 @@ class Invoices extends DataModel
 				$formated_invoice_no = $invoice_no;
 			}
 
-			$jInvoiceDate = \JFactory::getDate($invoiceRecord->invoice_date);
+			$jInvoiceDate = $this->container->platform->getDate($invoiceRecord->invoice_date);
 
 			$invoiceData = $invoiceRecord->toArray();
 		}
@@ -953,7 +953,7 @@ class Invoices extends DataModel
 
 		if ($result == true)
 		{
-			$this->sent_on = \JFactory::getDate()->toSql();
+			$this->sent_on = $this->container->platform->getDate()->toSql();
 			$this->save();
 		}
 

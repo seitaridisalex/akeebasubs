@@ -368,7 +368,7 @@ abstract class AkpaymentBase extends JPlugin
 				if (!is_null($fixed_date) && !($fixed_date == $nullDate))
 				{
 					// Is the fixed date in the future?
-					$jFixedDate = JFactory::getDate($fixed_date);
+					$jFixedDate = new Date($fixed_date);
 
 					if ($now > $jFixedDate->toUnix())
 					{
