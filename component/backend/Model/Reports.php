@@ -54,9 +54,14 @@ class Reports extends Model
 			)
 			->where('YEAR(' . $db->qn('akinv') . '.' . $db->qn('invoice_date') . ') =' . $db->q($params['year']))
 			->where('MONTH(' . $db->qn('akinv') . '.' . $db->qn('invoice_date') . ') =' . $db->q($params['month']))
-			->where($db->qn('akinv') . '.' . $db->qn('extension') . ' = ' . $db->q($params['extension']))
-			->order($db->qn('akinv') . '.' . $db->qn('invoice_date'));
+			->where($db->qn('akinv') . '.' . $db->qn('extension') . ' = ' . $db->q($params['extension']));
 
+		// Invoices report: sort by invoice date
+		if ($params['invoices'])
+		{
+			$query->order($db->qn('akinv') . '.' . $db->qn('invoice_date'));
+		}
+		
 		// VIES report: when the viesregistered flag is set
 		if ($params['vies'])
 		{
@@ -124,12 +129,17 @@ class Reports extends Model
 			$year--;
 		}
 
+		$invoices = false;
 		$vies = false;
 		$vatmoss = false;
 		$thirdcountry = false;
 
 		switch ($this->getState('task', 'invoices'))
 		{
+			case 'invoices':
+				$invoices = true;
+				break;
+				
 			case 'vies':
 				$vies = true;
 				break;
@@ -148,13 +158,14 @@ class Reports extends Model
 		$invoiceExtension = $this->input->getCmd('extension', 'akeebasubs');
 
 		return array(
-			'month'        => $month,
-			'year'         => $year,
-			'vies'         => $vies,
-			'vatmoss'      => $vatmoss,
-			'thirdcountry' => $thirdcountry,
-			'extension'    => $invoiceExtension,
-			'template_id'  => $template
+			'month'		=> $month,
+			'year'		=> $year,
+			'vies'		=> $vies,
+			'invoices'	=> $invoices,
+			'vatmoss'	=> $vatmoss,
+			'thirdcountry'	=> $thirdcountry,
+			'extension'	=> $invoiceExtension,
+			'template_id'	=> $template
 		);
 	}
 
