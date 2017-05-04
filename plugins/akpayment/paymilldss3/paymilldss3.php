@@ -145,7 +145,7 @@ class plgAkpaymentPaymilldss3 extends AkpaymentBase
 			$error_url = 'index.php?option=com_akeebasubs&view=Level&slug=' . $level->slug;
 			$error_url = JRoute::_($error_url, false);
 
-			JFactory::getApplication()->redirect($error_url, $data['akeebasubs_failure_reason'], 'error');
+			$this->container->platform->redirect($error_url, 303, $data['akeebasubs_failure_reason'], 'error');
 
 			return false;
 		}
@@ -206,7 +206,7 @@ class plgAkpaymentPaymilldss3 extends AkpaymentBase
 				$error_url = 'index.php?option=com_akeebasubs&view=Level&slug=' . $level->slug;
 				$error_url = JRoute::_($error_url, false);
 
-				JFactory::getApplication()->redirect($error_url, $params['akeebasubs_failure_reason'], 'error');
+				$this->container->platform->redirect($error_url, 303, $params['akeebasubs_failure_reason'], 'error');
 
 				return false;
 			}
@@ -248,7 +248,7 @@ class plgAkpaymentPaymilldss3 extends AkpaymentBase
 				$error_url = 'index.php?option=com_akeebasubs&view=Level&slug=' . $level->slug;
 				$error_url = JRoute::_($error_url, false);
 
-				JFactory::getApplication()->redirect($error_url, $params['akeebasubs_failure_reason'], 'error');
+				$this->container->platform->redirect($error_url, 303, $params['akeebasubs_failure_reason'], 'error');
 
 				return false;
 			}
@@ -339,7 +339,7 @@ class plgAkpaymentPaymilldss3 extends AkpaymentBase
 				$error_url = 'index.php?option=com_akeebasubs&view=Level&slug=' . $level->slug;
 				$error_url = JRoute::_($error_url, false);
 
-				JFactory::getApplication()->redirect($error_url, $params['akeebasubs_failure_reason'], 'error');
+				$this->container->platform->redirect($error_url, 303, $params['akeebasubs_failure_reason'], 'error');
 
 				return false;
 			}
@@ -351,7 +351,7 @@ class plgAkpaymentPaymilldss3 extends AkpaymentBase
 			$error_url = 'index.php?option=com_akeebasubs&view=Level&slug=' . $level->slug;
 			$error_url = JRoute::_($error_url, false);
 
-			JFactory::getApplication()->redirect($error_url, 'Cannot process the transaction twice. Wait to receive your subscription confirmation email and do not retry submitting the payment form again.', 'error');
+			$this->container->platform->redirect($error_url, 303, 'Cannot process the transaction twice. Wait to receive your subscription confirmation email and do not retry submitting the payment form again.', 'error');
 
 			return false;
 		}
@@ -415,7 +415,7 @@ class plgAkpaymentPaymilldss3 extends AkpaymentBase
 		// Redirect the user to the "thank you" page
 		$level = $subscription->level;
 		$thankyouUrl = JRoute::_('index.php?option=com_akeebasubs&view=Message&slug=' . $level->slug . '&task=thankyou&subid=' . $subscription->akeebasubs_subscription_id, false);
-		JFactory::getApplication()->redirect($thankyouUrl);
+		$this->container->platform->redirect($thankyouUrl);
 
 		return true;
 	}

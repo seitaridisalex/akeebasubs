@@ -696,13 +696,13 @@ class plgAkpaymentPaypal extends AkpaymentBase
 			       . '&encrypted_profile_id=' . $subscription->params['recurring_id'];
 
 			$url = 'https://www.' . ($sandbox ? 'sandbox.' : '') . 'paypal.com/signin/?returnUri=' . urlencode($url);
-			$app->redirect($url);
+			$this->container->platform->redirect($url);
 		}
 		elseif ($merchant)
 		{
 			$url = 'https://www.' . ($sandbox ? 'sandbox.' : '') . 'paypal.com/cgi-bin/webscr?cmd=_subscr-find'
 			       . '&alias=' . $merchant;
-			$app->redirect($url);
+			$this->container->platform->redirect($url);
 		}
 		else
 		{

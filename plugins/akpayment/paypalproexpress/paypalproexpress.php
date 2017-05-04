@@ -110,7 +110,7 @@ class plgAkpaymentPaypalproexpress extends AkpaymentBase
 		{
 			$error_url = 'index.php?option=com_akeebasubs&view=Level&slug=' . $level->slug;
 			$error_url = JRoute::_($error_url, false);
-			JFactory::getApplication()->redirect($error_url, $responseData['L_LONGMESSAGE0'], 'error');
+			$this->container->platform->redirect($error_url, 303, $responseData['L_LONGMESSAGE0'], 'error');
 		}
 
 		@ob_start();
@@ -224,7 +224,7 @@ class plgAkpaymentPaypalproexpress extends AkpaymentBase
 				$level = $subscription->level;
 				$error_url = 'index.php?option=com_akeebasubs&view=Level&slug=' . $level->slug;
 				$error_url = JRoute::_($error_url, false);
-				JFactory::getApplication()->redirect($error_url, $responseData['L_LONGMESSAGE0'], 'error');
+				$this->container->platform->redirect($error_url, 303, $responseData['L_LONGMESSAGE0'], 'error');
 			}
 			else if (!preg_match('/^SUCCESS/', strtoupper($responseData['PAYMENTINFO_0_ACK'])))
 			{
@@ -284,7 +284,7 @@ class plgAkpaymentPaypalproexpress extends AkpaymentBase
 					$isValid = false;
 					$error_url = 'index.php?option=com_akeebasubs&view=Level&slug=' . $level->slug;
 					$error_url = JRoute::_($error_url, false);
-					JFactory::getApplication()->redirect($error_url, $recurringResponseData['L_LONGMESSAGE0'], 'error');
+					$this->container->platform->redirect($error_url, 303, $recurringResponseData['L_LONGMESSAGE0'], 'error');
 				}
 				else
 				{
@@ -322,7 +322,7 @@ class plgAkpaymentPaypalproexpress extends AkpaymentBase
 						$error_url = 'index.php?option=com_akeebasubs' .
 							'&view=Level&slug=' . $level->slug;
 						$error_url = JRoute::_($error_url, false);
-						JFactory::getApplication()->redirect($error_url, $recurringCheckData['L_LONGMESSAGE0'], 'error');
+						$this->container->platform->redirect($error_url, 303, $recurringCheckData['L_LONGMESSAGE0'], 'error');
 					}
 
 					if (strtoupper($responseData['PAYMENTINFO_0_CURRENCYCODE']) !== strtoupper($recurringCheckData['CURRENCYCODE']))
@@ -404,7 +404,7 @@ class plgAkpaymentPaypalproexpress extends AkpaymentBase
 		{
 			$error_url = 'index.php?option=com_akeebasubs&view=Level&slug=' . $subscription->level->slug;
 			$error_url = JRoute::_($error_url, false);
-			JFactory::getApplication()->redirect($error_url, $responseData['akeebasubs_failure_reason'], 'error');
+			$this->container->platform->redirect($error_url, 303, $responseData['akeebasubs_failure_reason'], 'error');
 
 			return false;
 		}
@@ -469,7 +469,7 @@ class plgAkpaymentPaypalproexpress extends AkpaymentBase
 
 		// Redirect the user to the "thank you" page
 		$thankyouUrl = JRoute::_('index.php?option=com_akeebasubs&view=Message&slug=' . $subscription->level->slug . '&task=thankyou&subid=' . $subscription->akeebasubs_subscription_id, false);
-		JFactory::getApplication()->redirect($thankyouUrl);
+		$this->container->platform->redirect($thankyouUrl);
 
 		return true;
 	}

@@ -48,7 +48,7 @@ class Subscriptions extends DataController
 			// Show login page
 			$jURI = \JUri::getInstance();
 			$myURI = base64_encode($jURI->toString());
-			\JFactory::getApplication()->redirect(\JUri::base() . 'index.php?option=com_users&view=login&return=' . $myURI);
+			$this->container->platform->redirect(\JUri::base() . 'index.php?option=com_users&view=login&return=' . $myURI);
 
 			return;
 		}
@@ -113,7 +113,7 @@ class Subscriptions extends DataController
 			// Show login page
 			$jURI = \JUri::getInstance();
 			$myURI = base64_encode($jURI->toString());
-			\JFactory::getApplication()->redirect(\JUri::base() . 'index.php?option=com_users&view=login&return=' . $myURI);
+			$this->container->platform->redirect(\JUri::base() . 'index.php?option=com_users&view=login&return=' . $myURI);
 
 			return;
 		}

@@ -288,7 +288,7 @@ class plgAkpaymentStripe extends AkpaymentBase
 
 			$error_url = 'index.php?option=com_akeebasubs&view=Level&slug=' . $level->slug;
 			$error_url = JRoute::_($error_url, false);
-			JFactory::getApplication()->redirect($error_url, $data['akeebasubs_failure_reason'], 'error');
+			$this->container->platform->redirect($error_url, 303, $data['akeebasubs_failure_reason'], 'error');
 
 			return false;
 		}
@@ -327,7 +327,7 @@ class plgAkpaymentStripe extends AkpaymentBase
 		// Redirect the user to the "thank you" page
 		$thankyouUrl = JRoute::_('index.php?option=com_akeebasubs&view=Message&slug=' . $subscription->level->slug . '&task=thankyou&subid=' . $subscription->akeebasubs_subscription_id, false);
 
-		JFactory::getApplication()->redirect($thankyouUrl);
+		$this->container->platform->redirect($thankyouUrl);
 
 		return true;
 	}

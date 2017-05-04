@@ -214,7 +214,7 @@ class Levels extends DataController
 				// User trying to renew a level which is marked as only_once
 				if ($model->renew_url)
 				{
-					\JFactory::getApplication()->redirect($model->renew_url);
+					$this->container->platform->redirect($model->renew_url);
 				}
 
 				return false;

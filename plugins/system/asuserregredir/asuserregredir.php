@@ -5,6 +5,8 @@
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
 
+use FOF30\Container\Container;
+
 defined('_JEXEC') or die();
 
 JLoader::import('joomla.plugin.plugin');
@@ -100,13 +102,7 @@ class plgSystemAsuserregredir extends JPlugin
 			$url = $default_url;
 		}
 
-		if (empty($message))
-		{
-			JFactory::getApplication()->redirect($url);
-		}
-		else
-		{
-			JFactory::getApplication()->redirect($url, $message);
-		}
+		$container = Container::getInstance('com_akeebasubs');
+		$container->platform->redirect($url, 303, $message);
 	}
 }

@@ -131,7 +131,7 @@ ENDFORM;
 
 		$url = 'index.php?option=com_akeebasubs&view=Message&slug=' . $slug . '&layout=order&subid=' . $subscription->akeebasubs_subscription_id;
 
-		JFactory::getApplication()->redirect($url);
+		$this->container->platform->redirect($url);
 
 		// Everything is fine, no matter what
 		return true;

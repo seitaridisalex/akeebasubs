@@ -67,7 +67,7 @@ class plgAkpaymentViva extends AkpaymentBase
 			$errorText = $orderResult->ErrorText;
 			$errorUrl = 'index.php?option=com_akeebasubs&view=Level&slug=' . $level->slug;
 			$errorUrl = JRoute::_($errorUrl, false);
-			JFactory::getApplication()->redirect($errorUrl, $errorText, 'error');
+			$this->container->platform->redirect($errorUrl, 303, $errorText, 'error');
 		}
 
 		// Get the order-code and save it as processor key
@@ -148,7 +148,7 @@ class plgAkpaymentViva extends AkpaymentBase
 		{
 			// Redirect the user to the "cancel" page
 			$cancelUrl = JRoute::_('index.php?option=com_akeebasubs&view=Message&slug=' . $level->slug . '&task=cancel&subid=' . $subscription->akeebasubs_subscription_id, false);
-			JFactory::getApplication()->redirect($cancelUrl);
+			$this->container->platform->redirect($cancelUrl);
 
 			return true;
 		}
@@ -241,7 +241,7 @@ class plgAkpaymentViva extends AkpaymentBase
 			$error_url = 'index.php?option=com_akeebasubs' .
 				'&view=Level&slug=' . $level->slug;
 			$error_url = JRoute::_($error_url, false);
-			JFactory::getApplication()->redirect($error_url, $data['akeebasubs_failure_reason'], 'error');
+			$this->container->platform->redirect($error_url, 303, $data['akeebasubs_failure_reason'], 'error');
 
 			return false;
 		}
@@ -283,7 +283,7 @@ class plgAkpaymentViva extends AkpaymentBase
 
 		// Redirect the user to the "thank you" page
 		$thankyouUrl = JRoute::_('index.php?option=com_akeebasubs&view=Message&slug=' . $level->slug . '&task=thankyou&subid=' . $subscription->akeebasubs_subscription_id, false);
-		JFactory::getApplication()->redirect($thankyouUrl);
+		$this->container->platform->redirect($thankyouUrl);
 
 		return true;
 	}

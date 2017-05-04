@@ -229,7 +229,7 @@ class Debug extends Controller
 
 		if (!defined('JDEBUG') || !in_array($ip, ['127.0.0.1', '::1']))
 		{
-			\JFactory::getApplication()->redirect('index.php');
+			$this->container->platform->redirect('index.php');
 		}
 	}
 

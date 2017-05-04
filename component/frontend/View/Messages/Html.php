@@ -60,7 +60,7 @@ class Html extends \FOF30\View\DataView\Html
 		// This check has been put here so controller and model can do all their logic and trigger every event
 		if ($this->item->$urlField)
 		{
-			$app->redirect($this->item->$urlField);
+			$this->container->platform->redirect($this->item->$urlField);
 		}
 
 		// Get and process the message from the subscription level

@@ -351,7 +351,7 @@ class plgAkpaymentPaypalpaymentspro extends AkpaymentBase
 
 			$error_url = 'index.php?option=com_akeebasubs&view=level&slug=' . $level->slug;
 			$error_url = JRoute::_($error_url, false);
-			JFactory::getApplication()->redirect($error_url, $responseData['akeebasubs_failure_reason'], 'error');
+			$this->container->platform->redirect($error_url, 303, $responseData['akeebasubs_failure_reason'], 'error');
 
 			return false;
 		}
@@ -359,7 +359,7 @@ class plgAkpaymentPaypalpaymentspro extends AkpaymentBase
 		// Redirect the user to the "thank you" page
 		$level = $subscription->level;
 		$thankyouUrl = JRoute::_('index.php?option=com_akeebasubs&view=Message&slug=' . $level->slug . '&task=thankyou&subid=' . $subscription->akeebasubs_subscription_id, false);
-		JFactory::getApplication()->redirect($thankyouUrl);
+		$this->container->platform->redirect($thankyouUrl);
 
 		return true;
 	}

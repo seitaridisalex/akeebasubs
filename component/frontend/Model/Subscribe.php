@@ -1005,8 +1005,7 @@ class Subscribe extends Model
 			}
 
 			// and then just redirect
-			$app = JFactory::getApplication();
-			$app->redirect(str_replace('&amp;', '&', \JRoute::_('index.php?option=com_akeebasubs&layout=default&view=message&slug=' . $level->slug . '&layout=order&subid=' . $subscription->akeebasubs_subscription_id)));
+			$this->container->platform->redirect(str_replace('&amp;', '&', \JRoute::_('index.php?option=com_akeebasubs&layout=default&view=message&slug=' . $level->slug . '&layout=order&subid=' . $subscription->akeebasubs_subscription_id)));
 
 			return false;
 		}
