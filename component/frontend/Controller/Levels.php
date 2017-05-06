@@ -95,8 +95,7 @@ class Levels extends DataController
 
 		if (!empty($coupon))
 		{
-			$session = $this->container->session;
-			$session->set('coupon', $coupon, 'com_akeebasubs');
+			$this->container->platform->setSessionVar('coupon', $coupon, 'com_akeebasubs');
 		}
 
 		// Are we told to hide notices?
@@ -238,14 +237,13 @@ class Levels extends DataController
 		$vModel->slug($slug)->id($id);
 
 		// Should we use the coupon code saved in the session?
-		$session = $this->container->session;
-		$sessionCoupon = $session->get('coupon', null, 'com_akeebasubs');
+		$sessionCoupon = $this->container->platform->getSessionVar('coupon', null, 'com_akeebasubs');
 		$inputCoupon = $this->input->getString('coupon');
 
 		if (empty($inputCoupon) && !empty($sessionCoupon))
 		{
 			$vModel->coupon($sessionCoupon);
-			$session->set('coupon', null, 'com_akeebasubs');
+			$this->container->platform->setSessionVar('coupon', null, 'com_akeebasubs');
 		}
 
 		$cache = (array)($vModel->getData());

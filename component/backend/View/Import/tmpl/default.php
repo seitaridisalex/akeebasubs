@@ -32,7 +32,7 @@ JS
 	<input type="hidden" name="option" value="com_akeebasubs" />
 	<input type="hidden" name="view" value="import" />
 	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="<?php echo JFactory::getSession()->getFormToken();?>" value="1" />
+	<input type="hidden" name="<?php echo $this->container->platform->getToken(true);?>" value="1" />
 
 	<div class="alert alert-info">
 		<p><?php echo JText::_('COM_AKEEBASUBS_IMPORT_INFO') ?></p>

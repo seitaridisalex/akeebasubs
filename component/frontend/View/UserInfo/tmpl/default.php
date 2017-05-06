@@ -22,7 +22,7 @@ defined('_JEXEC') or die();
 </noscript>
 
 <form action="<?php echo JRoute::_('index.php?option=com_akeebasubs&view=UserInfo') ?>" method="post" id="userinfoForm" >
-	<input type="hidden" name="<?php echo JFactory::getSession()->getFormToken();?>" value="1" />
+	<input type="hidden" name="<?php echo $this->container->platform->getToken(true);?>" value="1" />
 	<input type="hidden" name="task" value="save" />
 
 	<?php echo $this->loadAnyTemplate('site:com_akeebasubs/Level/default_fields') ?>

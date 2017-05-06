@@ -80,7 +80,7 @@ class Html extends \FOF30\View\DataView\Html
 
 		$this->cparams = $componentParams;
 
-		$this->apply_validation = $this->container->session->get('apply_validation.' . $this->item->akeebasubs_level_id, 0, 'com_akeebasubs') ? 'true' : 'false';
+		$this->apply_validation = $this->container->platform->getSessionVar('apply_validation.' . $this->item->akeebasubs_level_id, 0, 'com_akeebasubs') ? 'true' : 'false';
 
 		// Makes sure SiteGround's SuperCache doesn't cache the subscription page
 		\JFactory::getApplication()->setHeader('X-Cache-Control', 'False', true);

@@ -136,12 +136,12 @@ abstract class EUVATInfo
 
 	public static function isVIESValidVATNumber($country, $vat)
 	{
-		$session = Container::getInstance('com_akeebasubs')->session;
+		$container = Container::getInstance('com_akeebasubs');
 
 		// Get the VAT validation cache from the session
 		if (!array_key_exists('vat', self::$cache))
 		{
-			$encodedCacheData = $session->get('vat_validation_cache_data', null, 'com_akeebasubs');
+			$encodedCacheData = $container->platform->getSessionVar('vat_validation_cache_data', null, 'com_akeebasubs');
 
 			if (!empty($encodedCacheData))
 			{
@@ -268,7 +268,7 @@ abstract class EUVATInfo
 		self::$cache['vat'][$key] = $ret;
 
 		$encodedCacheData = json_encode(self::$cache);
-		$session->set('vat_validation_cache_data', $encodedCacheData, 'com_akeebasubs');
+		$container->platform->setSessionVar('vat_validation_cache_data', $encodedCacheData, 'com_akeebasubs');
 
 		// Return the result
 		return $ret;

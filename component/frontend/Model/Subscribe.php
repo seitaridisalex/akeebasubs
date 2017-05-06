@@ -572,7 +572,7 @@ class Subscribe extends Model
 		$validation = $this->getValidation();
 
 		// Mark this subscription attempt in the session
-		$this->container->session->set('apply_validation.' . $state->id, 1, 'com_akeebasubs');
+		$this->container->platform->setSessionVar('apply_validation.' . $state->id, 1, 'com_akeebasubs');
 
 		// Step #1.a. Check that the form is valid
 		// ----------------------------------------------------------------------
@@ -645,7 +645,7 @@ class Subscribe extends Model
 
 		// Reset the session flag, so that future registrations will merge the
 		// data from the database
-		$this->container->session->set('firstrun', true, 'com_akeebasubs');
+		$this->container->platform->setSessionVar('firstrun', true, 'com_akeebasubs');
 
 		// Step #2.b. Apply block rules
 		// ----------------------------------------------------------------------
@@ -671,8 +671,7 @@ class Subscribe extends Model
 		$user = $this->getState('user', $user);
 
 		// Store the user's ID in the session
-		$session = $this->container->session;
-		$session->set('subscribes.user_id', $user->id, 'com_akeebasubs');
+		$this->container->platform->setSessionVar('subscribes.user_id', $user->id, 'com_akeebasubs');
 
 		// Remove new subscriptions which are not yet paid for this user
 		// !! Removed because it was causing problems with users retrying to pay for the same subscription
@@ -961,8 +960,7 @@ class Subscribe extends Model
 
 		// Step #8. Clear the session
 		// ----------------------------------------------------------------------
-		$session = $this->container->session;
-		$session->set('apply_validation.' . $state->id, null, 'com_akeebasubs');
+		$this->container->platform->setSessionVar('apply_validation.' . $state->id, null, 'com_akeebasubs');
 
 		// Step #9. Call the specific plugin's onAKPaymentNew() method and get the redirection URL,
 		//          or redirect immediately on auto-activated subscriptions

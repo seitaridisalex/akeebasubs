@@ -117,7 +117,7 @@ class Subscribe extends Controller
 		// Did we fail to create a new subscription?
 		if (!$result)
 		{
-			$this->container->session->set('firstrun', false, 'com_akeebasubs');
+			$this->container->platform->setSessionVar('firstrun', false, 'com_akeebasubs');
 
 			$url = str_replace('&amp;', '&', \JRoute::_('index.php?option=com_akeebasubs&view=Level&layout=default&slug=' . $model->slug));
 			$msg = \JText::_('COM_AKEEBASUBS_LEVEL_ERR_VALIDATIONOVERALL');

@@ -150,16 +150,13 @@ class Message extends DataController
 		// Get the current user's ID
 		$userId = $this->container->platform->getUser()->id;
 
-		// Get a reference to Joomla!'s session object
-		$session = $this->container->session;
-
 		if (empty($userId))
 		{
 			// Guest user; we'll have to log him in
 			$userId = $subscription->user_id;
 
 			// Is it the same user who initiated the subscription payment?
-			$subscriber_user_id = $session->get('subscribes.user_id', null, 'com_akeebasubs');
+			$subscriber_user_id = $this->container->platform->getSessionVar('subscribes.user_id', null, 'com_akeebasubs');
 
 			if ($subscriber_user_id == $subscription->user_id)
 			{
@@ -167,7 +164,7 @@ class Message extends DataController
 				self::$loggedinUser = false;
 
 				// Unset the subscriber user ID value
-				$session->set('subscribes.user_id', null, 'com_akeebasubs');
+				$this->container->platform->setSessionVar('subscribes.user_id', null, 'com_akeebasubs');
 			}
 			else
 			{
@@ -218,7 +215,7 @@ class Message extends DataController
 		$newUserObject->set('guest', 0);
 
 		// Register the needed session variables
-		$session->set('user', $newUserObject);
+		$this->container->platform->setSessionVar('user', $newUserObject);
 
 		$db = \JFactory::getDBO();
 
@@ -233,7 +230,7 @@ class Message extends DataController
 				$db->qn('guest') . ' = ' . $db->q($newUserObject->get('guest')),
 				$db->qn('username') . ' = ' . $db->q($newUserObject->get('username')),
 				$db->qn('userid') . ' = ' . (int)$newUserObject->get('id')
-			))->where($db->qn('session_id') . ' = ' . $db->q($session->getId()));
+			))->where($db->qn('session_id') . ' = ' . $db->q(\JFactory::getSession()->getId()));
 		$db->setQuery($query);
 		$db->execute();
 

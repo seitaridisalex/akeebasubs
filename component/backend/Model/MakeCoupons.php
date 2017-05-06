@@ -141,7 +141,7 @@ class MakeCoupons extends Model
 			$ret[] = $coupon;
 		}
 
-		$this->container->session->set('makecoupons.coupons', $ret, 'com_akeebasubs');
+		$this->container->platform->setSessionVar('makecoupons.coupons', $ret, 'com_akeebasubs');
 	}
 
 	/**

@@ -28,7 +28,7 @@ echo $this->getRenderedForm();
 </div>
 
 <script type="text/javascript">
-	var akeebasubs_token = "<?php echo JFactory::getSession()->getFormToken();?>";
+	var akeebasubs_token = "<?php echo $this->container->platform->getToken(true);?>";
 
 	(function($) {
 		$(document).ready(function(){

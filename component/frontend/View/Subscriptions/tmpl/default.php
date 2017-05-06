@@ -35,7 +35,7 @@ if (!empty($this->returnURL))
 <div id="akeebasubs" class="subscriptions">
 	<h2 class="pageTitle"><?php echo JText::_('COM_AKEEBASUBS_SUBSCRIPTIONS_TITLE')?></h2>
 	<form action="<?php echo $formURL ?>" method="post" class="adminform" name="adminForm" id="adminForm">
-	<input type="hidden" name="<?php echo JFactory::getSession()->getFormToken();?>" value="1" />
+	<input type="hidden" name="<?php echo $this->container->platform->getToken(true);?>" value="1" />
 
 	<table class="table table-striped" width="100%">
 		<thead>

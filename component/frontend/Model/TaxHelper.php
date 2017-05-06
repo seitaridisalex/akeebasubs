@@ -71,8 +71,7 @@ class TaxHelper extends Model
 		}
 
 		// Get information from the VAT dropdown module
-		$session = $this->container->session;
-		$moduleCountry = $session->get('country', null, 'mod_aktaxcountry');
+		$moduleCountry = $this->container->platform->getSessionVar('country', null, 'mod_aktaxcountry');
 
 		if (!empty($moduleCountry))
 		{

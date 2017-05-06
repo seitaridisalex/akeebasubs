@@ -116,11 +116,11 @@ class StateData
 	public function loadData(Model $model)
 	{
 		// Is this the first run right after selecting a subscription level?
-		$firstRun = $model->getContainer()->session->get('firstrun', true, 'com_akeebasubs');
+		$firstRun = $model->getContainer()->platform->getSessionVar('firstrun', true, 'com_akeebasubs');
 
 		if (!$firstRun)
 		{
-			$model->getContainer()->session->set('firstrun', true, 'com_akeebasubs');
+			$model->getContainer()->platform->setSessionVar('firstrun', true, 'com_akeebasubs');
 		}
 
 		// Apply the state variables from the model

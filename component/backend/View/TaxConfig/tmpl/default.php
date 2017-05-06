@@ -15,7 +15,7 @@ use Akeeba\Subscriptions\Admin\Helper\Select;
 <input type="hidden" name="option" value="com_akeebasubs" />
 <input type="hidden" name="view" value="TaxConfig" />
 <input type="hidden" id="task" name="task" value="apply" />
-<input type="hidden" name="<?php echo JFactory::getSession()->getFormToken();?>" value="1" />
+<input type="hidden" name="<?php echo $this->container->platform->getToken(true);?>" value="1" />
 
 <div class="form-horizontal">
 	<div class="control-group">

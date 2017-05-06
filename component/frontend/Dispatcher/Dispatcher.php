@@ -50,7 +50,7 @@ class Dispatcher extends \FOF30\Dispatcher\Dispatcher
 
 		if (!is_null($taxCountry))
 		{
-			$this->container->session->set('country', $taxCountry, 'mod_aktaxcountry');
+			$this->container->platform->setSessionVar('country', $taxCountry, 'mod_aktaxcountry');
 		}
 	}
 
