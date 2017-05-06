@@ -84,7 +84,8 @@ class plgAkeebasubsInvoices extends JPlugin
 		// Only handle not expired subscriptions
 		if ($generateAnInvoice && !in_array($row->akeebasubs_subscription_id, self::$generatedInvoicesFor))
 		{
-			$db = JFactory::getDbo();
+			$container = Container::getInstance('com_akeebasubs');
+			$db = $container->db;
 
 			// Check if there is an invoice for this subscription already
 			$query = $db->getQuery(true)

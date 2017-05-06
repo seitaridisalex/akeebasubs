@@ -192,7 +192,7 @@ class plgSystemAsexpirationcontrol extends JPlugin
 		$params  = $this->getComponentParameters();
 		$params->set('plg_akeebasubs_asexpirationcontrol_timestamp', $lastRun);
 
-		$db   = JFactory::getDBO();
+		$db   = Container::getInstance('com_akeebasubs')->db;
 		$data = $params->toString();
 
 		$query = $db->getQuery(true)

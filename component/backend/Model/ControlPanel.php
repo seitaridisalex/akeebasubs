@@ -81,7 +81,7 @@ class ControlPanel extends Model
 
 		if (is_null($result))
 		{
-			$db = \JFactory::getDbo();
+			$db = $this->container->platform->getDbo();
 
 			$query = $db->getQuery(true)
 				->select('COUNT(*)')
@@ -144,7 +144,7 @@ class ControlPanel extends Model
 	public function setComponentParameter($parameter, $value)
 	{
 		// Fetch the component parameters
-		$db = JFactory::getDbo();
+		$db = $this->container->platform->getDbo();
 		$sql = $db->getQuery(true)
 		          ->select($db->qn('params'))
 		          ->from($db->qn('#__extensions'))

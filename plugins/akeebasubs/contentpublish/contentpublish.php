@@ -119,7 +119,7 @@ class plgAkeebasubsContentpublish extends \Akeeba\Subscriptions\Admin\PluginAbst
 
 		if (JFolder::exists(JPATH_ADMINISTRATOR . '/components/com_zoo'))
 		{
-			$db = JFactory::getDbo();
+			$db = $this->container->db;
 			$query = $db->getQuery(true)
 				->select(array(
 					$db->qn('id'),
@@ -238,7 +238,7 @@ class plgAkeebasubsContentpublish extends \Akeeba\Subscriptions\Admin\PluginAbst
 			}
 		}
 
-		$db = JFactory::getDbo();
+		$db = $this->container->db;
 
 		// Unpublish articles for inactive subscriptions
 		if (!empty($inactive))

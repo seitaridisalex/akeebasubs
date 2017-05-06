@@ -264,7 +264,7 @@ class plgAkpaymentPaymilldss3 extends AkpaymentBase
 				'state'                      => 'P',
 			);
 
-			JFactory::getDbo()->updateObject('#__akeebasubs_subscriptions', $oUpdate, 'akeebasubs_subscription_id');
+			$this->container->db->updateObject('#__akeebasubs_subscriptions', $oUpdate, 'akeebasubs_subscription_id');
 		}
 
 		// CHECK: Do we already have a transaction for this subscription?
@@ -290,7 +290,7 @@ class plgAkpaymentPaymilldss3 extends AkpaymentBase
 				'state'                      => 'P',
 			);
 
-			JFactory::getDbo()->updateObject('#__akeebasubs_subscriptions', $oUpdate, 'akeebasubs_subscription_id');
+			$this->container->db->updateObject('#__akeebasubs_subscriptions', $oUpdate, 'akeebasubs_subscription_id');
 
 			// Create the transaction
 			$transactionsObject = new Paymill\Models\Request\Transaction();
@@ -331,7 +331,7 @@ class plgAkpaymentPaymilldss3 extends AkpaymentBase
 				'akeebasubs_subscription_id' => $subscription->akeebasubs_subscription_id,
 				'processor_key'              => $subscription->processor_key,
 			);
-			JFactory::getDbo()->updateObject('#__akeebasubs_subscriptions', $oUpdate, 'akeebasubs_subscription_id');
+			$this->container->db->updateObject('#__akeebasubs_subscriptions', $oUpdate, 'akeebasubs_subscription_id');
 
 			// Fraud attempt? Do nothing more!
 			if (!$isValid)

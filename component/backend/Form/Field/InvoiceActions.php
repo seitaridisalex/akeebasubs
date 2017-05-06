@@ -66,7 +66,7 @@ class InvoiceActions extends Text
 				'"><span class="icon icon-envelope icon-white"></span></a>'
 				. "\n";
 
-			$db = \JFactory::getDbo();
+			$db = $this->form->getContainer()->db;
 			if (empty($this->item->sent_on) || ($this->item->sent_on == $db->getNullDate()))
 			{
 				$html .= '<span class="label"><span class="icon icon-white icon-warning"></span>' .

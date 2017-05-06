@@ -74,14 +74,16 @@ class plgSystemAsuserregredir extends JPlugin
 		}
 
 		// Only run in the front-end
-		if (!JFactory::getApplication()->isSite())
+		$container = Container::getInstance('com_akeebasubs');
+
+		if (!$container->platform->isFrontend())
 		{
 			return;
 		}
 
-		$input = JFactory::getApplication()->input;
+		$input  = JFactory::getApplication()->input;
 		$option = $input->getCmd('option');
-		$view = $input->getCmd('view');
+		$view   = $input->getCmd('view');
 
 		// Only run on user registration task
 		if (($option != 'com_users') || ($view != 'registration'))
@@ -91,10 +93,10 @@ class plgSystemAsuserregredir extends JPlugin
 
 		$default_url = JRoute::_('index.php?option=com_akeebasubs');
 
-		$url = $this->params->get('url', $default_url);
+		$url     = $this->params->get('url', $default_url);
 		$message = $this->params->get('message', '');
 
-		$url = trim($url);
+		$url     = trim($url);
 		$message = trim($message);
 
 		if (empty($url))
@@ -102,7 +104,6 @@ class plgSystemAsuserregredir extends JPlugin
 			$url = $default_url;
 		}
 
-		$container = Container::getInstance('com_akeebasubs');
 		$container->platform->redirect($url, 303, $message);
 	}
 }

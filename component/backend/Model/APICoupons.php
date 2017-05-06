@@ -209,7 +209,7 @@ class APICoupons extends DataModel
 	 */
 	protected function performApiChecks(APICoupons $apiCouponRecord)
 	{
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 
 		if ($apiCouponRecord->creation_limit)
 		{
@@ -318,7 +318,7 @@ class APICoupons extends DataModel
             return array('error' => JText::_('COM_AKEEBASUBS_APICOUPONS_INVALID_CREDENTIALS'));
         }
 
-        $db     = JFactory::getDbo();
+        $db     = $this->getDbo();
         $result = array(
             'type'         => 'unlimited',   // Type of the limit
             'subscription' => '',   // If the limit is binded to a specific subscription

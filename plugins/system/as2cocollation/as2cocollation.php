@@ -136,7 +136,7 @@ class plgSystemAs2cocollation extends JPlugin
 		}
 
 		// Loop through each sale and make a list of which ones do not correspond to an active subscription
-		$db = JFactory::getDbo();
+		$db = Container::getInstance('com_akeebasubs')->db;
 		$needProcessing = array();
 		$protoQuery = $db->getQuery(true)
 			->select('COUNT(*)')

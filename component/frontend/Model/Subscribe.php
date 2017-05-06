@@ -796,7 +796,7 @@ class Subscribe extends Model
 			}
 		}
 
-		$nullDate = JFactory::getDbo()->getNullDate();
+		$nullDate = $this->container->db->getNullDate();
 
 		/** @var Levels $level */
 		$level = $this->container->factory->model('Levels')->tmpInstance();
@@ -1194,7 +1194,7 @@ class Subscribe extends Model
 	{
 		$app = JFactory::getApplication();
 		$config = $this->container->platform->getConfig();
-		$db = JFactory::getDbo();
+		$db = $this->container->db;
 		$params = \JComponentHelper::getParams('com_users');
 
 		$data = array_merge((array)$user->getProperties(), $indata);

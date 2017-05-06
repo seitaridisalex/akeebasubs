@@ -21,7 +21,7 @@ class Reports extends Model
 		// Get the display parameters
 		$params = $this->getInvoiceListParameters();
 
-		$db = JFactory::getDbo();
+		$db = $this->container->platform->getDbo();
 
 		$query = $db->getQuery(true)
 			->select(array(

@@ -423,7 +423,7 @@ class plgSystemAsexpirationnotify extends JPlugin
 		$params  = $this->getComponentParameters();
 		$params->set('plg_akeebasubs_asexpirationnotify_timestamp', $lastRun);
 
-		$db = JFactory::getDBO();
+		$db = Container::getInstance('com_akeebasubs')->db;
 
 		$data  = $params->toString('JSON');
 		$query = $db->getQuery(true)

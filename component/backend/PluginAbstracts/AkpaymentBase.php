@@ -350,7 +350,8 @@ abstract class AkpaymentBase extends JPlugin
 			{
 				// Get the subscription level and determine if this is a Fixed
 				// Expiration subscription
-				$nullDate = JFactory::getDbo()->getNullDate();
+				$container = Container::getInstance('com_akeebasubs');
+				$nullDate = $container->db->getNullDate();
 
 				/** @var Levels $level */
 				if ($subscription->level instanceof Levels)

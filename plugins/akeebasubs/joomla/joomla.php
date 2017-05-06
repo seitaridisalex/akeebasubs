@@ -48,7 +48,7 @@ class plgAkeebasubsJoomla extends \Akeeba\Subscriptions\Admin\PluginAbstracts\Ak
 		}
 
 		// Get DB connection
-		$db = JFactory::getDBO();
+		$db = $this->container->db;
 
 		// Add to Joomla! groups
 		if (!empty($addGroups))

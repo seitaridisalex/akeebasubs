@@ -217,7 +217,7 @@ class Message extends DataController
 		// Register the needed session variables
 		$this->container->platform->setSessionVar('user', $newUserObject);
 
-		$db = \JFactory::getDBO();
+		$db = $this->container->db;
 
 		// Check to see the the session already exists.
 		$app = \JFactory::getApplication();
@@ -254,7 +254,7 @@ class Message extends DataController
 
 			if ($newUserObject->block)
 			{
-				$newUserObject->lastvisitDate = \JFactory::getDbo()->getNullDate();
+				$newUserObject->lastvisitDate = $this->container->db->getNullDate();
 				$newUserObject->save();
 			}
 		}

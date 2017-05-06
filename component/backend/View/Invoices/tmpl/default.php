@@ -9,7 +9,7 @@ defined('_JEXEC') or die();
 
 JHtml::_('behavior.modal', 'a.modal');
 
-$nullDate = \JFactory::getDbo()->getNullDate();
+$nullDate = $this->container->db->getNullDate();
 $extensions = $this->getModel()->getExtensions();
 ?>
 

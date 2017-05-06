@@ -356,7 +356,7 @@ class plgAkeebasubsReseller extends Akeeba\Subscriptions\Admin\PluginAbstracts\A
     {
         static $ret = null;
 
-        $db     = JFactory::getDBO();
+        $db     = $this->container->db;
 
         // Let's cache the result
         if(!is_null($ret))

@@ -334,7 +334,7 @@ class Levels extends DataModel
 		$this->assertNotEmpty($this->image, 'COM_AKEEBASUBS_LEVEL_ERR_IMAGE');
 
 		// Check the fixed expiration date and make sure it's in the future
-		$nullDate = JFactory::getDbo()->getNullDate();
+		$nullDate = $this->getDbo()->getNullDate();
 
 		if (!empty($this->fixed_date) && $this->fixed_date != $nullDate)
 		{

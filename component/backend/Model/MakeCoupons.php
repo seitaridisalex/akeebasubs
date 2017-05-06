@@ -107,7 +107,7 @@ class MakeCoupons extends Model
 		$model = $this->container->factory->model('Coupons')->tmpInstance();
 
 		// Get the maximum coupon code
-		$db    = JFactory::getDbo();
+		$db    = $this->container->platform->getDbo();
 		$query = $db->getQuery(true)
 		            ->select('MAX(ordering)')
 		            ->from($db->qn('#__akeebasubs_coupons'));

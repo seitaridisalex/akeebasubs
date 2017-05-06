@@ -44,7 +44,7 @@ class TaxConfig extends Model
 	{
 		$state = $this->getStateVars();
 
-		$db = JFactory::getDbo();
+		$db = $this->container->platform->getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->qn('#__akeebasubs_taxrules'))
 			->where($db->qn('akeebasubs_level_id') . '=' . $db->q($state->akeebasubs_level_id));
@@ -201,7 +201,7 @@ class TaxConfig extends Model
 	public function applyComponentConfiguration()
 	{
 		// Fetch the component parameters
-		$db = JFactory::getDbo();
+		$db = $this->container->platform->getDbo();
 		$sql = $db->getQuery(true)
 			->select($db->qn('params'))
 			->from($db->qn('#__extensions'))
