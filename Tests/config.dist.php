@@ -12,5 +12,7 @@
  */
 
 $akeebasubsTestConfig = [
-	'site_root' => '/var/www/guineapig'
+	'site_root' => '/var/www/guineapig',
+	'site_name' => 'Akeeba Subscriptions Unit Tests',
+	'site_url'  => 'http://localhost/guineapig/',
 ];

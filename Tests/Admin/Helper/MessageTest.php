@@ -105,11 +105,13 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
 	public function getTestMessageCode()
 	{
+		global $akeebasubsTestConfig;
+
 		return [
 			// text, businessInfoAware, expected
 			// Akeeba Subs merge codes
-			['[SITENAME]', true, 'Akeeba Subscriptions Unit Tests'],
-			['[SITEURL]', true, 'http://localhost:8888/test_akeebasubs/'],
+			['[SITENAME]', true, $akeebasubsTestConfig['site_name']],
+			['[SITEURL]', true, $akeebasubsTestConfig['site_url']],
 			['[FULLNAME]', true, 'User One'],
 			['[FIRSTNAME]', true, 'User'],
 			['[LASTNAME]', true, 'One'],
@@ -117,8 +119,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 			['[USEREMAIL]', true, 'user1@test.web'],
 			['[LEVEL]', true, 'LEVEL2'],
 			['[SLUG]', true, 'level2'],
-			['[RENEWALURL]', true, 'http://localhost:8888/test_akeebasubs/index.php?option=com_akeebasubs&view=Level&slug=level2&layout=default'],
-			['[RENEWALURL:]', true, 'http://localhost:8888/test_akeebasubs/index.php?option=com_akeebasubs&view=Level&slug=level2&layout=default'],
+			['[RENEWALURL]', true, $akeebasubsTestConfig['site_url'] . 'index.php?option=com_akeebasubs&view=Level&slug=level2&layout=default'],
+			['[RENEWALURL:]', true, $akeebasubsTestConfig['site_url'] . 'index.php?option=com_akeebasubs&view=Level&slug=level2&layout=default'],
 			['[ENABLED]', true, 'COM_AKEEBASUBS_SUBSCRIPTION_COMMON_DISABLED'],
 			['[PAYSTATE]', true, 'COM_AKEEBASUBS_SUBSCRIPTION_STATE_C'],
 			['[PUBLISH_UP]', true, 'Wednesday, 30 April 2014 00:00'],
@@ -129,8 +131,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 			['[PUBLISH_DOWN_EU]', true, '29/04/2015 00:00:00'],
 			['[PUBLISH_DOWN_USA]', true, '04/29/2015 12:00:00 am'],
 			['[PUBLISH_DOWN_JAPAN]', true, '2015/04/29 00:00:00'],
-			['[MYSUBSURL]', true, 'http://localhost:8888/test_akeebasubs/index.php?option=com_akeebasubs&view=Subscriptions'],
-			['[URL]', true, 'http://localhost:8888/test_akeebasubs/index.php?option=com_akeebasubs&view=Subscriptions'],
+			['[MYSUBSURL]', true, $akeebasubsTestConfig['site_url'] . 'index.php?option=com_akeebasubs&view=Subscriptions'],
+			['[URL]', true, $akeebasubsTestConfig['site_url'] . 'index.php?option=com_akeebasubs&view=Subscriptions'],
 			['[CURRENCY]', true, 'USD'],
 			['[CURRENCY_ALT]', true, 'EUR'],
 			['[$]', true, '$'],
