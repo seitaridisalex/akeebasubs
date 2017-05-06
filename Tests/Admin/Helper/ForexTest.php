@@ -190,7 +190,7 @@ class ForexTest extends \PHPUnit_Framework_TestCase
 
 		$o = (object)[
 			'key' => 'akeebasubs_forex_update_timestamp',
-			'value' => time() - 3600
+			'value' => time() - 1800
 		];
 		$db->updateObject('#__akeeba_common', $o, 'key');
 

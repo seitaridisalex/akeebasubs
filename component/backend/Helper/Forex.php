@@ -502,14 +502,10 @@ class Forex
 		}
 
 		$lastTimestamp = self::getLastUpdateTimestamp($container);
+		$nextUpdateTimestamp = $lastTimestamp + 3600;
+		$nowTimestamp        = time();
 
-		$jNextUpdate = $container->platform->getDate($lastTimestamp);
-		$interval = new \DateInterval('P1D');
-		$jNextUpdate->add($interval);
-
-		$jNow = $container->platform->getDate();
-
-		return $jNow->toUnix() > $jNextUpdate->toUnix();
+		return $nowTimestamp > $nextUpdateTimestamp;
 	}
 
 	/**
