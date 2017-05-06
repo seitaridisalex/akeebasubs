@@ -398,7 +398,7 @@ class Subscribe extends Model
 
 			// Set the user's default language to whatever the site's current language is
 			$params['params'] = array(
-				'language' => JFactory::getConfig()->get('language')
+				'language' => $this->container->platform->getConfig()->get('language')
 			);
 
 			// We always block the user, so that only a successful payment or
@@ -1193,7 +1193,7 @@ class Subscribe extends Model
 	private function sendActivationEmail($user, array $indata = [])
 	{
 		$app = JFactory::getApplication();
-		$config = JFactory::getConfig();
+		$config = $this->container->platform->getConfig();
 		$db = JFactory::getDbo();
 		$params = \JComponentHelper::getParams('com_users');
 

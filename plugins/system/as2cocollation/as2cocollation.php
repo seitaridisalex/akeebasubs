@@ -223,7 +223,7 @@ class plgSystemAs2cocollation extends JPlugin
 		// Debug mode
 		if (self::$debug)
 		{
-			$jconfig = JFactory::getConfig();
+			$jconfig = Container::getInstance('com_akeebasubs')->platform->getConfig();
 			$tmp = $jconfig->get('tmp_path', sys_get_temp_dir());
 			$fileName = $tmp . '/test_latest_sales.txt';
 
@@ -278,7 +278,7 @@ class plgSystemAs2cocollation extends JPlugin
 		// Debug mode
 		if (self::$debug)
 		{
-			$jconfig = JFactory::getConfig();
+			$jconfig = Container::getInstance('com_akeebasubs')->platform->getConfig();
 			$tmp = $jconfig->get('tmp_path', sys_get_temp_dir());
 			$fileName = $tmp . '/test_saleid_' . $id . '.txt';
 

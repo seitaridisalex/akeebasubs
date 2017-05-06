@@ -390,7 +390,7 @@ class plgAkpayment2conew extends AkpaymentBase
 
 	protected function logData($data, $isValid, $type = 'TRANSACTION', $header = null)
 	{
-		$config = JFactory::getConfig();
+		$config = $this->container->platform->getConfig();
 
 		$logpath = $config->get('log_path');
 

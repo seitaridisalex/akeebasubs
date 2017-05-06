@@ -818,7 +818,7 @@ class CreditNotes extends DataModel
 		}
 
 		// Set up TCPDF
-		$jreg     = \JFactory::getConfig();
+		$jreg     = self::getContainer()->platform->getConfig();
 		$tmpdir   = $jreg->get('tmp_path');
 		$tmpdir   = rtrim($tmpdir, '/' . DIRECTORY_SEPARATOR) . '/';
 		$siteName = $jreg->get('sitename');
@@ -961,7 +961,7 @@ class CreditNotes extends DataModel
 	public function getCreditNotePath()
 	{
 		$date     = new Date($this->creditnote_date);
-		$timezone = \JFactory::getConfig()->get('offset', null);
+		$timezone = self::getContainer()->platform->getConfig()->get('offset', null);
 
 		if ($timezone && $timezone != 'UTC')
 		{

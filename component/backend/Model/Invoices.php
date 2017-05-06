@@ -1002,7 +1002,7 @@ class Invoices extends DataModel
 		}
 
 		// Set up TCPDF
-		$jreg     = \JFactory::getConfig();
+		$jreg     = self::getContainer()->platform->getConfig();
 		$tmpdir   = $jreg->get('tmp_path');
 		$tmpdir   = rtrim($tmpdir, '/' . DIRECTORY_SEPARATOR) . '/';
 		$siteName = $jreg->get('sitename');
@@ -1224,7 +1224,7 @@ class Invoices extends DataModel
 	public function getInvoicePath()
 	{
 		$date = new Date($this->invoice_date);
-		$timezone = \JFactory::getConfig()->get('offset', null);
+		$timezone = self::getContainer()->platform->getConfig()->get('offset', null);
 
 		if ($timezone && $timezone != 'UTC')
 		{

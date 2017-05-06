@@ -309,7 +309,7 @@ class plgAkpayment2checkout extends AkpaymentBase
 	 */
 	protected function logRawIPN($data)
 	{
-		$config = JFactory::getConfig();
+		$config = $this->container->platform->getConfig();
 		$logpath = $config->get('log_path');
 
 		$logFilenameBase = $logpath . '/akpayment_DEBUG_' . strtolower($this->ppName) . '_ipn';

@@ -464,7 +464,7 @@ abstract class AkpaymentBase extends JPlugin
 	 */
 	protected function logIPN($data, $isValid)
 	{
-		$config  = JFactory::getConfig();
+		$config  = $this->container->platform->getConfig();
 		$logpath = $config->get('log_path');
 
 		$logFilenameBase = $logpath . '/akpayment_' . strtolower($this->ppName) . '_ipn';
@@ -789,7 +789,7 @@ abstract class AkpaymentBase extends JPlugin
 		if (empty($logDir))
 		{
 			$defLogDir = (version_compare(JVERSION, '3.5.999', 'le') ? JPATH_ROOT : JPATH_ADMINISTRATOR) . '/logs';
-			$logDir    = JFactory::getConfig()->get('log_path', $defLogDir);
+			$logDir    = $this->container->platform->getConfig()->get('log_path', $defLogDir);
 			$logDir    = rtrim($logDir, '/' . DIRECTORY_SEPARATOR);
 		}
 

@@ -357,7 +357,7 @@ abstract class Message
 		}
 
 		// -- Get the site name
-		$config   = JFactory::getConfig();
+		$config   = self::getContainer()->platform->getConfig();
 		$sitename = $config->get('sitename');
 
 		// -- First/last name

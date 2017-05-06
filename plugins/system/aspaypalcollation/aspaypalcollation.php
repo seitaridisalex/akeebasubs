@@ -255,7 +255,7 @@ class plgSystemAspaypalcollation extends JPlugin
 	protected function getLatestSales($timePeriod = 86400)
 	{
 		// Used for debug mode
-		$jconfig  = JFactory::getConfig();
+		$jconfig  = Container::getInstance('com_akeebasubs')->platform->getConfig();
 		$tmp      = $jconfig->get('tmp_path', sys_get_temp_dir());
 		$fileName = $tmp . '/test_paypal_latest_sales.txt';
 

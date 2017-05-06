@@ -170,7 +170,7 @@ use JUserHelper;
 			$params['params'] = array();
 		}
 
-		$params['params']['language'] = JFactory::getConfig()->get('language');
+		$params['params']['language'] = self::getContainer()->platform->getConfig()->get('language');
 
 		$params['block']      = 0;
 		$randomString         = JUserHelper::genRandomPassword();

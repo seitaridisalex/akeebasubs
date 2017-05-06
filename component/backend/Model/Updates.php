@@ -178,7 +178,7 @@ This email is sent to you by your own site, [SITENAME]
 
 ENDBODY;
 
-		$jconfig  = JFactory::getConfig();
+		$jconfig  = self::getContainer()->platform->getConfig();
 		$sitename = $jconfig->get('sitename');
 
 		$substitutions = array(
@@ -245,7 +245,7 @@ ENDBODY;
 			return "No download URL found inside XML manifest";
 		}
 
-		$config   = JFactory::getConfig();
+		$config   = self::getContainer()->platform->getConfig();
 		$tmp_dest = $config->get('tmp_path');
 
 		if (!$tmp_dest)
