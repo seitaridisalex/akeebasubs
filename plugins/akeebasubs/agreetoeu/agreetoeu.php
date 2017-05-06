@@ -5,6 +5,8 @@
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
 
+use FOF30\Container\Container;
+
 defined('_JEXEC') or die();
 
 /**
@@ -177,8 +179,8 @@ function plg_akeebasubs_agreetoeu_validate(response)
 }
 
 JS;
-		$document = JFactory::getDocument();
-		$document->addScriptDeclaration($javascript);
+		$container = Container::getInstance('com_akeebasubs');
+		$container->template->addJSInline($javascript);
 
 		// ----- RETURN THE FIELDS -----
 		return $fields;

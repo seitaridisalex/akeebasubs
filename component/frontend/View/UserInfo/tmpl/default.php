@@ -62,4 +62,4 @@ function onSignupFormSubmit()
 }
 
 JS;
-JFactory::getDocument()->addScriptDeclaration($script);
+$this->addJavascriptInline($script);

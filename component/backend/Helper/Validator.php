@@ -7,6 +7,7 @@
 
 namespace Akeeba\Subscriptions\Admin\Helper;
 
+use FOF30\Container\Container;
 use JFactory;
 
 defined('_JEXEC') or die;
@@ -74,6 +75,7 @@ akeeba.jQuery(document).ready(function(){
 
 JS;
 
-		JFactory::getDocument()->addScriptDeclaration($javascript);
+		$container = Container::getInstance('com_akeebasubs');
+		$container->template->addJSInline($javascript);
 	}
 }

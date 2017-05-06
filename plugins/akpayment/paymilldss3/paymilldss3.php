@@ -48,11 +48,11 @@ class plgAkpaymentPaymilldss3 extends AkpaymentBase
 			return false;
 		}
 
-		$doc = JFactory::getDocument();
-		$doc->addScriptDeclaration(
+		$container = Container::getInstance('com_akeebasubs');
+		$container->template->addJSInline(
 			"\n;//\nvar PAYMILL_PUBLIC_KEY = '" . $this->getPublicKey() . "';\n");
-		$doc->addScript("https://bridge.paymill.com/dss3");
-		$doc->addScript(JUri::base() . 'plugins/akpayment/paymilldss3/js/publicapi.js');
+		$container->template->addJS("https://bridge.paymill.com/dss3");
+		$container->template->addJS(JUri::base() . 'plugins/akpayment/paymilldss3/js/publicapi.js');
 
 		$callbackUrl = JURI::base() . 'index.php?option=com_akeebasubs&view=Callback&paymentmethod=paymilldss3&sid=' . $subscription->akeebasubs_subscription_id;
 		$data = (object)array(

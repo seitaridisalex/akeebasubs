@@ -49,10 +49,10 @@ class plgAkpaymentPaymill extends AkpaymentBase
 			return false;
 		}
 
-		$doc = JFactory::getDocument();
-		$doc->addScriptDeclaration(
+		$container = Container::getInstance('com_akeebasubs');
+		$container->template->addJSInline(
 			"\n;//\nvar PAYMILL_PUBLIC_KEY = '" . $this->getPublicKey() . "';\n");
-		$doc->addScript("https://bridge.paymill.de/");
+		$container->template->addJS("https://bridge.paymill.de/");
 
 		$callbackUrl = JURI::base() . 'index.php?option=com_akeebasubs&view=Callback&paymentmethod=paymill&sid=' . $subscription->akeebasubs_subscription_id;
 		$data = (object)array(

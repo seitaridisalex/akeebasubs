@@ -379,4 +379,4 @@ var akeebasubs_valid_form = false;
 var akeebasubs_noneuvat = $aks_noneuvat;
 
 JS;
-JFactory::getDocument()->addScriptDeclaration($script);
+$this->addJavascriptInline($script);

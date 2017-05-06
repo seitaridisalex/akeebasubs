@@ -16,7 +16,7 @@ $script = <<<JS
 akeebasubs_level_id = {$this->item->akeebasubs_level_id};
 
 JS;
-JFactory::getDocument()->addScriptDeclaration($script);
+$this->addJavascriptInline($script);
 
 ?>
 
@@ -115,4 +115,4 @@ function onSignupFormSubmit()
 }
 
 JS;
-JFactory::getDocument()->addScriptDeclaration($script);
+$this->addJavascriptInline($script);

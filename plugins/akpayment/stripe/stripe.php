@@ -10,6 +10,7 @@ defined('_JEXEC') or die();
 use Akeeba\Subscriptions\Admin\Model\Levels;
 use Akeeba\Subscriptions\Admin\Model\Subscriptions;
 use Akeeba\Subscriptions\Admin\PluginAbstracts\AkpaymentBase;
+use FOF30\Container\Container;
 
 class plgAkpaymentStripe extends AkpaymentBase
 {
@@ -45,14 +46,14 @@ class plgAkpaymentStripe extends AkpaymentBase
 			return false;
 		}
 
-		$doc = JFactory::getDocument();
-		$doc->addScriptDeclaration("
+		$container = Container::getInstance('com_akeebasubs');
+		$container->template->addJSInline("
 
 			;//
 			Stripe.setPublishableKey('" . $this->getPublicKey() . "');
 			");
-		$doc->addScript("https://js.stripe.com/v2/");
-		$doc->addScriptDeclaration("
+		$container->template->addJS("https://js.stripe.com/v2/");
+		$container->template->addJSInline("
 
 				akeeba.jQuery(function($){
 					var stripeResponseHandler = function(status, response) {
