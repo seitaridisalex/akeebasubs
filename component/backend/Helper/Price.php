@@ -16,6 +16,28 @@ use FOF30\Container\Container;
 abstract class Price
 {
 	/**
+	 * The component's container
+	 *
+	 * @var   Container
+	 */
+	protected static $container;
+
+	/**
+	 * Returns the component's container
+	 *
+	 * @return  Container
+	 */
+	protected function getContainer()
+	{
+		if (is_null(self::$container))
+		{
+			self::$container = Container::getInstance('com_akeebasubs');
+		}
+
+		return self::$container;
+	}
+
+	/**
 	 * Cache of pricing information per subscription level, required to cut down on queries in the Strappy layout.
 	 *
 	 * @var  object[]
@@ -28,28 +50,6 @@ abstract class Price
 	 * @var   array
 	 */
 	protected static $subIDs = null;
-
-	/**
-	 * The application container for Akeeba Subscriptions
-	 *
-	 * @var   Container
-	 */
-	protected static $container = null;
-
-	/**
-	 * Gets the container instance for Akeeba Subscriptions
-	 *
-	 * @return  Container
-	 */
-	public static function getContainer()
-	{
-		if (is_null(self::$container))
-		{
-			self::$container = Container::getInstance('com_akeebasubs', [], 'site');
-		}
-
-		return self::$container;
-	}
 
 	/**
 	 * Parameters for calculating and displaying prices
@@ -70,7 +70,7 @@ abstract class Price
 		{
 			$container = self::getContainer();
 			$subIDs    = array();
-			$user      = \JFactory::getUser();
+			$user      = $container->platform->getUser();
 
 			if ($user->id)
 			{
@@ -110,7 +110,7 @@ abstract class Price
 			$container = self::getContainer();
 			/** @var \Akeeba\Subscriptions\Site\Model\TaxHelper $taxModel */
 			$taxModel  = self::getContainer()->factory->model('TaxHelper')->tmpInstance();
-			$user = \JFactory::getUser();
+			$user = $container->platform->getUser();
 			$showLocalPrices = $container->params->get('showlocalprices', 1);
 			$taxParams  = $taxModel->getTaxDefiningParameters();
 			$exchangeRate = 1.00;

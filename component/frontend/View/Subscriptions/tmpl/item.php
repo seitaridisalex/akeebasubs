@@ -39,8 +39,8 @@ if ($this->returnURL)
 	<tr>
 		<td class="subscription-label"><?php echo JText::_('COM_AKEEBASUBS_SUBSCRIPTIONS_USER')?></td>
 		<td class="subscription-info">
-			<strong><?php echo JFactory::getUser($this->item->user_id)->username?></strong>
-			(<em><?php echo JFactory::getUser($this->item->user_id)->name?></em>)
+			<strong><?php echo $this->container->platform->getUser($this->item->user_id)->username?></strong>
+			(<em><?php echo $this->container->platform->getUser($this->item->user_id)->name?></em>)
 		</td>
 	</tr>
 	<tr>

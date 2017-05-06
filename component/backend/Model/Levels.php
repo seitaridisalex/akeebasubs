@@ -107,13 +107,13 @@ class Levels extends DataModel
 	public function onAfterBuildQuery(\JDatabaseQuery $query, $overrideLimits = false)
 	{
 		$db = $this->getDbo();
-		$user      = \JFactory::getUser();
+		$user      = $this->container->platform->getUser();
 
 		$access_user_id = $this->getState('access_user_id', null);
 
 		if (!is_null($access_user_id))
 		{
-			$levels = \JFactory::getUser($access_user_id)->getAuthorisedViewLevels();
+			$levels = $this->container->platform->getUser($access_user_id)->getAuthorisedViewLevels();
 
 			if (!empty($levels))
 			{

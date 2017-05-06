@@ -8,6 +8,7 @@
 defined('_JEXEC') or die();
 
 use \Akeeba\Subscriptions\Admin\Model\Subscriptions;
+use FOF30\Container\Container;
 
 /**
  * Sends notification emails to subscribers
@@ -168,7 +169,8 @@ class plgAkeebasubsSubscriptionemails extends JPlugin
 	protected function sendEmail($row, $type = '', array $info=[])
 	{
 		// Get the user object
-		$user = JFactory::getUser($row->user_id);
+		$container = Container::getInstance('com_akeebasubs');
+		$user = $container->platform->getUser($row->user_id);
 
 		// Get a preloaded mailer
 		$key = 'plg_akeebasubs_' . $this->_name . '_' . $type;

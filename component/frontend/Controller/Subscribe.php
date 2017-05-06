@@ -101,7 +101,7 @@ class Subscribe extends Controller
 		}
 
 		// Check the Joomla! View Access Level for this subscription level
-		$accessLevels = \JFactory::getUser()->getAuthorisedViewLevels();
+		$accessLevels = $this->container->platform->getUser()->getAuthorisedViewLevels();
 
 		if (!in_array($level->access, $accessLevels))
 		{

@@ -945,7 +945,7 @@ class Invoices extends DataModel
 		$mailer->AddAttachment($path . $this->filename, 'invoice.pdf', 'base64', 'application/pdf');
 
 		// Set the recipient
-		$mailer->addRecipient(\JFactory::getUser($sub->user_id)->email);
+		$mailer->addRecipient($this->container->platform->getUser($sub->user_id)->email);
 
 		// Send it
 		$result = $mailer->Send();

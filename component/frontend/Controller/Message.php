@@ -148,7 +148,7 @@ class Message extends DataController
 		 */
 
 		// Get the current user's ID
-		$userId = \JFactory::getUser()->id;
+		$userId = $this->container->platform->getUser()->id;
 
 		// Get a reference to Joomla!'s session object
 		$session = $this->container->session;
@@ -246,7 +246,7 @@ class Message extends DataController
 		// Log out the logged in user
 		if (self::$loggedinUser)
 		{
-			$userId =\ JFactory::getUser()->id;
+			$userId = $this->container->platform->getUser()->id;
 			$newUserObject = new \JUser();
 			$newUserObject->load($userId);
 

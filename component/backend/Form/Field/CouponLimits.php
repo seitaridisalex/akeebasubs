@@ -32,7 +32,7 @@ class CouponLimits extends Text
 
 		if ($this->item->user)
 		{
-			$limits[] = JText::_('COM_AKEEBASUBS_COUPONS_LIMITS_USERS') . ' (' . JFactory::getUser($this->item->user)->username . ')';
+			$limits[] = JText::_('COM_AKEEBASUBS_COUPONS_LIMITS_USERS') . ' (' . $this->container->platform->getUser($this->item->user)->username . ')';
 		}
 
 		if ($this->item->email)

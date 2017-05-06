@@ -83,36 +83,37 @@ class plgSystemAslogoutuser extends JPlugin
 			return;
 		}
 
-        $juser = JFactory::getUser();
+		$container = Container::getInstance('com_akeebasubs');
+		$juser     = $container->platform->getUser();
 
-        // Guest user? No need to check
-        if ($juser->guest)
-        {
-            return;
-        }
+		// Guest user? No need to check
+		if ($juser->guest)
+		{
+			return;
+		}
 
 		$container = Container::getInstance('com_akeebasubs');
 		/** @var Users $user */
 		$user = $container->factory->model('Users')->tmpInstance();
-        $user->find(['user_id' => $juser->id]);
+		$user->find(['user_id' => $juser->id]);
 
-        // Mhm... the user was not found inside Akeeba Subscription, better stop here
-        if (!$user->akeebasubs_user_id)
-        {
-            return;
-        }
+		// Mhm... the user was not found inside Akeeba Subscription, better stop here
+		if (!$user->akeebasubs_user_id)
+		{
+			return;
+		}
 
-        // No need to logout, let's stop here
-        if (!$user->needs_logout)
-        {
-            return;
-        }
+		// No need to logout, let's stop here
+		if (!$user->needs_logout)
+		{
+			return;
+		}
 
-        $app = JFactory::getApplication();
-        $returnurl = JURI::getInstance();
-        $returnurl = base64_encode($returnurl->toString());
+		$app       = JFactory::getApplication();
+		$returnurl = JURI::getInstance();
+		$returnurl = base64_encode($returnurl->toString());
 
-        $app->logout();
-        $container->platform->redirect(JRoute::_('index.php?option=com_users&view=login&return='.$returnurl));
+		$app->logout();
+		$container->platform->redirect(JRoute::_('index.php?option=com_users&view=login&return=' . $returnurl));
 	}
 }

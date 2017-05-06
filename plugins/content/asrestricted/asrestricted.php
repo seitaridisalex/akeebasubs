@@ -195,6 +195,12 @@ class plgContentAsrestricted extends JPlugin
 	private static function isTrue($id)
 	{
 		static $subscriptions = null;
+		static $container = null;
+
+		if (is_null($container))
+		{
+			$container = Container::getInstance('com_akeebasubs');
+		}
 
 		// Don't process empty or invalid IDs
 		$id = trim($id);
@@ -205,7 +211,7 @@ class plgContentAsrestricted extends JPlugin
 		}
 
 		// Don't process for guests
-		$user = JFactory::getUser();
+		$user = $container->platform->getUser();
 
 		if ($user->guest)
 		{

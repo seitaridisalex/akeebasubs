@@ -360,7 +360,7 @@ class Debug extends Controller
 		// Send mail to all users with users creating permissions and receiving system emails
 		foreach ($rows as $row)
 		{
-			$user = \JFactory::getUser($row->id);
+			$user = $this->container->platform->getUser($row->id);
 
 			if ($user->authorise('core.manage'))
 			{

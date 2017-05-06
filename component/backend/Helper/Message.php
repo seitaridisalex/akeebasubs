@@ -27,11 +27,26 @@ defined('_JEXEC') or die;
 abstract class Message
 {
 	/**
-	 * The component container used by this class
+	 * The component's container
 	 *
-	 * @var  Container
+	 * @var   Container
 	 */
-	static $container = null;
+	protected static $container;
+
+	/**
+	 * Returns the component's container
+	 *
+	 * @return  Container
+	 */
+	protected function getContainer()
+	{
+		if (is_null(self::$container))
+		{
+			self::$container = Container::getInstance('com_akeebasubs');
+		}
+
+		return self::$container;
+	}
 
 	/**
 	 * Pre-processes the message text in $text, replacing merge tags with those
@@ -46,7 +61,7 @@ abstract class Message
 	public static function processSubscriptionTags($text, $sub, $extras = array(), $businessInfoAware = false)
 	{
 		// Get the user object for this subscription
-		$joomlaUser = JFactory::getUser($sub->user_id);
+		$joomlaUser = self::getContainer()->platform->getUser($sub->user_id);
 
 		// Get the extra user parameters object for the subscription
 		/** @var Users $subsUser */
@@ -539,7 +554,7 @@ abstract class Message
 			}
 			else
 			{
-				$user = JFactory::getUser();
+				$user = self::getContainer()->platform->getUser();
 
 				if (property_exists($user, 'language'))
 				{
@@ -673,32 +688,5 @@ abstract class Message
 		while ($pos !== false);
 
 		return $text;
-	}
-
-	/**
-	 * Returns the current Akeeba Subscriptions container object
-	 *
-	 * @return  Container
-	 */
-	protected static function getContainer()
-	{
-		if (is_null(self::$container))
-		{
-			self::$container = Container::getInstance('com_akeebasubs');
-		}
-
-		return self::$container;
-	}
-
-	/**
-	 * Set the Akeeba Subscriptions container
-	 *
-	 * @param   Container  $container
-	 *
-	 * @return  void
-	 */
-	protected static function setContainer(Container $container)
-	{
-		self::$container = $container;
 	}
 }

@@ -55,7 +55,7 @@ class EmailTemplate extends DataController
 			->model('Subscriptions')->tmpInstance();
 
 		$sub->akeebasubs_subscription_id = 999999;
-		$sub->user_id                    = JFactory::getUser()->id;
+		$sub->user_id                    = $this->container->platform->getUser()->id;
 		$sub->akeebasubs_level_id        = $level;
 		$sub->publish_up                 = date('Y-m-d H:i:s');
 		$sub->publish_down               = date('Y-m-d H:i:s', strtotime('+1 month'));
@@ -73,7 +73,7 @@ class EmailTemplate extends DataController
 
 		$mailer = Email::getPreloadedMailer($sub, 'plg_akeebasubs_' . $template->key);
 
-		$mailer->addRecipient(JFactory::getUser()->email);
+		$mailer->addRecipient($this->container->platform->getUser()->email);
 
 		if ($mailer->Send())
 		{

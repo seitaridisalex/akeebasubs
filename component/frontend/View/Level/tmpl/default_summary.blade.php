@@ -144,7 +144,7 @@ $hidePaymentMethod   =
 
 			/** @var \Akeeba\Subscriptions\Site\Model\PaymentMethods $paymentMethods */
 			$paymentMethods = $this->getContainer()->factory->model('PaymentMethods')->tmpInstance();
-			$defaultPayment = $paymentMethods->getLastPaymentPlugin(JFactory::getUser()->id, $country);
+			$defaultPayment = $paymentMethods->getLastPaymentPlugin($this->container->platform->getUser()->id, $country);
 
 			echo Select::paymentmethods(
 					'paymentmethod',

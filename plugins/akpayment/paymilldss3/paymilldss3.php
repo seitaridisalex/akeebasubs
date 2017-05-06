@@ -81,6 +81,7 @@ class plgAkpaymentPaymilldss3 extends AkpaymentBase
 	public function onAKPaymentCallback($paymentmethod, $data)
 	{
 		JLoader::import('joomla.utilities.date');
+		$container = Container::getInstance('com_akeebasubs');
 
 		// Check if we're supposed to handle this
 		if ($paymentmethod != $this->ppName)
@@ -154,10 +155,10 @@ class plgAkpaymentPaymilldss3 extends AkpaymentBase
 		$apiKey = $this->getPrivateKey();
 		$apiEndpoint = 'https://api.paymill.de/v2/';
 
-		$db = JFactory::getDbo();
+		$db = $container->db;
 
 		// CHECK: Do we have a user already defined in PayMill?
-		$user = JFactory::getUser($subscription->user_id);
+		$user = $container->platform->getUser($subscription->user_id);
 
 		$request = new Paymill\Request($apiKey);
 		$clientsObject = new Paymill\Models\Request\Client();

@@ -74,7 +74,7 @@ class Levels extends DataController
 		if (!empty($ids))
 		{
 			$appInput->set('ids', $ids);
-			$appInput->set('_x_userid', JFactory::getUser()->id);
+			$appInput->set('_x_userid', $this->container->platform->getUser()->id);
 		}
 
 		/** @var TaxHelper $taxHelper */
@@ -130,7 +130,7 @@ class Levels extends DataController
 			}
 		}
 
-		$model->access_user_id(\JFactory::getUser()->id);
+		$model->access_user_id($this->container->platform->getUser()->id);
 	}
 
 	/**
@@ -155,7 +155,7 @@ class Levels extends DataController
 		$model = $this->getModel();
 
 		$this->getIDsFromRequest($model, true);
-		$model->access_user_id(\JFactory::getUser()->id);
+		$model->access_user_id($this->container->platform->getUser()->id);
 		$id = $model->getId();
 
 		if (!$id && $slug)
@@ -228,7 +228,7 @@ class Levels extends DataController
 		/** @var Users $usersModel */
 		$usersModel = $this->getModel('Users');
 		$userparams = $usersModel
-			->getMergedData(\JFactory::getUser()->id);
+			->getMergedData($this->container->platform->getUser()->id);
 
 		$view->userparams = $userparams;
 

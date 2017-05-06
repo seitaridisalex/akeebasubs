@@ -467,8 +467,10 @@ class plgSystemAsexpirationnotify extends JPlugin
 	 */
 	private function sendEmail($row, $type)
 	{
+		$container = Container::getInstance('com_akeebasubs');
+
 		// Get the user object
-		$user = JFactory::getUser($row->user_id);
+		$user = $container->platform->getUser($row->user_id);
 
 		// Get a preloaded mailer
 		$key    = 'plg_system_' . $this->_name . '_' . $type;

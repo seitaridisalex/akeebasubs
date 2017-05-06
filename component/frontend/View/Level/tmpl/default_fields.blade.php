@@ -45,7 +45,7 @@ $group_classes                 = [
 	'vatnumber'    => $this->validation->validation->vatnumber ? '' : 'warning has-warning',
 ];
 
-if (JFactory::getUser()->guest)
+if ($this->container->platform->getUser()->guest)
 {
 	$group_classes['username']  = (!$apply_validation || $this->validation->validation->username) ? 'has-success' : 'has-error';
 	$group_classes['password']  = !$this->cache['password'] ? 'has-error' : '';
@@ -61,7 +61,7 @@ $isBusiness = $this->getFieldValue('isbusiness');
 
 <div class="form form-horizontal akeebasubs-signup-fields">
 
-	@if (JFactory::getUser()->guest)
+	@if ($this->container->platform->getUser()->guest)
 	<h3>@lang('COM_AKEEBASUBS_LEVEL_USERACCOUNT')</h3>
 
 	{{-- Login button --}}
@@ -125,7 +125,7 @@ $isBusiness = $this->getFieldValue('isbusiness');
 	</div>
 	@endif
 
-	@unless(JFactory::getUser()->guest)
+	@unless($this->container->platform->getUser()->guest)
 	{{-- Username (STATIC DISPLAY) --}}
 	<div class="form-group">
 		<label for="username" class="control-label col-sm-4">

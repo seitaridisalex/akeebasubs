@@ -28,6 +28,28 @@ defined('_JEXEC') or die;
 abstract class Email
 {
 	/**
+	 * The component's container
+	 *
+	 * @var   Container
+	 */
+	protected static $container;
+
+	/**
+	 * Returns the component's container
+	 *
+	 * @return  Container
+	 */
+	protected function getContainer()
+	{
+		if (is_null(self::$container))
+		{
+			self::$container = Container::getInstance('com_akeebasubs');
+		}
+
+		return self::$container;
+	}
+
+	/**
 	 * Gets the email keys currently known to the component
 	 *
 	 * @param   int  $style  0 = raw sections list, 1 = grouped list options, 2 = key/description array
@@ -110,7 +132,7 @@ abstract class Email
 	{
 		if (!($user instanceof JUser))
 		{
-			$user = JFactory::getUser();
+			$user = self::getContainer()->platform->getUser();
 		}
 
 		// Load the language files and their overrides
@@ -157,7 +179,7 @@ abstract class Email
 
 		if (is_null($user))
 		{
-			$user = JFactory::getUser();
+			$user = self::getContainer()->platform->getUser();
 		}
 
 		// Parse the key
@@ -338,7 +360,7 @@ HTML;
 	public static function getPreloadedMailer(Subscriptions $sub, $key, array $extras = array())
 	{
 		// Load the template
-		list($isHTML, $subject, $templateText, $loadLanguage) = self::loadEmailTemplate($key, $sub->akeebasubs_level_id, JFactory::getUser($sub->user_id));
+		list($isHTML, $subject, $templateText, $loadLanguage) = self::loadEmailTemplate($key, $sub->akeebasubs_level_id, self::getContainer()->platform->getUser($sub->user_id));
 
 		if (empty($subject))
 		{
