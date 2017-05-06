@@ -70,5 +70,13 @@ require_once JPATH_LIBRARIES . '/fof30/include.php';
 
 \FOF30\Autoloader\Autoloader::getInstance()->addMap('Akeeba\\Subscriptions\\Tests\\', __DIR__);
 
+// Work around Joomla! 3.7's Session package being utterly borked
+$session    = JFactory::getSession();
+$dispatcher = new JEventDispatcher();
+$session    = JFactory::getSession();
+$input      = new JInputCli();
+$session->initialise($input, $dispatcher);
+$session->start();
+
 // Perform the master setup
 \Akeeba\Subscriptions\Tests\Stubs\CommonSetup::masterSetup();

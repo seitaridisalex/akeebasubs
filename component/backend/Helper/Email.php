@@ -39,7 +39,7 @@ abstract class Email
 	 *
 	 * @return  Container
 	 */
-	protected function getContainer()
+	protected static function getContainer()
 	{
 		if (is_null(self::$container))
 		{

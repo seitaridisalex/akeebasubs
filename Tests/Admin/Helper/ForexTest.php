@@ -162,7 +162,7 @@ class ForexTest extends \PHPUnit_Framework_TestCase
 		$refSourceUrl->setValue('file://' . realpath(__DIR__ . '/eurofxref-daily.xml'));
 
 		// ===== Test first load
-		Forex::updateRates(false, self::$container);
+		Forex::updateRates(true, self::$container);
 
 		$rates = $refRates->getValue();
 		$this->assertNotEmpty($rates, 'The rates must be loaded from the source');
