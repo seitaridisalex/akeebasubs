@@ -119,12 +119,12 @@ $date = new Date($this->params['year'] . '-' . $this->params['month'] . '-01');
 			$vatnumber = $r->vatnumber;
 		}
 
-		$totalAmount += $r->gross_amount;
-		$countryAmount += $r->gross_amount;
-		$totalTax += $r->tax_amount;
-		$countryTax += $r->tax_amount;
-		$totalNet += $r->net_amount;
-		$countryNet += $r->net_amount;
+		$totalAmount += number_format($r->gross_amount, 2);
+		$countryAmount += number_format($r->gross_amount, 2);
+		$totalTax += number_format($r->tax_amount, 2);
+		$countryTax += number_format($r->tax_amount, 2);
+		$totalNet += number_format($r->net_amount, 2);
+		$countryNet += number_format($r->net_amount, 2);
 		$totalInvoicesShown++;
 		$countryInvoicesShown++;
 
