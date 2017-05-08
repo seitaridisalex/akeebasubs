@@ -76,9 +76,9 @@ $date = new Date($this->params['year'] . '-' . $this->params['month'] . '-01');
 			$vatnumber = $r->vatnumber;
 		}
 
-		$totalAmount += $r->gross_amount;
-		$totalTax += $r->tax_amount;
-		$totalNet += $r->net_amount;
+		$totalAmount += number_format($r->gross_amount, 2);
+		$totalTax += number_format($r->tax_amount, 2);
+		$totalNet += number_format($r->net_amount, 2);
 		$totalInvoicesShown++;
 
 		$r->net_amount = sprintf('%.02f', $r->net_amount);
